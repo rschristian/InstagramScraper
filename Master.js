@@ -166,7 +166,13 @@ function uniqNames(a) {
 //Java is weird when executing commands, this shows address in case it gets wonky
 // console.log("https://www.instagram.com/" + targetAccount +"/");
 
-casper.start("https://www.instagram.com/"+ targetAccount +"/", function(){
+casper.start("https://www.instagram.com/"+ targetAccount +"/"
+).waitForSelector("._devkn", function() {
+  if (casper.exists("._kcrwx")) {
+    console.log("Account is private");
+  } else {
+    console.log("Account is public");
+  }
 }).waitForSelector("div._mck9w a", function() {
   t1 = performance.now();
   returnHref = this.evaluate(enterPost);
