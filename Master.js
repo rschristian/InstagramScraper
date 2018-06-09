@@ -1,7 +1,7 @@
 const casper = require("casper").create({
-  viewportSize: {width: 1920, height:5},
-  waitTimeout: 60000,
-  stepTimeout: 80000,
+  viewportSize: {width: 1920, height:480},
+  waitTimeout: 10000,
+  stepTimeout: 15000,
   onWaitTimeout: function() {
     console.log("Wait timed out");
   },
@@ -32,37 +32,35 @@ let casperDone = false;
 const pageContentClass = '.v9tJq';
 const pagePrivateClass = '.QlxVY';
 const postsClass = 'div._bz0w a';
-const profilePictureClass = '._6q-tv';
+const profilePictureClass = "._6q-tv";
 const chevronRootClass = ".rQDP3";
 const imageSrcClass = ".FFVAD";
 const videoSrcClass = ".tWeCl";
 
 
 //Gets the links for the image to then enter the first one
-function enterPost() {
-    var links = document.querySelectorAll(postsClass);
+function enterPost(sel) {
+    const links = document.querySelectorAll(sel);
     return Array.prototype.map.call(links, function(e) {
       return e.getAttribute('href')
     });
 }
 
-function temp(){
-    let postData = casper.evaluate(enterPost);
-    console.log("Temp function");
-    console.log(postData == null);
-    for (let i = 0; i<postData.length; i++){
-        console.log(postData[i]);
-    }
-    return postData;
+//Handles retrieving the profile picture and getting the proper name for it
+function profilePicture(arrayURL, arrayNames) {
+    casper.waitForSelector(profilePictureClass, function() {
+        arrayURL.push(casper.evaluate(getProfilePic, profilePictureClass));
+        console.log("Profile pic name: " + todaysDate());
+        arrayNames.push(todaysDate());
+  })
 }
 
-//Gets the profile picture
-function profilePicture(arrayURL, arrayNames) {
-  casper.waitForSelector(profilePictureClass, function() {
-    arrayURL.push(casper.evaluate(getProfilePic));
-    console.log("Profile pic name: " + todaysDate());
-    arrayNames.push(todaysDate());
-  })
+//Retrieves the profile pic from the page
+function getProfilePic(sel) {
+    const scripts = document.querySelectorAll(sel);
+    return Array.prototype.map.call(scripts, function (e) {
+        return e.getAttribute("src");
+    });
 }
 
 //Recursive function that first checks if there is a right chevron.
@@ -73,26 +71,27 @@ function checkAndGrab(arrayURL, arrayNames) {
   casper.waitForSelector(chevronRootClass, function(){
     if (casper.exists(".coreSpriteRightChevron")) {
       pictsInSet++;
-      const vidURL = casper.evaluate(getVidSrc);
+      const vidURL = casper.evaluate(getVidSrc, videoSrcClass);
       if (vidURL.length > 0) {
         arrayURL.push(vidURL);
       } else {
-        const partsOfStr = casper.evaluate(getImgSrc).toString().split(',');
+        const partsOfStr = casper.evaluate(getImgSrc, imageSrcClass).toString().split(',');
         arrayURL.push(partsOfStr[partsOfStr.length-1]);
       }
       casper.click(".coreSpriteRightChevron");
       checkAndGrab(arrayURL, arrayNames);
     } else if (!casper.exists(".coreSpriteRightChevron")) {
-      const vidURL = casper.evaluate(getVidSrc);
+      const vidURL = casper.evaluate(getVidSrc, videoSrcClass);
       if (vidURL.length > 0) {
         arrayURL.push(vidURL);
       } else {
-        const partsOfStr = casper.evaluate(getImgSrc).toString().split(',');
+        const partsOfStr = casper.evaluate(getImgSrc, imageSrcClass).toString().split(',');
         arrayURL.push(partsOfStr[partsOfStr.length-1]);
       }
       for (pictsInSet; pictsInSet>0; pictsInSet--) {
         arrayNames.push(refineTimeStamp() + " " + pictsInSet);
       }
+      console.log("Page right arrow exists:" + casper.exists(".coreSpriteRightPaginationArrow"));
       if (casper.exists(".coreSpriteRightPaginationArrow")){
         casper.click(".coreSpriteRightPaginationArrow");
         pictsInSet = 1;
@@ -104,13 +103,6 @@ function checkAndGrab(arrayURL, arrayNames) {
       }
     }
   })
-}
-
-function getProfilePic() {
-  const scripts = document.querySelectorAll(profilePictureClass);
-  return Array.prototype.map.call(scripts, function (e) {
-      return e.getAttribute("src");
-  });
 }
 
 function todaysDate() {
@@ -149,16 +141,16 @@ function refineTimeStamp() {
 }
 
 //Gets the image srcsets from the page
-function getImgSrc() {
-  const scripts = document.querySelectorAll(imageSrcClass);
+function getImgSrc(sel) {
+  const scripts = document.querySelectorAll(sel);
   return Array.prototype.map.call(scripts, function (e) {
       return e.getAttribute("src");
   });
 }
 
 //Get/check video
-function getVidSrc() {
-  const scripts = document.querySelectorAll(videoSrcClass);
+function getVidSrc(sel) {
+  const scripts = document.querySelectorAll(sel);
   return Array.prototype.map.call(scripts, function (e) {
       return e.getAttribute("src");
   });
@@ -190,13 +182,8 @@ casper.start("https://www.instagram.com/"+ targetAccount +"/"
   }
 }).waitForSelector(postsClass, function() {
   t1 = performance.now();
-  console.log("Selector Found");
-  let returnHref = temp();
-  for (let i = 0; i<returnHref.length; i++){
-      console.log(returnHref[i]);
-  }
+  let returnHref = this.evaluate(enterPost, postsClass);
   returnHref.length = 1;
-  console.log("hello");
   casper.click("a[href^='" + returnHref + "']");
   console.log(returnHref);
 }).then(function() {
