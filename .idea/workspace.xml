@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="8acaf920-7c6e-4dee-a3c5-c1f6b5b4adcf" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Master.js" beforeDir="false" afterPath="$PROJECT_DIR$/Master.js" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
@@ -20,13 +20,10 @@
       <file leaf-file-name="Master.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Master.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="427">
-              <caret line="54" column="5" lean-forward="true" selection-start-line="54" selection-start-column="5" selection-end-line="54" selection-end-column="5" />
+            <state relative-caret-position="210">
+              <caret line="14" column="3" lean-forward="true" selection-start-line="14" selection-start-column="3" selection-end-line="14" selection-end-column="3" />
               <folding>
-                <element signature="e#38#334#0" />
                 <element signature="e#1102#1169#0" />
-                <element signature="n#!!block;n#checkAndGrab#0" />
-                <element signature="n#!!block;n#getProfilePic#0" />
                 <element signature="n#!!block;n#todaysDate#0" />
                 <element signature="n#!!block;n#getTime#0" />
                 <element signature="n#!!block;n#refineTimeStamp#0" />
@@ -116,12 +113,12 @@
       <workItem from="1526196628539" duration="828000" />
       <workItem from="1526197812262" duration="9577000" />
       <workItem from="1528312863276" duration="1122000" />
-      <workItem from="1528495245681" duration="4254000" />
+      <workItem from="1528495245681" duration="7481000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="15781000" />
+    <option name="totallyTimeSpent" value="19008000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="948" y="24" width="971" height="1056" extended-state="4" />
@@ -158,10 +155,7 @@
         <state relative-caret-position="2640">
           <caret line="176" column="46" lean-forward="true" selection-start-line="176" selection-start-column="46" selection-end-line="176" selection-end-column="46" />
           <folding>
-            <element signature="e#38#334#0" />
             <element signature="e#1102#1169#0" />
-            <element signature="n#!!block;n#checkAndGrab#0" />
-            <element signature="n#!!block;n#getProfilePic#0" />
             <element signature="n#!!block;n#todaysDate#0" />
             <element signature="n#!!block;n#getTime#0" />
             <element signature="n#!!block;n#refineTimeStamp#0" />
@@ -193,13 +187,10 @@
     <entry file="file://$PROJECT_DIR$/worker.js" />
     <entry file="file://$PROJECT_DIR$/Master.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="427">
-          <caret line="54" column="5" lean-forward="true" selection-start-line="54" selection-start-column="5" selection-end-line="54" selection-end-column="5" />
+        <state relative-caret-position="210">
+          <caret line="14" column="3" lean-forward="true" selection-start-line="14" selection-start-column="3" selection-end-line="14" selection-end-column="3" />
           <folding>
-            <element signature="e#38#334#0" />
             <element signature="e#1102#1169#0" />
-            <element signature="n#!!block;n#checkAndGrab#0" />
-            <element signature="n#!!block;n#getProfilePic#0" />
             <element signature="n#!!block;n#todaysDate#0" />
             <element signature="n#!!block;n#getTime#0" />
             <element signature="n#!!block;n#refineTimeStamp#0" />
