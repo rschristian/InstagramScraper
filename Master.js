@@ -1,4 +1,4 @@
-var casper = require("casper").create({
+const casper = require("casper").create({
   viewportSize: {width: 1920, height:5},
   waitTimeout: 60000,
   stepTimeout: 80000,
@@ -14,32 +14,51 @@ var casper = require("casper").create({
   }
 });
 
-var targetAccount = casper.cli.get('targetAccount');
-var t0 = performance.now();
-var t1;
-var t2;
-var t3;
-var t4;
-var dirtySrcSets = [];
-var finalisedLinks = [];
-var imgNames = [];
-var finalisedNames = [];
-var pictsInSet = 1;
-var casperDone = false;
+//Global variables
+const targetAccount = casper.cli.get('targetAccount');
+const t0 = performance.now();
+let t1;
+let t2;
+let t3;
+let t4;
+let dirtySrcSets = [];
+let finalisedLinks = [];
+let dirtyImgNames = [];
+let finalisedNames = [];
+let pictsInSet = 1;
+let casperDone = false;
+
+//HTML Tags
+const pageContentClass = '.v9tJq';
+const pagePrivateClass = '.QlxVY';
+const postsClass = 'div._bz0w a';
+const profilePictureClass = '._6q-tv';
+const chevronRootClass = ".rQDP3";
+const imageSrcClass = ".FFVAD";
+const videoSrcClass = ".tWeCl";
 
 
-
-//Gets the mass of post hrefs that are sent to Post.js
+//Gets the links for the image to then enter the first one
 function enterPost() {
-  var links = document.querySelectorAll('div._mck9w a');
+    var links = document.querySelectorAll(postsClass);
     return Array.prototype.map.call(links, function(e) {
-        return e.getAttribute('href')
+      return e.getAttribute('href')
     });
+}
+
+function temp(){
+    let postData = casper.evaluate(enterPost);
+    console.log("Temp function");
+    console.log(postData == null);
+    for (let i = 0; i<postData.length; i++){
+        console.log(postData[i]);
+    }
+    return postData;
 }
 
 //Gets the profile picture
 function profilePicture(arrayURL, arrayNames) {
-  casper.waitForSelector('._rewi8', function() {
+  casper.waitForSelector(profilePictureClass, function() {
     arrayURL.push(casper.evaluate(getProfilePic));
     console.log("Profile pic name: " + todaysDate());
     arrayNames.push(todaysDate());
@@ -51,24 +70,24 @@ function profilePicture(arrayURL, arrayNames) {
 //then checks again. Once there is only a left chevron, it returns the
 //entire array of srcsets for that post. video class: _l6uaz img class: _2di5p
 function checkAndGrab(arrayURL, arrayNames) {
-  casper.waitForSelector('._sxolz', function(){
+  casper.waitForSelector(chevronRootClass, function(){
     if (casper.exists(".coreSpriteRightChevron")) {
       pictsInSet++;
-      var vidURL = casper.evaluate(getVidSrc)
+      const vidURL = casper.evaluate(getVidSrc);
       if (vidURL.length > 0) {
         arrayURL.push(vidURL);
       } else {
-        var partsOfStr = casper.evaluate(getImgSrc).toString().split(',');
+        const partsOfStr = casper.evaluate(getImgSrc).toString().split(',');
         arrayURL.push(partsOfStr[partsOfStr.length-1]);
       }
       casper.click(".coreSpriteRightChevron");
       checkAndGrab(arrayURL, arrayNames);
     } else if (!casper.exists(".coreSpriteRightChevron")) {
-      var vidURL = casper.evaluate(getVidSrc)
+      const vidURL = casper.evaluate(getVidSrc);
       if (vidURL.length > 0) {
         arrayURL.push(vidURL);
       } else {
-        var partsOfStr = casper.evaluate(getImgSrc).toString().split(',');
+        const partsOfStr = casper.evaluate(getImgSrc).toString().split(',');
         arrayURL.push(partsOfStr[partsOfStr.length-1]);
       }
       for (pictsInSet; pictsInSet>0; pictsInSet--) {
@@ -88,17 +107,17 @@ function checkAndGrab(arrayURL, arrayNames) {
 }
 
 function getProfilePic() {
-  scripts = document.querySelectorAll("._rewi8");
+  const scripts = document.querySelectorAll(profilePictureClass);
   return Array.prototype.map.call(scripts, function (e) {
       return e.getAttribute("src");
   });
 }
 
 function todaysDate() {
-  var today = new Date();
-  var dd = today.getDate();
-  var mm = today.getMonth() + 1;
-  var yyyy = today.getFullYear();
+  let today = new Date();
+  let dd = today.getDate();
+  let  mm = today.getMonth() + 1;
+  const yyyy = today.getFullYear();
 
   if(dd<10) {
     dd = '0'+dd
@@ -109,13 +128,12 @@ function todaysDate() {
   }
 
   today = yyyy + "-" + mm + "-" + dd;
-  var name = today + " profile";
-  return name;
+  return today + " profile";
 }
 
 //Gets the time to name the pictures with
 function getTime() {
-  var scripts = document.querySelectorAll('time[datetime]');
+  const scripts = document.querySelectorAll('time[datetime]');
   return Array.prototype.map.call(scripts, function (e) {
       return e.getAttribute('datetime');
   });
@@ -123,8 +141,8 @@ function getTime() {
 
 //Refines the the time stamp into a usable name for a file
 function refineTimeStamp() {
-  var timeStamp = String(casper.evaluate(getTime));
-  var indexOfT = timeStamp.indexOf('T');
+  let timeStamp = String(casper.evaluate(getTime));
+  const indexOfT = timeStamp.indexOf('T');
   timeStamp = timeStamp.substr(0,indexOfT) + ' ' + timeStamp.substr(indexOfT+1);
   timeStamp = timeStamp.slice(0, -5);
   return timeStamp;
@@ -132,7 +150,7 @@ function refineTimeStamp() {
 
 //Gets the image srcsets from the page
 function getImgSrc() {
-  scripts = document.querySelectorAll("._2di5p");
+  const scripts = document.querySelectorAll(imageSrcClass);
   return Array.prototype.map.call(scripts, function (e) {
       return e.getAttribute("src");
   });
@@ -140,21 +158,21 @@ function getImgSrc() {
 
 //Get/check video
 function getVidSrc() {
-  scripts = document.querySelectorAll("._l6uaz");
+  const scripts = document.querySelectorAll(videoSrcClass);
   return Array.prototype.map.call(scripts, function (e) {
       return e.getAttribute("src");
   });
 }
 
-function uniq(a) {
-  seen = {};
+function cleanSrcSets(a) {
+  let seen = {};
   finalisedLinks = a.filter(function(item) {
       return seen.hasOwnProperty(item) ? false : (seen[item] = true);
   });
 }
 
-function uniqNames(a) {
-  seen = {};
+function CleanImgNames(a) {
+  let seen = {};
   finalisedNames = a.filter(function(item) {
       return seen.hasOwnProperty(item) ? false : (seen[item] = true);
   });
@@ -163,36 +181,38 @@ function uniqNames(a) {
 
 
 
-//Java is weird when executing commands, this shows address in case it gets wonky
-// console.log("https://www.instagram.com/" + targetAccount +"/");
-
 casper.start("https://www.instagram.com/"+ targetAccount +"/"
-).waitForSelector("._devkn", function() {
-  if (casper.exists("._kcrwx")) {
+).waitForSelector(pageContentClass, function() {
+  if (casper.exists(pagePrivateClass)) {
     console.log("Account is private");
   } else {
     console.log("Account is public");
   }
-}).waitForSelector("div._mck9w a", function() {
+}).waitForSelector(postsClass, function() {
   t1 = performance.now();
-  returnHref = this.evaluate(enterPost);
+  console.log("Selector Found");
+  let returnHref = temp();
+  for (let i = 0; i<returnHref.length; i++){
+      console.log(returnHref[i]);
+  }
   returnHref.length = 1;
+  console.log("hello");
   casper.click("a[href^='" + returnHref + "']");
   console.log(returnHref);
 }).then(function() {
-  profilePicture(dirtySrcSets, imgNames);
-  checkAndGrab(dirtySrcSets, imgNames);
+  profilePicture(dirtySrcSets, dirtyImgNames);
+  checkAndGrab(dirtySrcSets, dirtyImgNames);
 }).waitFor(function check(){
   t2 = performance.now();
   return casperDone;
 }).then(function() {
-  uniq(dirtySrcSets);
+  cleanSrcSets(dirtySrcSets);
   console.log("Number of Links: " + finalisedLinks.length);
-  uniqNames(imgNames);
+  CleanImgNames(dirtyImgNames);
   console.log("Number of Names: " + finalisedNames.length);
   t3 = performance.now();
-  for (var i = 0; i<finalisedLinks.length; i++) {
-    // console.log("Links: " + finalisedLinks[i] + " Name: " + finalisedNames[i]);
+  for (let i = 0; i<finalisedLinks.length; i++) {
+    console.log("Links: " + finalisedLinks[i] + " Name: " + finalisedNames[i]);
     if (String(finalisedLinks[i]).indexOf("mp4") > 0) {
       casper.download(finalisedLinks[i], "/home/ryan/Pictures/" + targetAccount + "/" + finalisedNames[i] + ".mp4");
     } else {
@@ -207,6 +227,6 @@ casper.start("https://www.instagram.com/"+ targetAccount +"/"
   console.log("Time to clean arrays: " + (t3-t2));
   console.log("Time to download: " + (t4-t3));
   console.log("Total time taken: " + (t4-t0));
-})
+});
 
 casper.run();
