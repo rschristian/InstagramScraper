@@ -20,15 +20,12 @@
       <file leaf-file-name="Master.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Master.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="210">
-              <caret line="14" column="3" lean-forward="true" selection-start-line="14" selection-start-column="3" selection-end-line="14" selection-end-column="3" />
+            <state relative-caret-position="327">
+              <caret line="40" column="40" selection-start-line="40" selection-start-column="40" selection-end-line="40" selection-end-column="40" />
               <folding>
-                <element signature="e#1102#1169#0" />
                 <element signature="n#!!block;n#todaysDate#0" />
                 <element signature="n#!!block;n#getTime#0" />
                 <element signature="n#!!block;n#refineTimeStamp#0" />
-                <element signature="n#!!block;n#uniq#0" />
-                <element signature="n#!!block;n#uniqNames#0" />
               </folding>
             </state>
           </provider>
@@ -69,6 +66,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -80,7 +78,6 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -113,12 +110,13 @@
       <workItem from="1526196628539" duration="828000" />
       <workItem from="1526197812262" duration="9577000" />
       <workItem from="1528312863276" duration="1122000" />
-      <workItem from="1528495245681" duration="7481000" />
+      <workItem from="1528495245681" duration="7758000" />
+      <workItem from="1530923153725" duration="1385000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="19008000" />
+    <option name="totallyTimeSpent" value="20670000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="948" y="24" width="971" height="1056" extended-state="4" />
@@ -152,15 +150,24 @@
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/Master.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2640">
-          <caret line="176" column="46" lean-forward="true" selection-start-line="176" selection-start-column="46" selection-end-line="176" selection-end-column="46" />
+        <state relative-caret-position="1320">
+          <caret line="88" column="55" lean-forward="true" selection-start-line="88" selection-start-column="55" selection-end-line="88" selection-end-column="55" />
           <folding>
-            <element signature="e#1102#1169#0" />
             <element signature="n#!!block;n#todaysDate#0" />
             <element signature="n#!!block;n#getTime#0" />
             <element signature="n#!!block;n#refineTimeStamp#0" />
-            <element signature="n#!!block;n#uniq#0" />
-            <element signature="n#!!block;n#uniqNames#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Master.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2640">
+          <caret line="176" column="46" lean-forward="true" selection-start-line="176" selection-start-column="46" selection-end-line="176" selection-end-column="46" />
+          <folding>
+            <element signature="n#!!block;n#todaysDate#0" />
+            <element signature="n#!!block;n#getTime#0" />
+            <element signature="n#!!block;n#refineTimeStamp#0" />
           </folding>
         </state>
       </provider>
@@ -187,15 +194,12 @@
     <entry file="file://$PROJECT_DIR$/worker.js" />
     <entry file="file://$PROJECT_DIR$/Master.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="210">
-          <caret line="14" column="3" lean-forward="true" selection-start-line="14" selection-start-column="3" selection-end-line="14" selection-end-column="3" />
+        <state relative-caret-position="327">
+          <caret line="40" column="40" selection-start-line="40" selection-start-column="40" selection-end-line="40" selection-end-column="40" />
           <folding>
-            <element signature="e#1102#1169#0" />
             <element signature="n#!!block;n#todaysDate#0" />
             <element signature="n#!!block;n#getTime#0" />
             <element signature="n#!!block;n#refineTimeStamp#0" />
-            <element signature="n#!!block;n#uniq#0" />
-            <element signature="n#!!block;n#uniqNames#0" />
           </folding>
         </state>
       </provider>

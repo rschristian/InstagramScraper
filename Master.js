@@ -1,5 +1,5 @@
 const casper = require("casper").create({
-  viewportSize: {width: 1920, height:480},
+  viewportSize: {width: 1920, height:720},
   waitTimeout: 10000,
   stepTimeout: 15000,
   onWaitTimeout: function() {
@@ -33,7 +33,7 @@ const pageContentClass = '.v9tJq';
 const pagePrivateClass = '.QlxVY';
 const postsClass = 'div._bz0w a';
 const profilePictureClass = "._6q-tv";
-const chevronRootClass = ".rQDP3";
+const chevronRootClass = "._97aPb ";
 const imageSrcClass = ".FFVAD";
 const videoSrcClass = ".tWeCl";
 
@@ -68,41 +68,44 @@ function getProfilePic(sel) {
 //then checks again. Once there is only a left chevron, it returns the
 //entire array of srcsets for that post. video class: _l6uaz img class: _2di5p
 function checkAndGrab(arrayURL, arrayNames) {
-  casper.waitForSelector(chevronRootClass, function(){
-    if (casper.exists(".coreSpriteRightChevron")) {
-      pictsInSet++;
-      const vidURL = casper.evaluate(getVidSrc, videoSrcClass);
-      if (vidURL.length > 0) {
-        arrayURL.push(vidURL);
-      } else {
-        const partsOfStr = casper.evaluate(getImgSrc, imageSrcClass).toString().split(',');
-        arrayURL.push(partsOfStr[partsOfStr.length-1]);
-      }
-      casper.click(".coreSpriteRightChevron");
-      checkAndGrab(arrayURL, arrayNames);
-    } else if (!casper.exists(".coreSpriteRightChevron")) {
-      const vidURL = casper.evaluate(getVidSrc, videoSrcClass);
-      if (vidURL.length > 0) {
-        arrayURL.push(vidURL);
-      } else {
-        const partsOfStr = casper.evaluate(getImgSrc, imageSrcClass).toString().split(',');
-        arrayURL.push(partsOfStr[partsOfStr.length-1]);
-      }
-      for (pictsInSet; pictsInSet>0; pictsInSet--) {
-        arrayNames.push(refineTimeStamp() + " " + pictsInSet);
-      }
-      console.log("Page right arrow exists:" + casper.exists(".coreSpriteRightPaginationArrow"));
-      if (casper.exists(".coreSpriteRightPaginationArrow")){
-        casper.click(".coreSpriteRightPaginationArrow");
-        pictsInSet = 1;
-        checkAndGrab(arrayURL, arrayNames);
-      } else {
-        console.log("Done");
-        casperDone = true;
-        return arrayURL, arrayNames;
-      }
-    }
-  })
+    casper.waitForSelector(chevronRootClass, function(){
+        console.log("Passed");
+        if (casper.exists(".coreSpriteRightChevron")) {
+            console.log("Right Chevron found");
+            pictsInSet++;
+            const vidURL = casper.evaluate(getVidSrc, videoSrcClass);
+            if (vidURL.length > 0) {
+                arrayURL.push(vidURL);
+            } else {
+                const partsOfStr = casper.evaluate(getImgSrc, imageSrcClass).toString().split(',');
+                arrayURL.push(partsOfStr[partsOfStr.length-1]);
+            }
+            casper.click(".coreSpriteRightChevron");
+            checkAndGrab(arrayURL, arrayNames);
+        } else if (!casper.exists(".coreSpriteRightChevron")) {
+            console.log("Right Chevron NOT found");
+            const vidURL = casper.evaluate(getVidSrc, videoSrcClass);
+            if (vidURL.length > 0) {
+                arrayURL.push(vidURL);
+            } else {
+                const partsOfStr = casper.evaluate(getImgSrc, imageSrcClass).toString().split(',');
+                arrayURL.push(partsOfStr[partsOfStr.length-1]);
+            }
+            for (pictsInSet; pictsInSet>0; pictsInSet--) {
+                arrayNames.push(refineTimeStamp() + " " + pictsInSet);
+            }
+            console.log("Page right arrow exists:" + casper.exists(".coreSpriteRightPaginationArrow"));
+            if (casper.exists(".coreSpriteRightPaginationArrow")){
+                casper.click(".coreSpriteRightPaginationArrow");
+                pictsInSet = 1;
+                checkAndGrab(arrayURL, arrayNames);
+            } else {
+                console.log("Done");
+                casperDone = true;
+                return arrayURL, arrayNames;
+            }
+        }
+    })
 }
 
 function todaysDate() {
@@ -175,45 +178,47 @@ function CleanImgNames(a) {
 
 casper.start("https://www.instagram.com/"+ targetAccount +"/"
 ).waitForSelector(pageContentClass, function() {
-  if (casper.exists(pagePrivateClass)) {
-    console.log("Account is private");
-  } else {
-    console.log("Account is public");
-  }
-}).waitForSelector(postsClass, function() {
-  t1 = performance.now();
-  let returnHref = this.evaluate(enterPost, postsClass);
-  returnHref.length = 1;
-  casper.click("a[href^='" + returnHref + "']");
-  console.log(returnHref);
-}).then(function() {
-  profilePicture(dirtySrcSets, dirtyImgNames);
-  checkAndGrab(dirtySrcSets, dirtyImgNames);
-}).waitFor(function check(){
-  t2 = performance.now();
-  return casperDone;
-}).then(function() {
-  cleanSrcSets(dirtySrcSets);
-  console.log("Number of Links: " + finalisedLinks.length);
-  CleanImgNames(dirtyImgNames);
-  console.log("Number of Names: " + finalisedNames.length);
-  t3 = performance.now();
-  for (let i = 0; i<finalisedLinks.length; i++) {
-    console.log("Links: " + finalisedLinks[i] + " Name: " + finalisedNames[i]);
-    if (String(finalisedLinks[i]).indexOf("mp4") > 0) {
-      casper.download(finalisedLinks[i], "/home/ryan/Pictures/" + targetAccount + "/" + finalisedNames[i] + ".mp4");
+    if (casper.exists(pagePrivateClass)) {
+      console.log("Account is private");
     } else {
-      casper.download(finalisedLinks[i], "/home/ryan/Pictures/" + targetAccount + "/" + finalisedNames[i] + ".jpeg");
+      console.log("Account is public");
     }
+}).waitForSelector(postsClass, function() {
+    t1 = performance.now();
+    let returnHref = this.evaluate(enterPost, postsClass);
+    returnHref.length = 1;
+    casper.click("a[href^='" + returnHref + "']");
+    console.log(returnHref);
+}).then(function() {
+    profilePicture(dirtySrcSets, dirtyImgNames);
+}).then(function() {
+    console.log("Entering posts grab");
+    checkAndGrab(dirtySrcSets, dirtyImgNames);
+}).waitFor(function check(){
+    t2 = performance.now();
+    return casperDone;
+}).then(function() {
+    cleanSrcSets(dirtySrcSets);
+    console.log("Number of Links: " + finalisedLinks.length);
+    CleanImgNames(dirtyImgNames);
+    console.log("Number of Names: " + finalisedNames.length);
+    t3 = performance.now();
+    for (let i = 0; i<finalisedLinks.length; i++) {
+      console.log("Links: " + finalisedLinks[i] + " Name: " + finalisedNames[i]);
+      if (String(finalisedLinks[i]).indexOf("mp4") > 0) {
+        casper.download(finalisedLinks[i], "/home/ryan/Pictures/" + targetAccount + "/" + finalisedNames[i] + ".mp4");
+      } else {
+        casper.download(finalisedLinks[i], "/home/ryan/Pictures/" + targetAccount + "/" + finalisedNames[i] + ".jpeg");
+      }
 
-  }
-  t4 = performance.now();
-  console.log("Time to load page: " + (t1-t0));
-  console.log("Time to grab all srcsets: " + (t2-t1));
-  console.log("Time per post: " + (t2-t1)/finalisedNames.length);
-  console.log("Time to clean arrays: " + (t3-t2));
-  console.log("Time to download: " + (t4-t3));
-  console.log("Total time taken: " + (t4-t0));
+    }
+    t4 = performance.now();
+    console.log("Time to load page: " + (t1-t0));
+    console.log("Time to grab all srcsets: " + (t2-t1));
+    console.log("Time per post: " + (t2-t1)/finalisedNames.length);
+    console.log("Time to clean arrays: " + (t3-t2));
+    console.log("Time to download: " + (t4-t3));
+    console.log("Total time taken: " + (t4-t0));
 });
 
 casper.run();
