@@ -69,9 +69,7 @@ function getProfilePic(sel) {
 //entire array of srcsets for that post. video class: _l6uaz img class: _2di5p
 function checkAndGrab(arrayURL, arrayNames) {
     casper.waitForSelector(chevronRootClass, function(){
-        console.log("Passed");
         if (casper.exists(".coreSpriteRightChevron")) {
-            console.log("Right Chevron found");
             pictsInSet++;
             const vidURL = casper.evaluate(getVidSrc, videoSrcClass);
             if (vidURL.length > 0) {
@@ -83,7 +81,6 @@ function checkAndGrab(arrayURL, arrayNames) {
             casper.click(".coreSpriteRightChevron");
             checkAndGrab(arrayURL, arrayNames);
         } else if (!casper.exists(".coreSpriteRightChevron")) {
-            console.log("Right Chevron NOT found");
             const vidURL = casper.evaluate(getVidSrc, videoSrcClass);
             if (vidURL.length > 0) {
                 arrayURL.push(vidURL);
@@ -94,7 +91,6 @@ function checkAndGrab(arrayURL, arrayNames) {
             for (pictsInSet; pictsInSet>0; pictsInSet--) {
                 arrayNames.push(refineTimeStamp() + " " + pictsInSet);
             }
-            console.log("Page right arrow exists:" + casper.exists(".coreSpriteRightPaginationArrow"));
             if (casper.exists(".coreSpriteRightPaginationArrow")){
                 casper.click(".coreSpriteRightPaginationArrow");
                 pictsInSet = 1;
@@ -109,68 +105,68 @@ function checkAndGrab(arrayURL, arrayNames) {
 }
 
 function todaysDate() {
-  let today = new Date();
-  let dd = today.getDate();
-  let  mm = today.getMonth() + 1;
-  const yyyy = today.getFullYear();
+    let today = new Date();
+    let dd = today.getDate();
+    let  mm = today.getMonth() + 1;
+    const yyyy = today.getFullYear();
 
-  if(dd<10) {
-    dd = '0'+dd
-  }
+    if(dd<10) {
+        dd = '0'+dd
+    }
 
-  if(mm<10) {
-      mm = '0'+mm
-  }
+    if(mm<10) {
+        mm = '0'+mm
+    }
 
-  today = yyyy + "-" + mm + "-" + dd;
-  return today + " profile";
+    today = yyyy + "-" + mm + "-" + dd;
+    return today + " profile";
 }
 
 //Gets the time to name the pictures with
 function getTime() {
-  const scripts = document.querySelectorAll('time[datetime]');
-  return Array.prototype.map.call(scripts, function (e) {
-      return e.getAttribute('datetime');
-  });
+    const scripts = document.querySelectorAll('time[datetime]');
+    return Array.prototype.map.call(scripts, function (e) {
+        return e.getAttribute('datetime');
+    });
 }
 
 //Refines the the time stamp into a usable name for a file
 function refineTimeStamp() {
-  let timeStamp = String(casper.evaluate(getTime));
-  const indexOfT = timeStamp.indexOf('T');
-  timeStamp = timeStamp.substr(0,indexOfT) + ' ' + timeStamp.substr(indexOfT+1);
-  timeStamp = timeStamp.slice(0, -5);
-  return timeStamp;
+    let timeStamp = String(casper.evaluate(getTime));
+    const indexOfT = timeStamp.indexOf('T');
+    timeStamp = timeStamp.substr(0,indexOfT) + ' ' + timeStamp.substr(indexOfT+1);
+    timeStamp = timeStamp.slice(0, -5);
+    return timeStamp;
 }
 
 //Gets the image srcsets from the page
 function getImgSrc(sel) {
-  const scripts = document.querySelectorAll(sel);
-  return Array.prototype.map.call(scripts, function (e) {
-      return e.getAttribute("src");
-  });
+    const scripts = document.querySelectorAll(sel);
+    return Array.prototype.map.call(scripts, function (e) {
+        return e.getAttribute("src");
+    });
 }
 
 //Get/check video
 function getVidSrc(sel) {
-  const scripts = document.querySelectorAll(sel);
-  return Array.prototype.map.call(scripts, function (e) {
-      return e.getAttribute("src");
-  });
+    const scripts = document.querySelectorAll(sel);
+    return Array.prototype.map.call(scripts, function (e) {
+        return e.getAttribute("src");
+    });
 }
 
 function cleanSrcSets(a) {
-  let seen = {};
-  finalisedLinks = a.filter(function(item) {
-      return seen.hasOwnProperty(item) ? false : (seen[item] = true);
-  });
+    let seen = {};
+    finalisedLinks = a.filter(function(item) {
+        return seen.hasOwnProperty(item) ? false : (seen[item] = true);
+    });
 }
 
 function CleanImgNames(a) {
-  let seen = {};
-  finalisedNames = a.filter(function(item) {
-      return seen.hasOwnProperty(item) ? false : (seen[item] = true);
-  });
+    let seen = {};
+    finalisedNames = a.filter(function(item) {
+        return seen.hasOwnProperty(item) ? false : (seen[item] = true);
+    });
 }
 
 
@@ -188,7 +184,7 @@ casper.start("https://www.instagram.com/"+ targetAccount +"/"
     let returnHref = this.evaluate(enterPost, postsClass);
     returnHref.length = 1;
     casper.click("a[href^='" + returnHref + "']");
-    console.log(returnHref);
+    // console.log(returnHref);
 }).then(function() {
     profilePicture(dirtySrcSets, dirtyImgNames);
 }).then(function() {
@@ -204,7 +200,7 @@ casper.start("https://www.instagram.com/"+ targetAccount +"/"
     console.log("Number of Names: " + finalisedNames.length);
     t3 = performance.now();
     for (let i = 0; i<finalisedLinks.length; i++) {
-      console.log("Links: " + finalisedLinks[i] + " Name: " + finalisedNames[i]);
+      // console.log("Links: " + finalisedLinks[i] + " Name: " + finalisedNames[i]);
       if (String(finalisedLinks[i]).indexOf("mp4") > 0) {
         casper.download(finalisedLinks[i], "/home/ryan/Pictures/" + targetAccount + "/" + finalisedNames[i] + ".mp4");
       } else {

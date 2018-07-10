@@ -20,8 +20,8 @@
       <file leaf-file-name="Master.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Master.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="327">
-              <caret line="40" column="40" selection-start-line="40" selection-start-column="40" selection-end-line="40" selection-end-column="40" />
+            <state relative-caret-position="522">
+              <caret line="185" column="30" selection-start-line="185" selection-start-column="30" selection-end-line="185" selection-end-column="30" />
               <folding>
                 <element signature="n#!!block;n#todaysDate#0" />
                 <element signature="n#!!block;n#getTime#0" />
@@ -111,12 +111,13 @@
       <workItem from="1526197812262" duration="9577000" />
       <workItem from="1528312863276" duration="1122000" />
       <workItem from="1528495245681" duration="7758000" />
-      <workItem from="1530923153725" duration="1385000" />
+      <workItem from="1530923153725" duration="1828000" />
+      <workItem from="1531263188434" duration="600000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="20670000" />
+    <option name="totallyTimeSpent" value="21713000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="948" y="24" width="971" height="1056" extended-state="4" />
@@ -148,6 +149,18 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/Master.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="765">
+          <caret line="51" column="57" lean-forward="true" selection-start-line="51" selection-start-column="57" selection-end-line="51" selection-end-column="57" />
+          <folding>
+            <element signature="n#!!block;n#todaysDate#0" />
+            <element signature="n#!!block;n#getTime#0" />
+            <element signature="n#!!block;n#refineTimeStamp#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/Master.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1320">
@@ -194,8 +207,8 @@
     <entry file="file://$PROJECT_DIR$/worker.js" />
     <entry file="file://$PROJECT_DIR$/Master.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="327">
-          <caret line="40" column="40" selection-start-line="40" selection-start-column="40" selection-end-line="40" selection-end-column="40" />
+        <state relative-caret-position="522">
+          <caret line="185" column="30" selection-start-line="185" selection-start-column="30" selection-end-line="185" selection-end-column="30" />
           <folding>
             <element signature="n#!!block;n#todaysDate#0" />
             <element signature="n#!!block;n#getTime#0" />
