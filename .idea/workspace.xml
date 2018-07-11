@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="8acaf920-7c6e-4dee-a3c5-c1f6b5b4adcf" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Master.js" beforeDir="false" afterPath="$PROJECT_DIR$/Master.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -20,12 +20,20 @@
       <file leaf-file-name="Master.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Master.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="522">
-              <caret line="185" column="30" selection-start-line="185" selection-start-column="30" selection-end-line="185" selection-end-column="30" />
+            <state relative-caret-position="450">
+              <caret line="30" column="11" lean-forward="true" selection-start-line="30" selection-start-column="11" selection-end-line="30" selection-end-column="11" />
               <folding>
+                <element signature="n#!!block;n#enterPost#0" />
+                <element signature="n#!!block;n#profilePicture#0" />
+                <element signature="n#!!block;n#getProfilePic#0" />
+                <element signature="n#!!block;n#checkAndGrab#0" />
                 <element signature="n#!!block;n#todaysDate#0" />
                 <element signature="n#!!block;n#getTime#0" />
                 <element signature="n#!!block;n#refineTimeStamp#0" />
+                <element signature="n#!!block;n#getImgSrc#0" />
+                <element signature="n#!!block;n#getVidSrc#0" />
+                <element signature="n#!!block;n#cleanSrcSets#0" />
+                <element signature="n#!!block;n#CleanImgNames#0" />
               </folding>
             </state>
           </provider>
@@ -112,12 +120,12 @@
       <workItem from="1528312863276" duration="1122000" />
       <workItem from="1528495245681" duration="7758000" />
       <workItem from="1530923153725" duration="1828000" />
-      <workItem from="1531263188434" duration="600000" />
+      <workItem from="1531263188434" duration="1291000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="21713000" />
+    <option name="totallyTimeSpent" value="22404000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="948" y="24" width="971" height="1056" extended-state="4" />
@@ -154,9 +162,17 @@
         <state relative-caret-position="765">
           <caret line="51" column="57" lean-forward="true" selection-start-line="51" selection-start-column="57" selection-end-line="51" selection-end-column="57" />
           <folding>
+            <element signature="n#!!block;n#enterPost#0" />
+            <element signature="n#!!block;n#profilePicture#0" />
+            <element signature="n#!!block;n#getProfilePic#0" />
+            <element signature="n#!!block;n#checkAndGrab#0" />
             <element signature="n#!!block;n#todaysDate#0" />
             <element signature="n#!!block;n#getTime#0" />
             <element signature="n#!!block;n#refineTimeStamp#0" />
+            <element signature="n#!!block;n#getImgSrc#0" />
+            <element signature="n#!!block;n#getVidSrc#0" />
+            <element signature="n#!!block;n#cleanSrcSets#0" />
+            <element signature="n#!!block;n#CleanImgNames#0" />
           </folding>
         </state>
       </provider>
@@ -166,9 +182,17 @@
         <state relative-caret-position="1320">
           <caret line="88" column="55" lean-forward="true" selection-start-line="88" selection-start-column="55" selection-end-line="88" selection-end-column="55" />
           <folding>
+            <element signature="n#!!block;n#enterPost#0" />
+            <element signature="n#!!block;n#profilePicture#0" />
+            <element signature="n#!!block;n#getProfilePic#0" />
+            <element signature="n#!!block;n#checkAndGrab#0" />
             <element signature="n#!!block;n#todaysDate#0" />
             <element signature="n#!!block;n#getTime#0" />
             <element signature="n#!!block;n#refineTimeStamp#0" />
+            <element signature="n#!!block;n#getImgSrc#0" />
+            <element signature="n#!!block;n#getVidSrc#0" />
+            <element signature="n#!!block;n#cleanSrcSets#0" />
+            <element signature="n#!!block;n#CleanImgNames#0" />
           </folding>
         </state>
       </provider>
@@ -178,9 +202,17 @@
         <state relative-caret-position="2640">
           <caret line="176" column="46" lean-forward="true" selection-start-line="176" selection-start-column="46" selection-end-line="176" selection-end-column="46" />
           <folding>
+            <element signature="n#!!block;n#enterPost#0" />
+            <element signature="n#!!block;n#profilePicture#0" />
+            <element signature="n#!!block;n#getProfilePic#0" />
+            <element signature="n#!!block;n#checkAndGrab#0" />
             <element signature="n#!!block;n#todaysDate#0" />
             <element signature="n#!!block;n#getTime#0" />
             <element signature="n#!!block;n#refineTimeStamp#0" />
+            <element signature="n#!!block;n#getImgSrc#0" />
+            <element signature="n#!!block;n#getVidSrc#0" />
+            <element signature="n#!!block;n#cleanSrcSets#0" />
+            <element signature="n#!!block;n#CleanImgNames#0" />
           </folding>
         </state>
       </provider>
@@ -207,12 +239,20 @@
     <entry file="file://$PROJECT_DIR$/worker.js" />
     <entry file="file://$PROJECT_DIR$/Master.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="522">
-          <caret line="185" column="30" selection-start-line="185" selection-start-column="30" selection-end-line="185" selection-end-column="30" />
+        <state relative-caret-position="450">
+          <caret line="30" column="11" lean-forward="true" selection-start-line="30" selection-start-column="11" selection-end-line="30" selection-end-column="11" />
           <folding>
+            <element signature="n#!!block;n#enterPost#0" />
+            <element signature="n#!!block;n#profilePicture#0" />
+            <element signature="n#!!block;n#getProfilePic#0" />
+            <element signature="n#!!block;n#checkAndGrab#0" />
             <element signature="n#!!block;n#todaysDate#0" />
             <element signature="n#!!block;n#getTime#0" />
             <element signature="n#!!block;n#refineTimeStamp#0" />
+            <element signature="n#!!block;n#getImgSrc#0" />
+            <element signature="n#!!block;n#getVidSrc#0" />
+            <element signature="n#!!block;n#cleanSrcSets#0" />
+            <element signature="n#!!block;n#CleanImgNames#0" />
           </folding>
         </state>
       </provider>

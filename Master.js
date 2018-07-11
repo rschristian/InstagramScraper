@@ -1,5 +1,5 @@
 const casper = require("casper").create({
-  viewportSize: {width: 1920, height:720},
+  // viewportSize: {width: 1920, height:720},
   waitTimeout: 10000,
   stepTimeout: 15000,
   onWaitTimeout: function() {
@@ -184,7 +184,6 @@ casper.start("https://www.instagram.com/"+ targetAccount +"/"
     let returnHref = this.evaluate(enterPost, postsClass);
     returnHref.length = 1;
     casper.click("a[href^='" + returnHref + "']");
-    // console.log(returnHref);
 }).then(function() {
     profilePicture(dirtySrcSets, dirtyImgNames);
 }).then(function() {
@@ -206,7 +205,6 @@ casper.start("https://www.instagram.com/"+ targetAccount +"/"
       } else {
         casper.download(finalisedLinks[i], "/home/ryan/Pictures/" + targetAccount + "/" + finalisedNames[i] + ".jpeg");
       }
-
     }
     t4 = performance.now();
     console.log("Time to load page: " + (t1-t0));
