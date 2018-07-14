@@ -1,7 +1,7 @@
 const casper = require("casper").create({
-  // viewportSize: {width: 1920, height:720},
+  viewportSize: {width: 1920, height:720},
   waitTimeout: 10000,
-  stepTimeout: 15000,
+  stepTimeout: 105000,
   onWaitTimeout: function() {
     console.log("Wait timed out");
   },
@@ -15,27 +15,31 @@ const casper = require("casper").create({
 });
 
 //Global variables
-const targetAccount = casper.cli.get('targetAccount');
-const t0 = performance.now();
-let t1;
-let t2;
-let t3;
-let t4;
-let dirtySrcSets = [];
-let finalisedLinks = [];
-let dirtyImgNames = [];
-let finalisedNames = [];
-let pictsInSet = 1;
-let casperDone = false;
+const targetAccount = casper.cli.get('targetAccount'),
+      retrieveText = casper.cli.get('retrieveText'),
+      t0 = performance.now();
+let t1,
+    t2,
+    t3,
+    t4,
+    dirtySrcSets = [],
+    finalisedLinks = [],
+    dirtyImgNames = [],
+    finalisedNames = [],
+    pictsInSet = 1,
+    post = {},
+    comments = {},
+    casperDone = false;
 
 //HTML Tags
-const pageContentClass = '.v9tJq';
-const pagePrivateClass = '.QlxVY';
-const postsClass = 'div._bz0w a';
-const profilePictureClass = "._6q-tv";
-const chevronRootClass = "._97aPb ";
-const imageSrcClass = ".FFVAD";
-const videoSrcClass = ".tWeCl";
+const pageContentClass = '.v9tJq',
+      pagePrivateClass = '.QlxVY',
+      postsClass = 'div._bz0w a',
+      profilePictureClass = "._6q-tv",
+      chevronRootClass = "._97aPb ",
+      imageSrcClass = ".FFVAD",
+      userCommentClass = ".gElp9",
+      videoSrcClass = ".tWeCl";
 
 
 //Gets the links for the image to then enter the first one
@@ -71,21 +75,21 @@ function checkAndGrab(arrayURL, arrayNames) {
     casper.waitForSelector(chevronRootClass, function(){
         if (casper.exists(".coreSpriteRightChevron")) {
             pictsInSet++;
-            const vidURL = casper.evaluate(getVidSrc, videoSrcClass);
+            const vidURL = casper.evaluate(getMediaSrc, videoSrcClass);
             if (vidURL.length > 0) {
                 arrayURL.push(vidURL);
             } else {
-                const partsOfStr = casper.evaluate(getImgSrc, imageSrcClass).toString().split(',');
+                const partsOfStr = casper.evaluate(getMediaSrc, imageSrcClass).toString().split(',');
                 arrayURL.push(partsOfStr[partsOfStr.length-1]);
             }
             casper.click(".coreSpriteRightChevron");
             checkAndGrab(arrayURL, arrayNames);
         } else if (!casper.exists(".coreSpriteRightChevron")) {
-            const vidURL = casper.evaluate(getVidSrc, videoSrcClass);
+            const vidURL = casper.evaluate(getMediaSrc, videoSrcClass);
             if (vidURL.length > 0) {
                 arrayURL.push(vidURL);
             } else {
-                const partsOfStr = casper.evaluate(getImgSrc, imageSrcClass).toString().split(',');
+                const partsOfStr = casper.evaluate(getMediaSrc, imageSrcClass).toString().split(',');
                 arrayURL.push(partsOfStr[partsOfStr.length-1]);
             }
             for (pictsInSet; pictsInSet>0; pictsInSet--) {
@@ -139,16 +143,22 @@ function refineTimeStamp() {
     return timeStamp;
 }
 
-//Gets the image srcsets from the page
-function getImgSrc(sel) {
+function getUser(sel) {
     const scripts = document.querySelectorAll(sel);
     return Array.prototype.map.call(scripts, function (e) {
         return e.getAttribute("src");
     });
 }
 
-//Get/check video
-function getVidSrc(sel) {
+function getText(sel) {
+    const scripts = document.querySelectorAll(sel);
+    return Array.prototype.map.call(scripts, function (e) {
+        return e.getAttribute("src");
+    });
+}
+
+//Gets the image srcsets from the page
+function getMediaSrc(sel) {
     const scripts = document.querySelectorAll(sel);
     return Array.prototype.map.call(scripts, function (e) {
         return e.getAttribute("src");
@@ -188,7 +198,11 @@ casper.start("https://www.instagram.com/"+ targetAccount +"/"
     profilePicture(dirtySrcSets, dirtyImgNames);
 }).then(function() {
     console.log("Entering posts grab");
-    checkAndGrab(dirtySrcSets, dirtyImgNames);
+    if (retrieveText !== "true") {
+        checkAndGrab(dirtySrcSets, dirtyImgNames);
+    } else {
+        checkGrabText(dirtySrcSets, dirtyImgNames);
+    }
 }).waitFor(function check(){
     t2 = performance.now();
     return casperDone;
@@ -206,6 +220,15 @@ casper.start("https://www.instagram.com/"+ targetAccount +"/"
         casper.download(finalisedLinks[i], "/home/ryan/Pictures/" + targetAccount + "/" + finalisedNames[i] + ".jpeg");
       }
     }
+    post['7-14-2018'] = ["Gwenddalyn:happy birthday toddy!! #dadeo, Carlie_Paiige:ll,Gwenddalyn:yy"];
+    post['7-15-2018'] = ["Gwenddalyn: Yoinks Scoob, Carlie_Paiige: Heylo"];
+    for (let x in post) {
+        //console.log(x);
+        let values = post[x];
+        for (let y in values) {
+            //console.log(values[y]);
+        }
+    }
     t4 = performance.now();
     console.log("Time to load page: " + (t1-t0));
     console.log("Time to grab all srcsets: " + (t2-t1));
@@ -213,6 +236,7 @@ casper.start("https://www.instagram.com/"+ targetAccount +"/"
     console.log("Time to clean arrays: " + (t3-t2));
     console.log("Time to download: " + (t4-t3));
     console.log("Total time taken: " + (t4-t0));
+
 });
 
 casper.run();
