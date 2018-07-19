@@ -26,9 +26,10 @@ let t1,
     finalisedLinks = [],
     dirtyImgNames = [],
     finalisedNames = [],
+    comments = [],
+    profileText = [],
     pictsInSet = 1,
     post = {},
-    comments = {},
     casperDone = false;
 
 //HTML Tags
@@ -38,7 +39,8 @@ const pageContentClass = '.v9tJq',
       profilePictureClass = "._6q-tv",
       chevronRootClass = "._97aPb ",
       imageSrcClass = ".FFVAD",
-      userCommentClass = ".gElp9",
+      commentsUserClass = ".FPmhX",
+      commentsTextClass = ".gElp9",
       videoSrcClass = ".tWeCl";
 
 
@@ -108,6 +110,51 @@ function checkAndGrab(arrayURL, arrayNames) {
     })
 }
 
+function checkGrabText(arrayURL, arrayNames) {
+    casper.waitForSelector(chevronRootClass, function(){
+        if (casper.exists(".coreSpriteRightChevron")) {
+            pictsInSet++;
+            const vidURL = casper.evaluate(getMediaSrc, videoSrcClass);
+            if (vidURL.length > 0) {
+                arrayURL.push(vidURL);
+            } else {
+                const partsOfStr = casper.evaluate(getMediaSrc, imageSrcClass).toString().split(',');
+                arrayURL.push(partsOfStr[partsOfStr.length-1]);
+            }
+            casper.click(".coreSpriteRightChevron");
+            checkGrabText(arrayURL, arrayNames);
+        } else if (!casper.exists(".coreSpriteRightChevron")) {
+            const vidURL = casper.evaluate(getMediaSrc, videoSrcClass);
+            if (vidURL.length > 0) {
+                arrayURL.push(vidURL);
+            } else {
+                const partsOfStr = casper.evaluate(getMediaSrc, imageSrcClass).toString().split(',');
+                arrayURL.push(partsOfStr[partsOfStr.length-1]);
+            }
+            for (pictsInSet; pictsInSet>0; pictsInSet--) {
+                arrayNames.push(refineTimeStamp() + " " + pictsInSet);
+            }
+            let usrList = casper.evaluate(getUser, commentsUserClass);
+            comments.push(usrList.splice(0,1));
+            console.log(usrList);
+            let postComments = casper.evaluate(getComments, commentsTextClass);
+            console.log(postComments);
+            // for (let i = 0; i<usrList.length; i++){
+            //     console.log(usrList[i]);
+            // }
+            if (casper.exists(".coreSpriteRightPaginationArrow")){
+                casper.click(".coreSpriteRightPaginationArrow");
+                pictsInSet = 1;
+                checkGrabText(arrayURL, arrayNames);
+            } else {
+                console.log("Done");
+                casperDone = true;
+                return arrayURL, arrayNames;
+            }
+        }
+    })
+}
+
 function todaysDate() {
     let today = new Date();
     let dd = today.getDate();
@@ -146,14 +193,14 @@ function refineTimeStamp() {
 function getUser(sel) {
     const scripts = document.querySelectorAll(sel);
     return Array.prototype.map.call(scripts, function (e) {
-        return e.getAttribute("src");
+        return e.getAttribute("title");
     });
 }
 
-function getText(sel) {
+function getComments(sel) {
     const scripts = document.querySelectorAll(sel);
     return Array.prototype.map.call(scripts, function (e) {
-        return e.getAttribute("src");
+        return e.getHTML("span");
     });
 }
 
@@ -198,9 +245,10 @@ casper.start("https://www.instagram.com/"+ targetAccount +"/"
     profilePicture(dirtySrcSets, dirtyImgNames);
 }).then(function() {
     console.log("Entering posts grab");
-    if (retrieveText !== "true") {
+    if (retrieveText !== true) {
         checkAndGrab(dirtySrcSets, dirtyImgNames);
     } else {
+        console.log("Retrieving Text");
         checkGrabText(dirtySrcSets, dirtyImgNames);
     }
 }).waitFor(function check(){
