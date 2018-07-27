@@ -22,7 +22,7 @@ let t1,
     t2,
     t3,
     t4,
-    dirtySrcSets = [],
+    dirtySrcSets = [],b
     finalisedLinks = [],
     dirtyImgNames = [],
     finalisedNames = [],
@@ -268,8 +268,8 @@ casper.start("https://www.instagram.com/"+ targetAccount +"/"
         casper.download(finalisedLinks[i], "/home/ryan/Pictures/" + targetAccount + "/" + finalisedNames[i] + ".jpeg");
       }
     }
-    post['7-14-2018'] = ["***REMOVED***:happy birthday toddy!! #dadeo, ***REMOVED***:ll,***REMOVED***:yy"];
-    post['7-15-2018'] = ["***REMOVED***: Yoinks Scoob, ***REMOVED***: Heylo"];
+    post['7-14-2018'] = ["G:happy birthday toddy!! #dadeo, C:ll,G:yy"];
+    post['7-15-2018'] = ["G: Yoinks Scoob, C: Heylo"];
     for (let x in post) {
         //console.log(x);
         let values = post[x];
