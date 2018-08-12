@@ -1,6 +1,6 @@
 const casper = require("casper").create({
-  viewportSize: {width: 1920, height:720},
-  waitTimeout: 10000,
+  viewportSize: {width: 1920, height:480},
+  waitTimeout: 100000,
   stepTimeout: 105000,
   onWaitTimeout: function() {
     console.log("Wait timed out");
@@ -17,32 +17,85 @@ const casper = require("casper").create({
 //Global variables
 const targetAccount = casper.cli.get('targetAccount'),
       retrieveText = casper.cli.get('retrieveText'),
+      username = casper.cli.get('username'),
+      password = casper.cli.get('password'),
       t0 = performance.now();
 let t1,
     t2,
     t3,
     t4,
-    dirtySrcSets = [],b
+    dirtySrcSets = [],
     finalisedLinks = [],
     dirtyImgNames = [],
     finalisedNames = [],
     comments = [],
     profileText = [],
+    pictsInStory = [],
     pictsInSet = 1,
     post = {},
+    storyDone = false,
     casperDone = false;
 
 //HTML Tags
-const pageContentClass = '.v9tJq',
-      pagePrivateClass = '.QlxVY',
-      postsClass = 'div._bz0w a',
-      profilePictureClass = "._6q-tv",
-      chevronRootClass = "._97aPb ",
-      imageSrcClass = ".FFVAD",
-      commentsUserClass = ".FPmhX",
-      commentsTextClass = ".gElp9",
-      videoSrcClass = ".tWeCl";
+const
+    //Page content container
+    pageContentClass = '.v9tJq',
 
+    //Page privacy status
+    pagePrivateClass = '.QlxVY',
+
+    //Class that each post is contained under
+    storyClass = 'div.RR-M-',
+
+    //Story existence status
+    profileStoryClass = '.h5uC0',
+
+    //
+    storyChevronRootClass = '.GHEPc',
+    storyChevronClass = '.ow3u_',
+    storyVideoSrcClass = '.OFkrO source',
+    storyImageSrcClass = '._7NpAS',
+
+
+
+    postsClass = 'div._bz0w a',
+    profilePictureClass = "._6q-tv",
+    chevronRootClass = "._97aPb ",
+    imageSrcClass = ".FFVAD",
+    commentsUserClass = ".FPmhX",
+    commentsTextClass = ".gElp9",
+    videoSrcClass = ".tWeCl";
+
+function logIn() {
+    casper.sendKeys('input[name=username]', username);
+    casper.sendKeys('input[name=password]', password);
+    casper.click('._5f5mN');
+}
+
+//Retrieves the story items from the profile
+function storyCapture(arrayURL, arrayNames) {
+    casper.wait(400, function(){
+        if (casper.exists(storyChevronClass)) {
+            pictsInStory++;
+            if (casper.exists(storyVideoSrcClass)) {
+                const vidURL = casper.evaluate(getMediaSrc, storyVideoSrcClass).toString().split(',');
+                arrayURL.push(vidURL[0]);
+            } else {
+                const partsOfStr = casper.evaluate(getMediaSrc, storyImageSrcClass).toString().split(',');
+                arrayURL.push(partsOfStr[partsOfStr.length-1]);
+            }
+            casper.click(storyChevronClass);
+            storyCapture(arrayURL, arrayNames);
+        } else {
+            for (pictsInStory; pictsInStory>0; pictsInStory--) {
+                arrayNames.push(todaysDate() + " story " + pictsInStory);
+            }
+            storyDone = true;
+            return arrayURL, arrayNames;
+        }
+    })
+
+}
 
 //Gets the links for the image to then enter the first one
 function enterPost(sel) {
@@ -57,7 +110,7 @@ function profilePicture(arrayURL, arrayNames) {
     casper.waitForSelector(profilePictureClass, function() {
         arrayURL.push(casper.evaluate(getProfilePic, profilePictureClass));
         console.log("Profile pic name: " + todaysDate());
-        arrayNames.push(todaysDate());
+        arrayNames.push(todaysDate() + " profile");
   })
 }
 
@@ -170,7 +223,7 @@ function todaysDate() {
     }
 
     today = yyyy + "-" + mm + "-" + dd;
-    return today + " profile";
+    return today;
 }
 
 //Gets the time to name the pictures with
@@ -229,14 +282,33 @@ function CleanImgNames(a) {
 
 
 
-casper.start("https://www.instagram.com/"+ targetAccount +"/"
-).waitForSelector(pageContentClass, function() {
+casper.start('https://www.instagram.com/accounts/login/'
+).waitForSelector('.-MzZI', function() {
+    logIn();
+}).then(function() {
+    casper.wait(500, function(){casper.thenOpen('https://www.instagram.com/'
+        + targetAccount + '/')});
+}).waitForSelector(pageContentClass, function() {
     if (casper.exists(pagePrivateClass)) {
       console.log("Account is private");
     } else {
       console.log("Account is public");
     }
-}).waitForSelector(postsClass, function() {
+}).waitForSelector(storyClass, function() {
+    casper.wait(500, function() {
+        if (casper.exists(profileStoryClass)) {
+            console.log("Profile has a story");
+            casper.click(profileStoryClass);
+            storyCapture(dirtySrcSets, dirtyImgNames);
+        } else {
+            console.log("User does not have a story. Moving on.")
+            storyDone = true;
+        }
+    });
+}).waitFor(function check(){
+    console.log('passed');
+    return storyDone;
+}).then(function() {
     t1 = performance.now();
     let returnHref = this.evaluate(enterPost, postsClass);
     returnHref.length = 1;
