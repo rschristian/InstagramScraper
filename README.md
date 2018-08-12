@@ -6,4 +6,4 @@ Dependencies - Casperjs, Slimerjs
 
 
 Run (on Linux systems) with:
-	casperjs --engine=slimerjs Master.js --targetAccount="(account name)" --retrieveText="(true/false)" --headless
+	casperjs --engine=slimerjs Master.js --targetAccount="(account name)" --retrieveText="(true/false)" --username="(your account username)" --password="(your account password)" --headless
