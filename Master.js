@@ -1,3 +1,5 @@
+// noinspection JSUnusedGlobalSymbols
+// noinspection JSUnusedGlobalSymbols
 const casper = require("casper").create({
   viewportSize: {width: 1920, height:480},
   waitTimeout: 100000,
@@ -98,7 +100,7 @@ function storyCapture(arrayURL, arrayNames) {
                 const partsOfStr = casper.evaluate(getMediaSrc, storyImageSrcClass).toString().split(',');
                 arrayURL.push(partsOfStr[partsOfStr.length-1]);
             }
-            casper.click(storyChevronClass);
+            casper.click(storyRootClass);
             storyCapture(arrayURL, arrayNames);
         } else {
             for (pictsInStory; pictsInStory>0; pictsInStory--) {
@@ -147,8 +149,9 @@ function checkAndGrab(arrayURL, arrayNames) {
             const vidURL = casper.evaluate(getMediaSrc, videoSrcClass);
             if (vidURL.length > 0) {
                 arrayURL.push(vidURL);
-            } else {
-                const partsOfStr = casper.evaluate(getImageSrc, imageSrcClass).toString().split(',');
+            }
+            const partsOfStr = casper.evaluate(getImageSrc, imageSrcClass).toString().split(',');
+            if (partsOfStr.length > 0) {
                 for (let i =0; i<partsOfStr.length; i++) {
                     if (partsOfStr[i].includes("1080w")) {
                         arrayURL.push(partsOfStr[i].toString().slice(0,-6));
@@ -161,7 +164,9 @@ function checkAndGrab(arrayURL, arrayNames) {
             const vidURL = casper.evaluate(getMediaSrc, videoSrcClass);
             if (vidURL.length > 0) {
                 arrayURL.push(vidURL);
-            } else {
+            }
+            const partsOfStr = casper.evaluate(getImageSrc, imageSrcClass).toString().split(',');
+            if (partsOfStr.length > 0) {
                 const partsOfStr = casper.evaluate(getImageSrc, imageSrcClass).toString().split(',');
                 for (let i =0; i<partsOfStr.length; i++) {
                     if (partsOfStr[i].includes("1080w")) {
@@ -185,50 +190,50 @@ function checkAndGrab(arrayURL, arrayNames) {
     })
 }
 
-function checkGrabText(arrayURL, arrayNames) {
-    casper.waitForSelector(chevronRootClass, function(){
-        if (casper.exists(".coreSpriteRightChevron")) {
-            pictsInSet++;
-            const vidURL = casper.evaluate(getMediaSrc, videoSrcClass);
-            if (vidURL.length > 0) {
-                arrayURL.push(vidURL);
-            } else {
-                const partsOfStr = casper.evaluate(getMediaSrc, imageSrcClass).toString().split(',');
-                arrayURL.push(partsOfStr[partsOfStr.length-1]);
-            }
-            casper.click(".coreSpriteRightChevron");
-            checkGrabText(arrayURL, arrayNames);
-        } else if (!casper.exists(".coreSpriteRightChevron")) {
-            const vidURL = casper.evaluate(getMediaSrc, videoSrcClass);
-            if (vidURL.length > 0) {
-                arrayURL.push(vidURL);
-            } else {
-                const partsOfStr = casper.evaluate(getMediaSrc, imageSrcClass).toString().split(',');
-                arrayURL.push(partsOfStr[partsOfStr.length-1]);
-            }
-            for (pictsInSet; pictsInSet>0; pictsInSet--) {
-                arrayNames.push(refineTimeStamp() + " " + pictsInSet);
-            }
-            let usrList = casper.evaluate(getUser, commentsUserClass);
-            comments.push(usrList.splice(0,1));
-            console.log(usrList);
-            let postComments = casper.evaluate(getComments, commentsTextClass);
-            console.log(postComments);
-            // for (let i = 0; i<usrList.length; i++){
-            //     console.log(usrList[i]);
-            // }
-            if (casper.exists(".coreSpriteRightPaginationArrow")){
-                casper.click(".coreSpriteRightPaginationArrow");
-                pictsInSet = 1;
-                checkGrabText(arrayURL, arrayNames);
-            } else {
-                console.log("Done");
-                casperDone = true;
-                return arrayURL, arrayNames;
-            }
-        }
-    })
-}
+// function checkGrabText(arrayURL, arrayNames) {
+//     casper.waitForSelector(chevronRootClass, function(){
+//         if (casper.exists(".coreSpriteRightChevron")) {
+//             pictsInSet++;
+//             const vidURL = casper.evaluate(getMediaSrc, videoSrcClass);
+//             if (vidURL.length > 0) {
+//                 arrayURL.push(vidURL);
+//             } else {
+//                 const partsOfStr = casper.evaluate(getMediaSrc, imageSrcClass).toString().split(',');
+//                 arrayURL.push(partsOfStr[partsOfStr.length-1]);
+//             }
+//             casper.click(".coreSpriteRightChevron");
+//             checkGrabText(arrayURL, arrayNames);
+//         } else if (!casper.exists(".coreSpriteRightChevron")) {
+//             const vidURL = casper.evaluate(getMediaSrc, videoSrcClass);
+//             if (vidURL.length > 0) {
+//                 arrayURL.push(vidURL);
+//             } else {
+//                 const partsOfStr = casper.evaluate(getMediaSrc, imageSrcClass).toString().split(',');
+//                 arrayURL.push(partsOfStr[partsOfStr.length-1]);
+//             }
+//             for (pictsInSet; pictsInSet>0; pictsInSet--) {
+//                 arrayNames.push(refineTimeStamp() + " " + pictsInSet);
+//             }
+//             let usrList = casper.evaluate(getUser, commentsUserClass);
+//             comments.push(usrList.splice(0,1));
+//             console.log(usrList);
+//             let postComments = casper.evaluate(getComments, commentsTextClass);
+//             console.log(postComments);
+//             // for (let i = 0; i<usrList.length; i++){
+//             //     console.log(usrList[i]);
+//             // }
+//             if (casper.exists(".coreSpriteRightPaginationArrow")){
+//                 casper.click(".coreSpriteRightPaginationArrow");
+//                 pictsInSet = 1;
+//                 checkGrabText(arrayURL, arrayNames);
+//             } else {
+//                 console.log("Done");
+//                 casperDone = true;
+//                 return arrayURL, arrayNames;
+//             }
+//         }
+//     })
+// }
 
 function todaysDate() {
     let today = new Date();
@@ -330,7 +335,7 @@ casper.start('https://www.instagram.com/accounts/login/'
             casper.click(profileStoryClass);
             storyCapture(dirtySrcSets, dirtyImgNames);
         } else {
-            console.log("User does not have a story. Moving on.")
+            console.log("User does not have a story. Moving on.");
             storyDone = true;
         }
     });
@@ -358,8 +363,14 @@ casper.start('https://www.instagram.com/accounts/login/'
 }).then(function() {
     cleanSrcSets(dirtySrcSets);
     console.log("Number of Links: " + finalisedLinks.length);
+    for (let i =0; i<finalisedLinks.length; i++) {
+        console.log("Item " + i + ":" + finalisedLinks[i]);
+    }
     CleanImgNames(dirtyImgNames);
     console.log("Number of Names: " + finalisedNames.length);
+    for (let i =0; i<finalisedNames.length; i++) {
+        console.log("Item " + i + ":" + finalisedNames[i]);
+    }
     console.log("Downloading....");
     t3 = performance.now();
     for (let i = 0; i<finalisedLinks.length; i++) {
