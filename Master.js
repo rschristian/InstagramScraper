@@ -50,22 +50,36 @@ const
     //Story existence status
     profileStoryClass = '.h5uC0',
 
-    //
-    storyChevronRootClass = '.GHEPc',
-    storyChevronClass = '.ow3u_',
+    //Class for nav chevron, ensuring necessary classes have been loaded
+    storyRootClass = '.ow3u_',
+
+    //If story is a video, this class exists
     storyVideoSrcClass = '.OFkrO source',
+
+    //This class will exist no matter what (video thumbnail)
     storyImageSrcClass = '._7NpAS',
 
-
-
+    //Each post has this class assigned to it
     postsClass = 'div._bz0w a',
-    profilePictureClass = "._6q-tv",
-    chevronRootClass = "._97aPb ",
-    imageSrcClass = ".FFVAD",
-    commentsUserClass = ".FPmhX",
-    commentsTextClass = ".gElp9",
-    videoSrcClass = ".tWeCl";
 
+    //Profile pic (both in post and on main page) has this class
+    profilePictureClass = "._6q-tv",
+
+    //Dictates when post is single item or an album
+    chevronRootClass = "._97aPb ",
+
+    //If post item is a video, this will exist
+    videoSrcClass = ".tWeCl",
+
+    //This class will exist for each post item
+    imageSrcClass = ".FFVAD",
+
+
+    //WIP
+    commentsUserClass = ".FPmhX",
+    commentsTextClass = ".gElp9";
+
+//Logs in to Instagram (necessary to view posts or private profiles)
 function logIn() {
     casper.sendKeys('input[name=username]', username);
     casper.sendKeys('input[name=password]', password);
@@ -75,7 +89,7 @@ function logIn() {
 //Retrieves the story items from the profile
 function storyCapture(arrayURL, arrayNames) {
     casper.wait(500, function(){
-        if (casper.exists(storyChevronClass)) {
+        if (casper.exists(storyRootClass)) {
             pictsInStory++;
             if (casper.exists(storyVideoSrcClass)) {
                 const vidURL = casper.evaluate(getMediaSrc, storyVideoSrcClass).toString().split(',');
@@ -140,7 +154,6 @@ function checkAndGrab(arrayURL, arrayNames) {
                         arrayURL.push(partsOfStr[i].toString().slice(0,-6));
                     }
                 }
-                // console.log(casper.evaluate(getImageSrc, imageSrcClass));
             }
             casper.click(".coreSpriteRightChevron");
             checkAndGrab(arrayURL, arrayNames);
