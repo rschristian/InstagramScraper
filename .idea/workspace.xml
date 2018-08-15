@@ -18,20 +18,21 @@
     <session id="323015393">
       <usages-collector id="statistics.lifecycle.project">
         <counts>
-          <entry key="project.closed" value="1" />
-          <entry key="project.open.time.6" value="1" />
+          <entry key="project.closed" value="3" />
+          <entry key="project.open.time.6" value="3" />
+          <entry key="project.open.time.8" value="1" />
           <entry key="project.open.time.9" value="1" />
-          <entry key="project.opened" value="2" />
+          <entry key="project.opened" value="5" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="js" value="2878" />
+          <entry key="js" value="3247" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="JavaScript" value="2878" />
+          <entry key="JavaScript" value="3247" />
         </counts>
       </usages-collector>
     </session>
@@ -41,22 +42,18 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Master.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="229">
-              <caret line="63" column="29" lean-forward="true" selection-start-line="63" selection-start-column="29" selection-end-line="63" selection-end-column="29" />
+            <state relative-caret-position="692">
+              <caret line="324" column="34" lean-forward="true" selection-start-line="324" selection-start-column="34" selection-end-line="324" selection-end-column="34" />
               <folding>
-                <element signature="n#!!block;n#storyCapture#0" />
                 <element signature="n#!!block;n#enterPost#0" />
                 <element signature="n#!!block;n#profilePicture#0" />
                 <element signature="n#!!block;n#getProfilePic#0" />
-                <element signature="e#1899#1966#0" />
-                <element signature="n#!!block;n#checkAndGrab#0" />
                 <element signature="n#!!block;n#checkGrabText#0" />
                 <element signature="n#!!block;n#todaysDate#0" />
                 <element signature="n#!!block;n#getTime#0" />
                 <element signature="n#!!block;n#refineTimeStamp#0" />
                 <element signature="n#!!block;n#getUser#0" />
                 <element signature="n#!!block;n#getComments#0" />
-                <element signature="n#!!block;n#getMediaSrc#0" />
                 <element signature="n#!!block;n#cleanSrcSets#0" />
                 <element signature="n#!!block;n#CleanImgNames#0" />
               </folding>
@@ -89,7 +86,7 @@
     <option name="x" value="948" />
     <option name="y" value="24" />
     <option name="width" value="971" />
-    <option name="height" value="1056" />
+    <option name="height" value="1053" />
   </component>
   <component name="ProjectView">
     <navigator proportions="" version="1">
@@ -144,15 +141,18 @@
       <workItem from="1530923153725" duration="1828000" />
       <workItem from="1531263188434" duration="1291000" />
       <workItem from="1532660658641" duration="691000" />
-      <workItem from="1534024977823" duration="16229000" />
+      <workItem from="1534024977823" duration="16811000" />
+      <workItem from="1534341138529" duration="1159000" />
+      <workItem from="1534344223048" duration="600000" />
+      <workItem from="1534346024482" duration="4942000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="62180000" />
+    <option name="totallyTimeSpent" value="69463000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="948" y="24" width="971" height="1056" extended-state="4" />
+    <frame x="948" y="24" width="971" height="1053" extended-state="4" />
     <editor active="true" />
     <layout>
       <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.16455697" />
@@ -186,22 +186,18 @@
     <entry file="file://$PROJECT_DIR$/worker.js" />
     <entry file="file://$PROJECT_DIR$/Master.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="229">
-          <caret line="63" column="29" lean-forward="true" selection-start-line="63" selection-start-column="29" selection-end-line="63" selection-end-column="29" />
+        <state relative-caret-position="692">
+          <caret line="324" column="34" lean-forward="true" selection-start-line="324" selection-start-column="34" selection-end-line="324" selection-end-column="34" />
           <folding>
-            <element signature="n#!!block;n#storyCapture#0" />
             <element signature="n#!!block;n#enterPost#0" />
             <element signature="n#!!block;n#profilePicture#0" />
             <element signature="n#!!block;n#getProfilePic#0" />
-            <element signature="e#1899#1966#0" />
-            <element signature="n#!!block;n#checkAndGrab#0" />
             <element signature="n#!!block;n#checkGrabText#0" />
             <element signature="n#!!block;n#todaysDate#0" />
             <element signature="n#!!block;n#getTime#0" />
             <element signature="n#!!block;n#refineTimeStamp#0" />
             <element signature="n#!!block;n#getUser#0" />
             <element signature="n#!!block;n#getComments#0" />
-            <element signature="n#!!block;n#getMediaSrc#0" />
             <element signature="n#!!block;n#cleanSrcSets#0" />
             <element signature="n#!!block;n#CleanImgNames#0" />
           </folding>
