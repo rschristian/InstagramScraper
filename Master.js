@@ -74,7 +74,7 @@ function logIn() {
 
 //Retrieves the story items from the profile
 function storyCapture(arrayURL, arrayNames) {
-    casper.wait(400, function(){
+    casper.wait(500, function(){
         if (casper.exists(storyChevronClass)) {
             pictsInStory++;
             if (casper.exists(storyVideoSrcClass)) {
@@ -134,8 +134,13 @@ function checkAndGrab(arrayURL, arrayNames) {
             if (vidURL.length > 0) {
                 arrayURL.push(vidURL);
             } else {
-                const partsOfStr = casper.evaluate(getMediaSrc, imageSrcClass).toString().split(',');
-                arrayURL.push(partsOfStr[partsOfStr.length-1]);
+                const partsOfStr = casper.evaluate(getImageSrc, imageSrcClass).toString().split(',');
+                for (let i =0; i<partsOfStr.length; i++) {
+                    if (partsOfStr[i].includes("1080w")) {
+                        arrayURL.push(partsOfStr[i].toString().slice(0,-6));
+                    }
+                }
+                // console.log(casper.evaluate(getImageSrc, imageSrcClass));
             }
             casper.click(".coreSpriteRightChevron");
             checkAndGrab(arrayURL, arrayNames);
@@ -144,8 +149,12 @@ function checkAndGrab(arrayURL, arrayNames) {
             if (vidURL.length > 0) {
                 arrayURL.push(vidURL);
             } else {
-                const partsOfStr = casper.evaluate(getMediaSrc, imageSrcClass).toString().split(',');
-                arrayURL.push(partsOfStr[partsOfStr.length-1]);
+                const partsOfStr = casper.evaluate(getImageSrc, imageSrcClass).toString().split(',');
+                for (let i =0; i<partsOfStr.length; i++) {
+                    if (partsOfStr[i].includes("1080w")) {
+                        arrayURL.push(partsOfStr[i].toString().slice(0,-6));
+                    }
+                }
             }
             for (pictsInSet; pictsInSet>0; pictsInSet--) {
                 arrayNames.push(refineTimeStamp() + " " + pictsInSet);
@@ -265,6 +274,13 @@ function getMediaSrc(sel) {
     });
 }
 
+function getImageSrc(sel) {
+    const scripts = document.querySelectorAll(sel);
+    return Array.prototype.map.call(scripts, function (e) {
+        return e.getAttribute("srcset");
+    });
+}
+
 function cleanSrcSets(a) {
     let seen = {};
     finalisedLinks = a.filter(function(item) {
@@ -306,7 +322,7 @@ casper.start('https://www.instagram.com/accounts/login/'
         }
     });
 }).waitFor(function check(){
-    console.log('passed');
+    console.log('Finished Story');
     return storyDone;
 }).then(function() {
     t1 = performance.now();
@@ -331,9 +347,9 @@ casper.start('https://www.instagram.com/accounts/login/'
     console.log("Number of Links: " + finalisedLinks.length);
     CleanImgNames(dirtyImgNames);
     console.log("Number of Names: " + finalisedNames.length);
+    console.log("Downloading....");
     t3 = performance.now();
     for (let i = 0; i<finalisedLinks.length; i++) {
-      // console.log("Links: " + finalisedLinks[i] + " Name: " + finalisedNames[i]);
       if (String(finalisedLinks[i]).indexOf("mp4") > 0) {
         casper.download(finalisedLinks[i], "/home/ryan/Pictures/" + targetAccount + "/" + finalisedNames[i] + ".mp4");
       } else {
