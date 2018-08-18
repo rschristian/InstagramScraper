@@ -30,6 +30,7 @@ let t1,
     finalisedLinks = [],
     dirtyImgNames = [],
     finalisedNames = [],
+    logInSuccess = false,
     comments = [],
     profileText = [],
     pictsInStory = [],
@@ -85,7 +86,12 @@ const
 function logIn() {
     casper.sendKeys('input[name=username]', username);
     casper.sendKeys('input[name=password]', password);
-    casper.click('._5f5mN');
+    casper.wait(100, function() {
+        casper.click('._5f5mN');
+    });
+    if (!casper.exists('#slfErrorAlert')) {
+        logInSuccess = true;
+    }
 }
 
 //Retrieves the story items from the profile
@@ -94,10 +100,10 @@ function storyCapture(arrayURL, arrayNames) {
         if (casper.exists(storyRootClass)) {
             pictsInStory++;
             if (casper.exists(storyVideoSrcClass)) {
-                const vidURL = casper.evaluate(getMediaSrc, storyVideoSrcClass).toString().split(',');
+                const vidURL = casper.evaluate(getVideoSrc, storyVideoSrcClass).toString().split(',');
                 arrayURL.push(vidURL[0]);
             } else {
-                const partsOfStr = casper.evaluate(getMediaSrc, storyImageSrcClass).toString().split(',');
+                const partsOfStr = casper.evaluate(getVideoSrc, storyImageSrcClass).toString().split(',');
                 arrayURL.push(partsOfStr[partsOfStr.length-1]);
             }
             casper.click(storyRootClass);
@@ -146,12 +152,14 @@ function checkAndGrab(arrayURL, arrayNames) {
     casper.waitForSelector(chevronRootClass, function(){
         if (casper.exists(".coreSpriteRightChevron")) {
             pictsInSet++;
-            const vidURL = casper.evaluate(getMediaSrc, videoSrcClass);
-            if (vidURL.length > 0) {
-                arrayURL.push(vidURL);
+            if (casper.exists(videoSrcClass)) {
+                const vidURL = casper.evaluate(getVideoSrc, videoSrcClass).toString().split(',');
+                for (let i = 0; i<vidURL.length; i++) {
+                    arrayURL.push(vidURL[i]);
+                }
             }
-            const partsOfStr = casper.evaluate(getImageSrc, imageSrcClass).toString().split(',');
-            if (partsOfStr.length > 0) {
+            if (casper.exists(imageSrcClass)) {
+                const partsOfStr = casper.evaluate(getImageSrc, imageSrcClass).toString().split(',');
                 for (let i =0; i<partsOfStr.length; i++) {
                     if (partsOfStr[i].includes("1080w")) {
                         arrayURL.push(partsOfStr[i].toString().slice(0,-6));
@@ -161,12 +169,13 @@ function checkAndGrab(arrayURL, arrayNames) {
             casper.click(".coreSpriteRightChevron");
             checkAndGrab(arrayURL, arrayNames);
         } else if (!casper.exists(".coreSpriteRightChevron")) {
-            const vidURL = casper.evaluate(getMediaSrc, videoSrcClass);
-            if (vidURL.length > 0) {
-                arrayURL.push(vidURL);
+            if (casper.exists(videoSrcClass)) {
+                const vidURL = casper.evaluate(getVideoSrc, videoSrcClass).toString().split(',');
+                for (let i = 0; i<vidURL.length; i++) {
+                    arrayURL.push(vidURL[i]);
+                }
             }
-            const partsOfStr = casper.evaluate(getImageSrc, imageSrcClass).toString().split(',');
-            if (partsOfStr.length > 0) {
+            if (casper.exists(imageSrcClass)) {
                 const partsOfStr = casper.evaluate(getImageSrc, imageSrcClass).toString().split(',');
                 for (let i =0; i<partsOfStr.length; i++) {
                     if (partsOfStr[i].includes("1080w")) {
@@ -285,7 +294,7 @@ function getComments(sel) {
 }
 
 //Gets the image srcsets from the page
-function getMediaSrc(sel) {
+function getVideoSrc(sel) {
     const scripts = document.querySelectorAll(sel);
     return Array.prototype.map.call(scripts, function (e) {
         return e.getAttribute("src");
@@ -330,7 +339,7 @@ casper.start('https://www.instagram.com/accounts/login/'
     }
 }).waitForSelector(storyClass, function() {
     casper.wait(500, function() {
-        if (casper.exists(profileStoryClass)) {
+        if (casper.exists(profileStoryClass) && logInSuccess === true) {
             console.log("Profile has a story");
             casper.click(profileStoryClass);
             storyCapture(dirtySrcSets, dirtyImgNames);
@@ -364,12 +373,12 @@ casper.start('https://www.instagram.com/accounts/login/'
     cleanSrcSets(dirtySrcSets);
     console.log("Number of Links: " + finalisedLinks.length);
     for (let i =0; i<finalisedLinks.length; i++) {
-        console.log("Item " + i + ":" + finalisedLinks[i]);
+        console.log(i + "; " + finalisedLinks[i]);
     }
     CleanImgNames(dirtyImgNames);
     console.log("Number of Names: " + finalisedNames.length);
     for (let i =0; i<finalisedNames.length; i++) {
-        console.log("Item " + i + ":" + finalisedNames[i]);
+        console.log(i + "; " + finalisedNames[i]);
     }
     console.log("Downloading....");
     t3 = performance.now();
