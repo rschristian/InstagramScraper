@@ -86,7 +86,7 @@ const
 function logIn() {
     casper.sendKeys('input[name=username]', username);
     casper.sendKeys('input[name=password]', password);
-    casper.wait(100, function() {
+    casper.wait(500, function() {
         casper.click('._5f5mN');
     });
     if (!casper.exists('#slfErrorAlert')) {
@@ -337,20 +337,20 @@ casper.start('https://www.instagram.com/accounts/login/'
     } else {
       console.log("Account is public");
     }
-}).waitForSelector(storyClass, function() {
-    casper.wait(500, function() {
-        if (casper.exists(profileStoryClass) && logInSuccess === true) {
-            console.log("Profile has a story");
-            casper.click(profileStoryClass);
-            storyCapture(dirtySrcSets, dirtyImgNames);
-        } else {
-            console.log("User does not have a story. Moving on.");
-            storyDone = true;
-        }
-    });
-}).waitFor(function check(){
-    console.log('Finished Story');
-    return storyDone;
+// }).waitForSelector(storyClass, function() {
+//     casper.wait(500, function() {
+//         if (casper.exists(profileStoryClass) && logInSuccess === true) {
+//             console.log("Profile has a story");
+//             casper.click(profileStoryClass);
+//             storyCapture(dirtySrcSets, dirtyImgNames);
+//         } else {
+//             console.log("User does not have a story. Moving on.");
+//             storyDone = true;
+//         }
+//     });
+// }).waitFor(function check(){
+//     console.log('Finished Story');
+//     return storyDone;
 }).then(function() {
     t1 = performance.now();
     let returnHref = this.evaluate(enterPost, postsClass);
@@ -372,14 +372,14 @@ casper.start('https://www.instagram.com/accounts/login/'
 }).then(function() {
     cleanSrcSets(dirtySrcSets);
     console.log("Number of Links: " + finalisedLinks.length);
-    for (let i =0; i<finalisedLinks.length; i++) {
-        console.log(i + "; " + finalisedLinks[i]);
-    }
+    //for (let i =0; i<finalisedLinks.length; i++) {
+        //console.log(i + "; " + finalisedLinks[i]);
+    //}
     CleanImgNames(dirtyImgNames);
     console.log("Number of Names: " + finalisedNames.length);
-    for (let i =0; i<finalisedNames.length; i++) {
-        console.log(i + "; " + finalisedNames[i]);
-    }
+    //for (let i =0; i<finalisedNames.length; i++) {
+        //console.log(i + "; " + finalisedNames[i]);
+    //}
     console.log("Downloading....");
     t3 = performance.now();
     for (let i = 0; i<finalisedLinks.length; i++) {
