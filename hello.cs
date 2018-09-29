@@ -100,7 +100,7 @@ public class MForm : Form
 
         DirectoryInfo dir = csp1.Directory;
         FileInfo path = new FileInfo(@"/usr/bin/python3.6");
-        Console.WriteLine(EnvPath);
+        Console.WriteLine(Environment.GetEnvironmentVariable("SLIMERJS"));
 
         string arg = String.Format("casperjs --engine=slimerjs Master.js --targetAccount" +
                                    "='***REMOVED***' --retrieveText='false' --username='***REMOVED***'" +
@@ -116,11 +116,13 @@ public class MForm : Form
         p.StartInfo.WorkingDirectory = workingDir.FullName;
         p.StartInfo.FileName = pythonPath.FullName;
         p.StartInfo.Arguments = casperArguments;
-        p.StartInfo.UseShellExecute = true;
+        p.StartInfo.UseShellExecute = false;
         p.StartInfo.CreateNoWindow = false;
-//        p.StartInfo.RedirectStandardError = true;
-//        p.StartInfo.RedirectStandardInput = true;
-//        p.StartInfo.RedirectStandardOutput = true;
+        p.StartInfo.RedirectStandardError = true;
+        p.StartInfo.RedirectStandardInput = true;
+        p.StartInfo.RedirectStandardOutput = true;
+
+        Console.WriteLine(EnvPath);
 
         p.ErrorDataReceived += (s, e) =>
         {
