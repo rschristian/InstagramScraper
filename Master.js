@@ -1,7 +1,7 @@
 // noinspection JSUnusedGlobalSymbols
 // noinspection JSUnusedGlobalSymbols
 const casper = require("casper").create({
-  viewportSize: {width: 1920, height:480},
+  viewportSize: {width: 19200, height:480},
   waitTimeout: 100000,
   stepTimeout: 105000,
   onWaitTimeout: function() {
@@ -21,7 +21,9 @@ const targetAccount = casper.cli.get('targetAccount'),
       retrieveText = casper.cli.get('retrieveText'),
       username = casper.cli.get('username'),
       password = casper.cli.get('password'),
-      t0 = performance.now();
+      t0 = performance.now(),
+      path = "/home/ryan/Pictures/" + targetAccount + "/",
+      fs = require('fs');
 let t1,
     t2,
     t3,
@@ -86,8 +88,8 @@ const
 function logIn() {
     casper.sendKeys('input[name=username]', username);
     casper.sendKeys('input[name=password]', password);
-    casper.wait(500, function() {
-        casper.click('._5f5mN');
+    casper.wait(1500, function() {
+        casper.click('.oF4XW');
     });
     if (!casper.exists('#slfErrorAlert')) {
         logInSuccess = true;
@@ -337,20 +339,20 @@ casper.start('https://www.instagram.com/accounts/login/'
     } else {
       console.log("Account is public");
     }
-// }).waitForSelector(storyClass, function() {
-//     casper.wait(500, function() {
-//         if (casper.exists(profileStoryClass) && logInSuccess === true) {
-//             console.log("Profile has a story");
-//             casper.click(profileStoryClass);
-//             storyCapture(dirtySrcSets, dirtyImgNames);
-//         } else {
-//             console.log("User does not have a story. Moving on.");
-//             storyDone = true;
-//         }
-//     });
-// }).waitFor(function check(){
-//     console.log('Finished Story');
-//     return storyDone;
+}).waitForSelector(storyClass, function() {
+    casper.wait(500, function() {
+        if (casper.exists(profileStoryClass)) {
+            console.log("Profile has a story");
+            casper.click(profileStoryClass);
+            storyCapture(dirtySrcSets, dirtyImgNames);
+        } else {
+            console.log("User does not have a story. Moving on.");
+            storyDone = true;
+        }
+    });
+}).waitFor(function check(){
+    console.log('Finished Story');
+    return storyDone;
 }).then(function() {
     t1 = performance.now();
     let returnHref = this.evaluate(enterPost, postsClass);
@@ -383,11 +385,13 @@ casper.start('https://www.instagram.com/accounts/login/'
     console.log("Downloading....");
     t3 = performance.now();
     for (let i = 0; i<finalisedLinks.length; i++) {
-      if (String(finalisedLinks[i]).indexOf("mp4") > 0) {
-        casper.download(finalisedLinks[i], "/home/ryan/Pictures/" + targetAccount + "/" + finalisedNames[i] + ".mp4");
-      } else {
-        casper.download(finalisedLinks[i], "/home/ryan/Pictures/" + targetAccount + "/" + finalisedNames[i] + ".jpeg");
-      }
+        if (!(fs.exists(path + finalisedNames[i] + ".mp4") || fs.exists(path + finalisedNames[i] + ".jpeg"))) {
+            if (String(finalisedLinks[i]).indexOf("mp4") > 0) {
+                casper.download(finalisedLinks[i], path + finalisedNames[i] + ".mp4");
+            } else {
+                casper.download(finalisedLinks[i], path + finalisedNames[i] + ".jpeg");
+            }
+        }
     }
     post['7-14-2018'] = ["G:happy birthday toddy!! #dadeo, C:ll,G:yy"];
     post['7-15-2018'] = ["G: Yoinks Scoob, C: Heylo"];
