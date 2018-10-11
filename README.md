@@ -8,7 +8,9 @@ Casperjs is needed to parse ReactJS (as far as I know), and SlimerJS is used to 
 
 
 Run (on Linux systems) with:
-	casperjs --engine=slimerjs Master.js --targetAccount="(account name)" --retrieveText="(true/false)" --username="(your account username)" --password="(your account password)" --headless
+	csc instaScraper.cs -r:System.Windows.Forms.dll
+	mono instaScraper.exe
 
 
-For now, the script does need a valid login, but that will change in time when I add a more extensive options menu. The script, as it exists now, only offers the full suite of (finished) data retrieval options. Meaning, every working feature is enabled.
+
+Currently the log-in features are a bit touchy, due to anti-bot measures that instagram has put in place. Until that is sorted, I recommend not using the headless mode, and clicking the "log-in" button manually. This passes the anti-bot check.
