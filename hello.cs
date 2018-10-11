@@ -6,10 +6,10 @@ using System.Windows.Forms;
 
 public class MForm : Form
 {
-    private CheckBox story;
-    private CheckBox retrieveText;
-    private TextBox targetAccount;
+    private CheckBox storyCaptureBox, headlessBrowserBox;
+    private TextBox targetAccount, password, username;
     private Button btn1;
+    private bool captureStory = true, headless = true;
     
     public MForm()
     {
@@ -27,39 +27,56 @@ public class MForm : Form
         sb.Parent = this;
         sb.Text = "Ready";
 
-        story = new CheckBox();
-        story.Parent = this;
-        story.Location = new Point(30, 30);
-        story.Text = "Capture Story";
-        story.Checked = true;
-        story.CheckedChanged += new EventHandler(OnChanged);
+
+        GroupBox groupbox = new GroupBox();
         
-        retrieveText = new CheckBox();
-        retrieveText.Parent = this;
-        retrieveText.Location = new Point(30, 70);
-        retrieveText.Text = "Capture Story";
-        retrieveText.Checked = true;
-        retrieveText.CheckedChanged += new EventHandler(OnChanged);
-
         targetAccount = new TextBox();
-        targetAccount.Parent = this;
-        targetAccount.Location = new Point(30, 110);
-        targetAccount.Text = "Target Account";
-        targetAccount.AcceptsReturn = true;
-        targetAccount.AcceptsTab = true;
-        targetAccount.Dock = DockStyle.Fill;
+        targetAccount.Location = new Point(0, 10);
+        targetAccount.Text = "gwenddalyn";
+        targetAccount.Size = new Size(120, 20);
+        
+        username = new TextBox();
+        username.Location = new Point(0, 50);
+        username.Text = "thunfremlinc";
+        username.Size = new Size(120, 20);
+        
+        password = new TextBox();
+        password.Location = new Point(0, 100);
+        password.Text = "Ma princesse";
+        password.Size = new Size(120, 20);
+        
+        groupbox.Controls.Add(targetAccount);
+        groupbox.Controls.Add(username);
+        groupbox.Controls.Add(password);
+        groupbox.AutoSize = true;
+        groupbox.Enabled = true;
+        this.Controls.Add(groupbox);
 
+        storyCaptureBox = new CheckBox();
+        storyCaptureBox.Parent = this;
+        storyCaptureBox.Location = new Point(30, 150);
+        storyCaptureBox.Text = "Capture Story";
+        storyCaptureBox.Checked = true;
+        storyCaptureBox.CheckedChanged += delegate(object sender, EventArgs e) { OnChanged(sender, e, 0); };
+        
+        headlessBrowserBox = new CheckBox();
+        headlessBrowserBox.Parent = this;
+        headlessBrowserBox.Location = new Point(30, 170);
+        headlessBrowserBox.Text = "Headless";
+        headlessBrowserBox.Checked = true;
+        headlessBrowserBox.CheckedChanged += delegate(object sender, EventArgs e) { OnChanged(sender, e, 1); };
+        
         btn1 = new Button();
         btn1.Text = "Run";
         btn1.Parent = this;
-        btn1.Location = new Point(30, 110);
+        btn1.Location = new Point(30, 210);
         btn1.Click += new EventHandler(button_Click);
 
         Controls.Add(btn1);
 
         try
         {
-            Icon = new Icon("webd.ico");
+            Icon = new Icon("InstaScraper.ico");
         }
         catch (Exception e)
         {
@@ -70,20 +87,18 @@ public class MForm : Form
         CenterToScreen();
     }
 
-    void OnChanged(object sender, EventArgs e)
+    void OnChanged(object sender, EventArgs e, int checkbox)
     {
-        if (story.Checked)
+        switch (checkbox)
         {
-            Text = "Story is set to: true";
-        }
-        else if (retrieveText.Checked)
-        {
-            Text = "retrieve Text";
-        }
-        else
-        {
-            Text = "Instagram Scraper";
-        }
+            case 0:
+                captureStory = !captureStory;
+                Console.WriteLine(captureStory);
+                break;
+            case 1:
+                headless = !headless;
+                break;
+        }    
     }
 
     void OnExit(object sender, EventArgs e)
@@ -93,54 +108,35 @@ public class MForm : Form
     
     private void button_Click(object sender, EventArgs e)
     {
-        FileInfo csp1 = new FileInfo(@"/home/ryan/Repositories/casperjs/bin/casperjs");
-        FileInfo csp2 = new FileInfo(@"/home/ryan/Repositories/casperjs/package.json");
-        FileInfo slm = new FileInfo(@"/home/ryan/node_modules/slimerjs/src");
-        string EnvPath = string.Format(";{0};{1}", slm, csp2);
-
-        DirectoryInfo dir = csp1.Directory;
-        FileInfo path = new FileInfo(@"/usr/bin/python3.6");
-        Console.WriteLine(Environment.GetEnvironmentVariable("SLIMERJS"));
-
         string arg = String.Format("casperjs --engine=slimerjs Master.js --targetAccount" +
-                                   "='Gwenddalyn' --retrieveText='false' --username='thunfremlinc'" +
-                                   " --password='Ma princesse' --headless");
-        ExecutePythonScript(dir, path, arg, EnvPath);
+                                   "='" + targetAccount.Text + "' --retrieveText='false'");
+        if (headlessBrowserBox.Checked)
+        {
+            arg = (arg + " --headless");
+        }
+
+        if (captureStory == true && username.Text != "Account Username" && password.Text != "Account Password")
+        {
+            arg = (arg + " --captureStory='true' --username='" + username.Text + "' --password='"
+                   + password.Text + "'");
+        }
+
+        ExecuteScript(arg);
 
     }
 
-    private static void ExecutePythonScript(DirectoryInfo workingDir, FileInfo pythonPath, string casperArguments, string EnvPath)
+    private static void ExecuteScript(string casperArguments)
     {
-        var p = new Process();
-        p.StartInfo.EnvironmentVariables["PATH"] = EnvPath;
-        p.StartInfo.WorkingDirectory = workingDir.FullName;
-        p.StartInfo.FileName = pythonPath.FullName;
-        p.StartInfo.Arguments = casperArguments;
+        Process p = new System.Diagnostics.Process ();
+        p.StartInfo.FileName = "/bin/bash";
+        p.StartInfo.Arguments = "-c \" " + casperArguments + " \"";
         p.StartInfo.UseShellExecute = false;
-        p.StartInfo.CreateNoWindow = false;
-        p.StartInfo.RedirectStandardError = true;
-        p.StartInfo.RedirectStandardInput = true;
         p.StartInfo.RedirectStandardOutput = true;
-
-        Console.WriteLine(EnvPath);
-
-        p.ErrorDataReceived += (s, e) =>
-        {
-            if (!string.IsNullOrEmpty(e.Data))
-                MessageBox.Show("e> " + e.Data);
-        };
-
-        p.OutputDataReceived += (s, e) =>
-        {
-            if (!string.IsNullOrEmpty(e.Data))
-                MessageBox.Show("->" + e.Data);
-        };
-
         p.Start();
-        p.BeginOutputReadLine();
-        p.BeginErrorReadLine();
-        p.WaitForExit();
-        p.Close();
+        
+        while (!p.StandardOutput.EndOfStream) {
+            Console.WriteLine (p.StandardOutput.ReadLine ());
+        }
     }
     
 }
