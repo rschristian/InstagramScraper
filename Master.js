@@ -21,6 +21,7 @@ const targetAccount = casper.cli.get('targetAccount'),
       retrieveText = casper.cli.get('retrieveText'),
       username = casper.cli.get('username'),
       password = casper.cli.get('password'),
+      captureStory = casper.cli.get('captureStory'),
       t0 = performance.now(),
       path = "/home/ryan/Pictures/" + targetAccount + "/",
       fs = require('fs');
@@ -133,7 +134,6 @@ function enterPost(sel) {
 function profilePicture(arrayURL, arrayNames) {
     casper.waitForSelector(profilePictureClass, function() {
         arrayURL.push(casper.evaluate(getProfilePic, profilePictureClass));
-        console.log("Profile pic name: " + todaysDate());
         arrayNames.push(todaysDate() + " profile");
   })
 }
@@ -193,7 +193,7 @@ function checkAndGrab(arrayURL, arrayNames) {
                 pictsInSet = 1;
                 checkAndGrab(arrayURL, arrayNames);
             } else {
-                console.log("Done");
+                console.log("Finished collecting all post data");
                 casperDone = true;
                 return arrayURL, arrayNames;
             }
@@ -329,10 +329,16 @@ function CleanImgNames(a) {
 
 casper.start('https://www.instagram.com/accounts/login/'
 ).waitForSelector('.-MzZI', function() {
-    logIn();
+    if (username != null) {
+        logIn();
+        console.log("Logged in");
+    } else {
+        console.log("No login details. We can not download the details " +
+            "of a private profile, nor get the story of a private profile.")
+    }
+
 }).then(function() {
-    casper.wait(500, function(){casper.thenOpen('https://www.instagram.com/'
-        + targetAccount + '/')});
+    casper.thenOpen('https://www.instagram.com/' + targetAccount + '/');
 }).waitForSelector(pageContentClass, function() {
     if (casper.exists(pagePrivateClass)) {
       console.log("Account is private");
@@ -341,17 +347,24 @@ casper.start('https://www.instagram.com/accounts/login/'
     }
 }).waitForSelector(storyClass, function() {
     casper.wait(500, function() {
-        if (casper.exists(profileStoryClass)) {
-            console.log("Profile has a story");
+        console.log("Got Here");
+        if (casper.exists(profileStoryClass) && captureStory === true) {
+            console.log("Profile has a story and it is being downloaded.");
             casper.click(profileStoryClass);
             storyCapture(dirtySrcSets, dirtyImgNames);
+        } else if (casper.exists(profileStoryClass) && !captureStory === true) {
+            console.log("Ignoring the user's story.");
+            storyDone = true;
+        } else if (casper.exists(profileStoryClass) && username == null) {
+            console.log("Profile has a story, but without log in details, we can't " +
+                "access it.");
+            storyDone = true;
         } else {
             console.log("User does not have a story. Moving on.");
             storyDone = true;
         }
     });
 }).waitFor(function check(){
-    console.log('Finished Story');
     return storyDone;
 }).then(function() {
     t1 = performance.now();
@@ -361,7 +374,7 @@ casper.start('https://www.instagram.com/accounts/login/'
 }).then(function() {
     profilePicture(dirtySrcSets, dirtyImgNames);
 }).then(function() {
-    console.log("Entering posts grab");
+    console.log("Retrieving all media links");
     if (retrieveText !== true) {
         checkAndGrab(dirtySrcSets, dirtyImgNames);
     } else {
@@ -403,12 +416,12 @@ casper.start('https://www.instagram.com/accounts/login/'
         }
     }
     t4 = performance.now();
-    console.log("Time to load page: " + (t1-t0));
-    console.log("Time to grab all srcsets: " + (t2-t1));
-    console.log("Time per post: " + (t2-t1)/finalisedNames.length);
+    console.log("Time to load page, login, and retrieve story: " + (t1-t0));
+    console.log("Time to retrieve all media links: " + (t2-t1));
+    console.log("Time per post: " + (t2-t1)/(finalisedNames.length -1));
     console.log("Time to clean arrays: " + (t3-t2));
     console.log("Time to download: " + (t4-t3));
-    console.log("Total time taken: " + (t4-t0));
+    console.log("Total time taken: " + (t4-t0) + "\n");
 
 });
 
