@@ -32,7 +32,7 @@ public class MForm : Form
         
         targetAccount = new TextBox();
         targetAccount.Location = new Point(0, 10);
-        targetAccount.Text = "***REMOVED***";
+        targetAccount.Text = "zoe_zep01";
         targetAccount.Size = new Size(120, 20);
         
         username = new TextBox();
@@ -93,7 +93,6 @@ public class MForm : Form
         {
             case 0:
                 captureStory = !captureStory;
-                Console.WriteLine(captureStory);
                 break;
             case 1:
                 headless = !headless;
@@ -108,37 +107,81 @@ public class MForm : Form
     
     private void button_Click(object sender, EventArgs e)
     {
-        string arg = String.Format("casperjs --engine=slimerjs Master.js --targetAccount" +
-                                   "='" + targetAccount.Text + "' --retrieveText='false'");
+        string publicArgs = String.Format("casperjs --engine=slimerjs PublicProfiles.js --targetAccount" +
+                                   "='" + targetAccount.Text + "' --retrieveText='false' -P newProfile");
+        
+        string privateArgs = String.Format("casperjs --engine=slimerjs LoginProfiles.js --targetAccount" +
+                                         "='" + targetAccount.Text + "' --retrieveText='false'" +
+                                         " --username='" + username.Text + "' --password='" +
+                                         password.Text + "' -P newProfile");
+
         if (headlessBrowserBox.Checked)
         {
-            arg = (arg + " --headless");
-        }
+            publicArgs = (publicArgs + " --headless");
+            privateArgs = (privateArgs + " --headless");
 
-        if (captureStory == true && username.Text != "Account Username" && password.Text != "Account Password")
+        } 
+        
+        if (targetAccount.Text == "Target Account")
         {
-            arg = (arg + " --captureStory='true' --username='" + username.Text + "' --password='"
-                   + password.Text + "'");
+            MessageBox.Show("Must provide a valid account", "Instagram Scraper",
+                MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
-
-        ExecuteScript(arg);
-
+        else if (captureStory == true && username.Text == "Account Username")
+        {
+            MessageBox.Show("Capturing stories requires a valid login, due to Instagram's " +
+                            "policies. Please either deselect 'Capture Story', or input login details",
+                            "Instagram Scraper", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        }
+        else if (username.Text != "Account Username" && password.Text != "Account Password")
+        {
+            ExecuteScript(privateArgs);
+        }
+        else if (username.Text == "Account Username")
+        {
+            ExecuteScript(publicArgs); 
+        }
     }
 
-    private static void ExecuteScript(string casperArguments)
+    private void ExecuteScript(string casperArguments)
     {
         Process p = new System.Diagnostics.Process ();
         p.StartInfo.FileName = "/bin/bash";
         p.StartInfo.Arguments = "-c \" " + casperArguments + " \"";
         p.StartInfo.UseShellExecute = false;
+//        Process.EnableRaisingEvents = true;
         p.StartInfo.RedirectStandardOutput = true;
         p.Start();
+
+//        p.Exited += new EventHandler(OnPrivateReturn);
         
         while (!p.StandardOutput.EndOfStream) {
             Console.WriteLine (p.StandardOutput.ReadLine ());
         }
+        
+//        ProcessStartInfo startInfo = new ProcessStartInfo();
+//        startInfo.UseShellExecute = false;
+//        startInfo.FileName = "/bin/bash";
+//        startInfo.Arguments = "-c \" " + casperArguments + " \"";
+//
+//        try
+//        {
+//            Process correctionProcess = Process.Start(startInfo);
+//            correctionProcess.EnableRaisingEvents = true;
+//            correctionProcess.Exited += new EventHandler(OnPrivateReturn);
+//        } 
+//        catch (Exception e)
+//        {
+//            Console.WriteLine(e.Message);
+//        }
     }
-    
+
+    void OnPrivateReturn(object sender, EventArgs e)
+    {
+        MessageBox.Show("Sorry, but the profile is private. You will need to log-in" +
+                        " to download this user's posts.", "Instagram Scraper", MessageBoxButtons.OK, MessageBoxIcon.Error);
+    }
+
 }
 
 class MApplication {
