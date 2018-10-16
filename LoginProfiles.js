@@ -25,6 +25,8 @@ const targetAccount = casper.cli.get('targetAccount'),
       t0 = performance.now(),
       path = "/home/ryan/Pictures/" + targetAccount + "/",
       fs = require('fs');
+
+
 let t1,
     t2,
     t3,
@@ -84,6 +86,13 @@ const
     //WIP
     commentsUserClass = ".FPmhX",
     commentsTextClass = ".gElp9";
+
+// phantom.cookies.forEach(function (v) {
+//     if (v.name === "sessionid") {
+//         console.log(v.value);
+//         console.log(v.domain);
+//     }
+// });
 
 //Logs in to Instagram (necessary to view posts or private profiles)
 function logIn() {
@@ -327,27 +336,20 @@ function CleanImgNames(a) {
 
 
 
-casper.start('https://www.instagram.com/accounts/login/'
-).waitForSelector('.-MzZI', function() {
-    if (username != null) {
-        logIn();
-        console.log("Logged in");
-    } else {
-        console.log("No login details. We can not download the details " +
-            "of a private profile, nor get the story of a private profile.")
-    }
-
-}).then(function() {
-    casper.thenOpen('https://www.instagram.com/' + targetAccount + '/');
-}).waitForSelector(pageContentClass, function() {
+casper.start('https://www.instagram.com/' + targetAccount + '/'
+).waitForSelector(pageContentClass, function() {
+    // phantom.addCookie({
+    //     'name': "sessionid",
+    //     'value': "IGSC59e64fbfd66817fdb37c7ffb7804868e2fdcf9273cff626c7b8efda22a305454%3AHSzRvf1SM5T0p3Ii3nUmHV0P0BkCLN4T%3A%7B%22_auth_user_id%22%3A1754178657%2C%22_auth_user_backend%22%3A%22accounts.backends.CaseInsensitiveModelBackend%22%2C%22_auth_user_hash%22%3A%22%22%2C%22_platform%22%3A4%2C%22_token_ver%22%3A2%2C%22_token%22%3A%221754178657%3AZ6PUfbQBaFXicYmJsMZXKjdSW4A0ClwY%3Ad72ccc9b1fad789d0fc03b894d70469a954b77c41b271c9a141d6aca345f5760%22%2C%22last_refreshed%22%3A1539550276.0981733799%7D",
+    //     'domain': ".instagram.com"
+    // });
     if (casper.exists(pagePrivateClass)) {
-      console.log("Account is private");
+      console.log("Account is private and user does not have access");
     } else {
-      console.log("Account is public");
+      console.log("Account is accessible");
     }
 }).waitForSelector(storyClass, function() {
     casper.wait(500, function() {
-        console.log("Got Here");
         if (casper.exists(profileStoryClass) && captureStory === true) {
             console.log("Profile has a story and it is being downloaded.");
             casper.click(profileStoryClass);
@@ -386,12 +388,12 @@ casper.start('https://www.instagram.com/accounts/login/'
     return casperDone;
 }).then(function() {
     cleanSrcSets(dirtySrcSets);
-    console.log("Number of Links: " + finalisedLinks.length);
+    // console.log("Number of Links: " + finalisedLinks.length);
     //for (let i =0; i<finalisedLinks.length; i++) {
         //console.log(i + "; " + finalisedLinks[i]);
     //}
     CleanImgNames(dirtyImgNames);
-    console.log("Number of Names: " + finalisedNames.length);
+    // console.log("Number of Names: " + finalisedNames.length);
     //for (let i =0; i<finalisedNames.length; i++) {
         //console.log(i + "; " + finalisedNames[i]);
     //}
