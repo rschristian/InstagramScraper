@@ -87,13 +87,6 @@ const
     commentsUserClass = ".FPmhX",
     commentsTextClass = ".gElp9";
 
-// phantom.cookies.forEach(function (v) {
-//     if (v.name === "sessionid") {
-//         console.log(v.value);
-//         console.log(v.domain);
-//     }
-// });
-
 //Logs in to Instagram (necessary to view posts or private profiles)
 function logIn() {
     casper.sendKeys('input[name=username]', username);
@@ -345,23 +338,14 @@ casper.start('https://www.instagram.com/' + targetAccount + '/'
       console.log("Account is accessible");
     }
 }).waitForSelector(storyClass, function() {
-    casper.wait(500, function() {
-        if (casper.exists(profileStoryClass) && captureStory === true) {
-            console.log("Profile has a story and it is being downloaded.");
-            casper.click(profileStoryClass);
-            storyCapture(dirtySrcSets, dirtyImgNames);
-        } else if (casper.exists(profileStoryClass) && !captureStory === true) {
-            console.log("Ignoring the user's story.");
-            storyDone = true;
-        } else if (casper.exists(profileStoryClass) && username == null) {
-            console.log("Profile has a story, but without log in details, we can't " +
-                "access it.");
-            storyDone = true;
-        } else {
-            console.log("User does not have a story. Moving on.");
-            storyDone = true;
-        }
-    });
+    if (casper.exists(profileStoryClass) && username == null) {
+        console.log("Profile has a story, but without log in details, we can't " +
+            "access it.");
+        storyDone = true;
+    } else {
+        console.log("User does not have a story.");
+        storyDone = true;
+    }
 }).waitFor(function check(){
     return storyDone;
 }).then(function() {
