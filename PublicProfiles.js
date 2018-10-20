@@ -2,14 +2,6 @@
 // noinspection JSUnusedGlobalSymbols
 const casper = require("casper").create({
   viewportSize: {width: 19200, height:480},
-  waitTimeout: 100000,
-  stepTimeout: 105000,
-  onWaitTimeout: function() {
-    console.log("Wait timed out");
-  },
-  onStepTimeout: function() {
-    console.log("Step timed out");
-  },
   pageSettings: {
     loadImages: false,
     loadPlugins: false
@@ -19,9 +11,6 @@ const casper = require("casper").create({
 //Global variables
 const targetAccount = casper.cli.get('targetAccount'),
       retrieveText = casper.cli.get('retrieveText'),
-      username = casper.cli.get('username'),
-      password = casper.cli.get('password'),
-      captureStory = casper.cli.get('captureStory'),
       t0 = performance.now(),
       path = "/home/ryan/Pictures/" + targetAccount + "/",
       fs = require('fs');
@@ -35,10 +24,8 @@ let t1,
     finalisedLinks = [],
     dirtyImgNames = [],
     finalisedNames = [],
-    logInSuccess = false,
     comments = [],
     profileText = [],
-    pictsInStory = [],
     pictsInSet = 1,
     post = {},
     storyDone = false,
@@ -58,28 +45,19 @@ const
     //Story existence status
     profileStoryClass = '.h5uC0',
 
-    //Class for nav chevron, ensuring necessary classes have been loaded
-    storyRootClass = '.ow3u_',
-
-    //If story is a video, this class exists
-    storyVideoSrcClass = '.OFkrO source',
-
-    //This class will exist no matter what (video thumbnail)
-    storyImageSrcClass = '._7NpAS',
-
     //Each post has this class assigned to it
     postsClass = 'div._bz0w a',
 
     //Profile pic (both in post and on main page) has this class
     profilePictureClass = "._6q-tv",
 
-    //Dictates when post is single item or an album
+    //Decides if post is single item or an album
     chevronRootClass = "._97aPb ",
 
     //If post item is a video, this will exist
     videoSrcClass = ".tWeCl",
 
-    //This class will exist for each post item
+    //This class will exist for each post item (thumbnails)
     imageSrcClass = ".FFVAD",
 
 
@@ -87,42 +65,6 @@ const
     commentsUserClass = ".FPmhX",
     commentsTextClass = ".gElp9";
 
-//Logs in to Instagram (necessary to view posts or private profiles)
-function logIn() {
-    casper.sendKeys('input[name=username]', username);
-    casper.sendKeys('input[name=password]', password);
-    casper.wait(1500, function() {
-        casper.click('.oF4XW');
-    });
-    if (!casper.exists('#slfErrorAlert')) {
-        logInSuccess = true;
-    }
-}
-
-//Retrieves the story items from the profile
-function storyCapture(arrayURL, arrayNames) {
-    casper.wait(500, function(){
-        if (casper.exists(storyRootClass)) {
-            pictsInStory++;
-            if (casper.exists(storyVideoSrcClass)) {
-                const vidURL = casper.evaluate(getVideoSrc, storyVideoSrcClass).toString().split(',');
-                arrayURL.push(vidURL[0]);
-            } else {
-                const partsOfStr = casper.evaluate(getVideoSrc, storyImageSrcClass).toString().split(',');
-                arrayURL.push(partsOfStr[partsOfStr.length-1]);
-            }
-            casper.click(storyRootClass);
-            storyCapture(arrayURL, arrayNames);
-        } else {
-            for (pictsInStory; pictsInStory>0; pictsInStory--) {
-                arrayNames.push(todaysDate() + " story " + pictsInStory);
-            }
-            storyDone = true;
-            return arrayURL, arrayNames;
-        }
-    })
-
-}
 
 //Gets the links for the image to then enter the first one
 function enterPost(sel) {
@@ -338,7 +280,7 @@ casper.start('https://www.instagram.com/' + targetAccount + '/'
       console.log("Account is accessible");
     }
 }).waitForSelector(storyClass, function() {
-    if (casper.exists(profileStoryClass) && username == null) {
+    if (casper.exists(profileStoryClass)) {
         console.log("Profile has a story, but without log in details, we can't " +
             "access it.");
         storyDone = true;
@@ -356,7 +298,7 @@ casper.start('https://www.instagram.com/' + targetAccount + '/'
 }).then(function() {
     profilePicture(dirtySrcSets, dirtyImgNames);
 }).then(function() {
-    console.log("Retrieving all media links");
+    console.log("Retrieving media links");
     if (retrieveText !== true) {
         checkAndGrab(dirtySrcSets, dirtyImgNames);
     } else {
@@ -388,6 +330,7 @@ casper.start('https://www.instagram.com/' + targetAccount + '/'
             }
         }
     }
+
     post['7-14-2018'] = ["G:happy birthday toddy!! #dadeo, C:ll,G:yy"];
     post['7-15-2018'] = ["G: Yoinks Scoob, C: Heylo"];
     for (let x in post) {
