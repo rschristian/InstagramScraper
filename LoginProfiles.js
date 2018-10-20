@@ -87,12 +87,6 @@ const
     commentsUserClass = ".FPmhX",
     commentsTextClass = ".gElp9";
 
-// phantom.cookies.forEach(function (v) {
-//     if (v.name === "sessionid") {
-//         console.log(v.value);
-//         console.log(v.domain);
-//     }
-// });
 
 //Logs in to Instagram (necessary to view posts or private profiles)
 function logIn() {

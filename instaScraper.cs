@@ -108,18 +108,18 @@ public class MForm : Form
     private void button_Click(object sender, EventArgs e)
     {
         string publicArgs = String.Format("casperjs --engine=slimerjs PublicProfiles.js --targetAccount" +
-                                   "='" + targetAccount.Text + "' --retrieveText='false' -P newProfile");
+                                   "='" + targetAccount.Text + "' --retrieveText='false' --captureStory='" +
+                                          captureStory + "' -P newProfile");
         
         string privateArgs = String.Format("casperjs --engine=slimerjs LoginProfiles.js --targetAccount" +
-                                         "='" + targetAccount.Text + "' --retrieveText='false'" +
-                                         " --username='" + username.Text + "' --password='" +
+                                         "='" + targetAccount.Text + "' --retrieveText='false' --captureStory='" +
+                                         captureStory + "' --username='" + username.Text + "' --password='" +
                                          password.Text + "' -P newProfile");
 
         if (headlessBrowserBox.Checked)
         {
             publicArgs = (publicArgs + " --headless");
             privateArgs = (privateArgs + " --headless");
-
         } 
         
         if (targetAccount.Text == "Target Account")
@@ -135,6 +135,7 @@ public class MForm : Form
         }
         else if (username.Text != "Account Username" && password.Text != "Account Password")
         {
+            Console.WriteLine(privateArgs);
             ExecuteScript(privateArgs);
         }
         else if (username.Text == "Account Username")
