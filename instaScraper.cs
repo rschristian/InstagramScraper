@@ -9,7 +9,7 @@ public class MForm : Form
     private CheckBox storyCaptureBox, headlessBrowserBox;
     private TextBox targetAccount, password, username;
     private Button btn1;
-    private bool captureStory = true, headless = true;
+    private bool captureStory = false, headless = true;
     
     public MForm()
     {
@@ -32,12 +32,12 @@ public class MForm : Form
         
         targetAccount = new TextBox();
         targetAccount.Location = new Point(0, 10);
-        targetAccount.Text = "zoe_zep01";
+        targetAccount.Text = "gwenddalyn";
         targetAccount.Size = new Size(120, 20);
         
         username = new TextBox();
         username.Location = new Point(0, 50);
-        username.Text = "thunfremlinc";
+        username.Text = "Account Username";
         username.Size = new Size(120, 20);
         
         password = new TextBox();
@@ -56,7 +56,7 @@ public class MForm : Form
         storyCaptureBox.Parent = this;
         storyCaptureBox.Location = new Point(30, 150);
         storyCaptureBox.Text = "Capture Story";
-        storyCaptureBox.Checked = true;
+        storyCaptureBox.Checked = false;
         storyCaptureBox.CheckedChanged += delegate(object sender, EventArgs e) { OnChanged(sender, e, 0); };
         
         headlessBrowserBox = new CheckBox();
