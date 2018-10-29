@@ -32,9 +32,7 @@ let t1,
     t3,
     t4,
     dirtySrcSets = [],
-    finalisedLinks = [],
     dirtyImgNames = [],
-    finalisedNames = [],
     logInSuccess = false,
     comments = [],
     profileText = [],
@@ -313,16 +311,9 @@ function getImageSrc(sel) {
     });
 }
 
-function cleanSrcSets(a) {
+function cleanDataSets(a) {
     let seen = {};
-    finalisedLinks = a.filter(function(item) {
-        return seen.hasOwnProperty(item) ? false : (seen[item] = true);
-    });
-}
-
-function CleanImgNames(a) {
-    let seen = {};
-    finalisedNames = a.filter(function(item) {
+    return a.filter(function (item) {
         return seen.hasOwnProperty(item) ? false : (seen[item] = true);
     });
 }
@@ -338,7 +329,10 @@ casper.start('https://www.instagram.com/' + targetAccount + '/'
     //     'domain': ".instagram.com"
     // });
     if (casper.exists(pagePrivateClass)) {
-      console.log("Account is private and user does not have access");
+        console.log("Error: Account is private and user does not have access. " +
+            "You will need to request to follow this user, or log in " +
+            "with a different account." + "\n");
+        casper.exit();
     } else {
       console.log("Account is accessible");
     }
@@ -381,12 +375,12 @@ casper.start('https://www.instagram.com/' + targetAccount + '/'
     t2 = performance.now();
     return casperDone;
 }).then(function() {
-    cleanSrcSets(dirtySrcSets);
+    const finalisedLinks = cleanDataSets(dirtySrcSets);
     // console.log("Number of Links: " + finalisedLinks.length);
     //for (let i =0; i<finalisedLinks.length; i++) {
         //console.log(i + "; " + finalisedLinks[i]);
     //}
-    CleanImgNames(dirtyImgNames);
+    const finalisedNames = cleanDataSets(dirtyImgNames);
     // console.log("Number of Names: " + finalisedNames.length);
     //for (let i =0; i<finalisedNames.length; i++) {
         //console.log(i + "; " + finalisedNames[i]);
