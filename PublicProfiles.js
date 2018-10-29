@@ -22,8 +22,8 @@ let t1,
     t4,
     dirtySrcSets = [],
     dirtyImgNames = [],
+    commentsUsers = [],
     comments = [],
-    profileText = [],
     pictsInSet = 1,
     post = {},
     storyDone = false,
@@ -184,15 +184,19 @@ function retrievePostTextData(arrayURL, arrayNames) {
                 arrayNames.push(refineTimeStamp() + " " + pictsInSet);
             }
 
-            let usrList = casper.evaluate(getUser, commentsUserClass);
-            comments.push(usrList.splice(0,1));
-            console.log(usrList);
+            let userList = casper.evaluate(getUser, commentsUserClass);
+            userList.shift();
+            commentsUsers.push(userList);
+            // console.log(userList);
+            // console.log("UserList Length: " + userList.length);
             let postComments = casper.evaluate(getComments, commentsTextClass);
-            console.log(postComments);
+            // console.log(postComments);
+            // console.log("Post Comments Length: " + postComments.length);
+            comments.push(postComments);
 
-            for (let i = 0; i<postComments.length; i++){
-                console.log(postComments[i]);
-            }
+            // for (let i = 0; i<postComments.length; i++){
+            //     console.log(postComments[i]);
+            // }
 
             if (casper.exists(".coreSpriteRightPaginationArrow")){
                 casper.click(".coreSpriteRightPaginationArrow");
@@ -288,7 +292,9 @@ function cleanDataSets(a) {
 casper.start('https://www.instagram.com/' + targetAccount + '/'
 ).waitForSelector(pageContentClass, function() {
     if (casper.exists(pagePrivateClass)) {
-      console.log("Error: Account is private and user does not have access");
+      console.log("Error: Account is private and you are not logged in. " +
+          "You will need to log in with an account that has permission " +
+          "to view this user's page." + "\n");
       casper.exit();
     } else {
       console.log("Account is accessible");
@@ -333,6 +339,13 @@ casper.start('https://www.instagram.com/' + targetAccount + '/'
     //for (let i =0; i<finalisedNames.length; i++) {
         //console.log(i + "; " + finalisedNames[i]);
     //}
+    const finalisedCommentsUsers = cleanDataSets(commentsUsers);
+    console.log("Number of posts with comments: " + finalisedCommentsUsers.length);
+    for (let i =0; i<finalisedCommentsUsers.length; i++) {
+    console.log(i + "; " + finalisedCommentsUsers[i]);
+    }
+    const finalisedComments = cleanDataSets(comments);
+    console.log("Number of posts with comments: " + finalisedComments.length);
     console.log("Downloading....");
     t3 = performance.now();
     for (let i = 0; i<finalisedLinks.length; i++) {
@@ -345,15 +358,16 @@ casper.start('https://www.instagram.com/' + targetAccount + '/'
         }
     }
 
-    post['7-14-2018'] = ["G:happy birthday toddy!! #dadeo, C:ll,G:yy"];
-    post['7-15-2018'] = ["G: Yoinks Scoob, C: Heylo"];
-    for (let x in post) {
-        console.log(x);
-        let values = post[x];
-        for (let y in values) {
-            console.log(values[y]);
-        }
-    }
+    // post['7-14-2018'] = ["G:happy birthday toddy!! #dadeo, C:ll,G:yy"];
+    // post['7-15-2018'] = ["G: Yoinks Scoob, C: Heylo"];
+    // for (let x in post) {
+    //     console.log(x);
+    //     let values = post[x];
+    //     for (let y in values) {
+    //         console.log(values[y]);
+    //     }
+    // }
+
     t4 = performance.now();
     console.log("Time to load page, login, and retrieve story: " + (t1-t0));
     console.log("Time to retrieve all media links: " + (t2-t1));
