@@ -1,0 +1,4 @@
+*TODO*
+Allow users to input where they want images saved
+Fix login issues
+Have scraper expand comments to make sure all are collected
