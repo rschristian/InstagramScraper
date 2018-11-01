@@ -1,5 +1,3 @@
-// noinspection JSUnusedGlobalSymbols
-// noinspection JSUnusedGlobalSymbols
 const casper = require("casper").create({
   viewportSize: {width: 19200, height:480},
   pageSettings: {
@@ -62,6 +60,7 @@ const
     //WIP
     commentsUserClass = ".FPmhX",
     commentsTextClass = "div.C4VMK span";
+
 
 
 //Gets the links for the image to then enter the first one
@@ -186,10 +185,13 @@ function retrievePostTextData(arrayURL, arrayNames) {
 
             let userList = casper.evaluate(getUser, commentsUserClass);
             userList.shift();
+            userList.unshift(casper.evaluate(getTime));
             commentsUsers.push(userList);
             // console.log(userList);
             // console.log("UserList Length: " + userList.length);
+
             let postComments = casper.evaluate(getComments, commentsTextClass);
+            postComments.unshift(casper.evaluate(getTime));
             // console.log(postComments);
             // console.log("Post Comments Length: " + postComments.length);
             comments.push(postComments);
@@ -340,12 +342,14 @@ casper.start('https://www.instagram.com/' + targetAccount + '/'
         //console.log(i + "; " + finalisedNames[i]);
     //}
     const finalisedCommentsUsers = cleanDataSets(commentsUsers);
-    console.log("Number of posts with comments: " + finalisedCommentsUsers.length);
-    for (let i =0; i<finalisedCommentsUsers.length; i++) {
-    console.log(i + "; " + finalisedCommentsUsers[i]);
-    }
+    console.log("Number of posts with commentators: " + finalisedCommentsUsers.length);
+    // for (let i =0; i<finalisedCommentsUsers.length; i++) {
+    //     console.log(i + "; " + finalisedCommentsUsers[i]);
+    // }
     const finalisedComments = cleanDataSets(comments);
     console.log("Number of posts with comments: " + finalisedComments.length);
+
+
     console.log("Downloading....");
     t3 = performance.now();
     for (let i = 0; i<finalisedLinks.length; i++) {
@@ -357,6 +361,16 @@ casper.start('https://www.instagram.com/' + targetAccount + '/'
             }
         }
     }
+
+    for (let i = 0; i<finalisedCommentsUsers.length; i++) {
+        for (let t = 1; t<finalisedCommentsUsers[i].length; t++) {
+            fs.write(path+'text/'+(finalisedCommentsUsers[i])[0] + '.txt',
+                (finalisedCommentsUsers[i])[t] + ": " + (finalisedComments[i])[t] +'\n', 'a');
+        }
+    }
+
+
+
 
     // post['7-14-2018'] = ["G:happy birthday toddy!! #dadeo, C:ll,G:yy"];
     // post['7-15-2018'] = ["G: Yoinks Scoob, C: Heylo"];
