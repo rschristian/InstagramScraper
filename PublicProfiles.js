@@ -93,7 +93,7 @@ function getProfilePic(sel) {
 //If so, it adds the img srcset to an array, clicks on that chevron,
 //then checks again. Once there is only a left chevron, it returns the
 //entire array of srcsets for that post. video class: _l6uaz img class: _2di5p
-function retrievePostDate(arrayURL, arrayNames) {
+function retrievePostData(arrayURL, arrayNames) {
     casper.waitForSelector(chevronRootClass, function(){
         if (casper.exists(".coreSpriteRightChevron")) {
             pictsInSet++;
@@ -112,7 +112,7 @@ function retrievePostDate(arrayURL, arrayNames) {
                 }
             }
             casper.click(".coreSpriteRightChevron");
-            retrievePostDate(arrayURL, arrayNames);
+            retrievePostData(arrayURL, arrayNames);
         } else if (!casper.exists(".coreSpriteRightChevron")) {
             if (casper.exists(videoSrcClass)) {
                 const vidURL = casper.evaluate(getVideoSrc, videoSrcClass).toString().split(',');
@@ -134,7 +134,7 @@ function retrievePostDate(arrayURL, arrayNames) {
             if (casper.exists(".coreSpriteRightPaginationArrow")){
                 casper.click(".coreSpriteRightPaginationArrow");
                 pictsInSet = 1;
-                retrievePostDate(arrayURL, arrayNames);
+                retrievePostData(arrayURL, arrayNames);
             } else {
                 console.log("Finished collecting all post data");
                 casperDone = true;
@@ -320,11 +320,11 @@ casper.start('https://www.instagram.com/' + targetAccount + '/'
 }).then(function() {
     profilePicture(dirtySrcSets, dirtyImgNames);
 }).then(function() {
-    console.log("Retrieving media links");
     if (retrieveText !== true) {
-        retrievePostDate(dirtySrcSets, dirtyImgNames);
+        console.log("Retrieving media links");
+        retrievePostData(dirtySrcSets, dirtyImgNames);
     } else {
-        console.log("Retrieving Text");
+        console.log("Retrieving media links and text");
         retrievePostTextData(dirtySrcSets, dirtyImgNames);
     }
 }).waitFor(function check(){
