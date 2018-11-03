@@ -33,12 +33,12 @@ let t1,
     t4,
     dirtySrcSets = [],
     dirtyImgNames = [],
-    logInSuccess = false,
+    commentsUsers = [],
     comments = [],
-    profileText = [],
     pictsInStory = [],
     pictsInSet = 1,
     post = {},
+    logInSuccess = false,
     storyDone = false,
     casperDone = false;
 
@@ -83,7 +83,7 @@ const
 
     //WIP
     commentsUserClass = ".FPmhX",
-    commentsTextClass = ".gElp9";
+    commentsTextClass = "div.C4VMK span";
 
 
 //Logs in to Instagram (necessary to view posts or private profiles)
@@ -127,16 +127,17 @@ function storyCapture(arrayURL, arrayNames) {
 function enterPost(sel) {
     const links = document.querySelectorAll(sel);
     return Array.prototype.map.call(links, function(e) {
-      return e.getAttribute('href')
+        return e.getAttribute('href')
     });
 }
+
 
 //Handles retrieving the profile picture and getting the proper name for it
 function profilePicture(arrayURL, arrayNames) {
     casper.waitForSelector(profilePictureClass, function() {
         arrayURL.push(casper.evaluate(getProfilePic, profilePictureClass));
         arrayNames.push(todaysDate() + " profile");
-  })
+    })
 }
 
 //Retrieves the profile pic from the page
@@ -147,11 +148,12 @@ function getProfilePic(sel) {
     });
 }
 
+
 //Recursive function that first checks if there is a right chevron.
 //If so, it adds the img srcset to an array, clicks on that chevron,
 //then checks again. Once there is only a left chevron, it returns the
 //entire array of srcsets for that post. video class: _l6uaz img class: _2di5p
-function checkAndGrab(arrayURL, arrayNames) {
+function retrievePostData(arrayURL, arrayNames) {
     casper.waitForSelector(chevronRootClass, function(){
         if (casper.exists(".coreSpriteRightChevron")) {
             pictsInSet++;
@@ -170,7 +172,7 @@ function checkAndGrab(arrayURL, arrayNames) {
                 }
             }
             casper.click(".coreSpriteRightChevron");
-            checkAndGrab(arrayURL, arrayNames);
+            retrievePostData(arrayURL, arrayNames);
         } else if (!casper.exists(".coreSpriteRightChevron")) {
             if (casper.exists(videoSrcClass)) {
                 const vidURL = casper.evaluate(getVideoSrc, videoSrcClass).toString().split(',');
@@ -192,7 +194,7 @@ function checkAndGrab(arrayURL, arrayNames) {
             if (casper.exists(".coreSpriteRightPaginationArrow")){
                 casper.click(".coreSpriteRightPaginationArrow");
                 pictsInSet = 1;
-                checkAndGrab(arrayURL, arrayNames);
+                retrievePostData(arrayURL, arrayNames);
             } else {
                 console.log("Finished collecting all post data");
                 casperDone = true;
@@ -202,50 +204,71 @@ function checkAndGrab(arrayURL, arrayNames) {
     })
 }
 
-// function checkGrabText(arrayURL, arrayNames) {
-//     casper.waitForSelector(chevronRootClass, function(){
-//         if (casper.exists(".coreSpriteRightChevron")) {
-//             pictsInSet++;
-//             const vidURL = casper.evaluate(getMediaSrc, videoSrcClass);
-//             if (vidURL.length > 0) {
-//                 arrayURL.push(vidURL);
-//             } else {
-//                 const partsOfStr = casper.evaluate(getMediaSrc, imageSrcClass).toString().split(',');
-//                 arrayURL.push(partsOfStr[partsOfStr.length-1]);
-//             }
-//             casper.click(".coreSpriteRightChevron");
-//             checkGrabText(arrayURL, arrayNames);
-//         } else if (!casper.exists(".coreSpriteRightChevron")) {
-//             const vidURL = casper.evaluate(getMediaSrc, videoSrcClass);
-//             if (vidURL.length > 0) {
-//                 arrayURL.push(vidURL);
-//             } else {
-//                 const partsOfStr = casper.evaluate(getMediaSrc, imageSrcClass).toString().split(',');
-//                 arrayURL.push(partsOfStr[partsOfStr.length-1]);
-//             }
-//             for (pictsInSet; pictsInSet>0; pictsInSet--) {
-//                 arrayNames.push(refineTimeStamp() + " " + pictsInSet);
-//             }
-//             let usrList = casper.evaluate(getUser, commentsUserClass);
-//             comments.push(usrList.splice(0,1));
-//             console.log(usrList);
-//             let postComments = casper.evaluate(getComments, commentsTextClass);
-//             console.log(postComments);
-//             // for (let i = 0; i<usrList.length; i++){
-//             //     console.log(usrList[i]);
-//             // }
-//             if (casper.exists(".coreSpriteRightPaginationArrow")){
-//                 casper.click(".coreSpriteRightPaginationArrow");
-//                 pictsInSet = 1;
-//                 checkGrabText(arrayURL, arrayNames);
-//             } else {
-//                 console.log("Done");
-//                 casperDone = true;
-//                 return arrayURL, arrayNames;
-//             }
-//         }
-//     })
-// }
+function retrievePostTextData(arrayURL, arrayNames) {
+    casper.waitForSelector(chevronRootClass, function(){
+        if (casper.exists(".coreSpriteRightChevron")) {
+            pictsInSet++;
+            if (casper.exists(videoSrcClass)) {
+                const vidURL = casper.evaluate(getVideoSrc, videoSrcClass).toString().split(',');
+                for (let i = 0; i<vidURL.length; i++) {
+                    arrayURL.push(vidURL[i]);
+                }
+            }
+            if (casper.exists(imageSrcClass)) {
+                const partsOfStr = casper.evaluate(getImageSrc, imageSrcClass).toString().split(',');
+                for (let i =0; i<partsOfStr.length; i++) {
+                    if (partsOfStr[i].includes("1080w")) {
+                        arrayURL.push(partsOfStr[i].toString().slice(0,-6));
+                    }
+                }
+            }
+            casper.click(".coreSpriteRightChevron");
+            retrievePostTextData(arrayURL, arrayNames);
+        } else if (!casper.exists(".coreSpriteRightChevron")) {
+            if (casper.exists(videoSrcClass)) {
+                const vidURL = casper.evaluate(getVideoSrc, videoSrcClass).toString().split(',');
+                for (let i = 0; i<vidURL.length; i++) {
+                    arrayURL.push(vidURL[i]);
+                }
+            }
+            if (casper.exists(imageSrcClass)) {
+                const partsOfStr = casper.evaluate(getImageSrc, imageSrcClass).toString().split(',');
+                for (let i =0; i<partsOfStr.length; i++) {
+                    if (partsOfStr[i].includes("1080w")) {
+                        arrayURL.push(partsOfStr[i].toString().slice(0,-6));
+                    }
+                }
+            }
+            for (pictsInSet; pictsInSet>0; pictsInSet--) {
+                arrayNames.push(refineTimeStamp() + " " + pictsInSet);
+            }
+
+            let userList = casper.evaluate(getUser, commentsUserClass);
+            userList.shift();
+            userList.unshift(casper.evaluate(getTime));
+            commentsUsers.push(userList);
+
+            let postComments = casper.evaluate(getComments, commentsTextClass);
+            postComments.unshift(casper.evaluate(getTime));
+            comments.push(postComments);
+
+            // for (let i = 0; i<postComments.length; i++){
+            //     console.log(postComments[i]);
+            // }
+
+            if (casper.exists(".coreSpriteRightPaginationArrow")){
+                casper.click(".coreSpriteRightPaginationArrow");
+                pictsInSet = 1;
+                retrievePostTextData(arrayURL, arrayNames);
+            } else {
+                console.log("Done");
+                casperDone = true;
+                return arrayURL, arrayNames;
+            }
+        }
+    })
+}
+
 
 function todaysDate() {
     let today = new Date();
@@ -265,14 +288,6 @@ function todaysDate() {
     return today;
 }
 
-//Gets the time to name the pictures with
-function getTime() {
-    const scripts = document.querySelectorAll('time[datetime]');
-    return Array.prototype.map.call(scripts, function (e) {
-        return e.getAttribute('datetime');
-    });
-}
-
 //Refines the the time stamp into a usable name for a file
 function refineTimeStamp() {
     let timeStamp = String(casper.evaluate(getTime));
@@ -282,19 +297,14 @@ function refineTimeStamp() {
     return timeStamp;
 }
 
-function getUser(sel) {
-    const scripts = document.querySelectorAll(sel);
+//Gets the time to name the pictures with
+function getTime() {
+    const scripts = document.querySelectorAll('time[datetime]');
     return Array.prototype.map.call(scripts, function (e) {
-        return e.getAttribute("title");
+        return e.getAttribute('datetime');
     });
 }
 
-function getComments(sel) {
-    const scripts = document.querySelectorAll(sel);
-    return Array.prototype.map.call(scripts, function (e) {
-        return e.getHTML("span");
-    });
-}
 
 //Gets the image srcsets from the page
 function getVideoSrc(sel) {
@@ -310,6 +320,22 @@ function getImageSrc(sel) {
         return e.getAttribute("srcset");
     });
 }
+
+
+function getUser(sel) {
+    const scripts = document.querySelectorAll(sel);
+    return Array.prototype.map.call(scripts, function (e) {
+        return e.getAttribute("title");
+    });
+}
+
+function getComments(sel) {
+    const scripts = document.querySelectorAll(sel);
+    return Array.prototype.map.call(scripts, function (e) {
+        return e.textContent;
+    });
+}
+
 
 function cleanDataSets(a) {
     let seen = {};
@@ -345,12 +371,8 @@ casper.start('https://www.instagram.com/' + targetAccount + '/'
         } else if (casper.exists(profileStoryClass) && !captureStory === true) {
             console.log("Ignoring the user's story.");
             storyDone = true;
-        } else if (casper.exists(profileStoryClass) && username == null) {
-            console.log("Profile has a story, but without log in details, we can't " +
-                "access it.");
-            storyDone = true;
         } else {
-            console.log("User does not have a story. Moving on.");
+            console.log("User does not have a story.");
             storyDone = true;
         }
     });
@@ -364,12 +386,12 @@ casper.start('https://www.instagram.com/' + targetAccount + '/'
 }).then(function() {
     profilePicture(dirtySrcSets, dirtyImgNames);
 }).then(function() {
-    console.log("Retrieving all media links");
     if (retrieveText !== true) {
-        checkAndGrab(dirtySrcSets, dirtyImgNames);
+        console.log("Retrieving media links");
+        retrievePostData(dirtySrcSets, dirtyImgNames);
     } else {
-        console.log("Retrieving Text");
-        checkGrabText(dirtySrcSets, dirtyImgNames);
+        console.log("Retrieving media links and text");
+        retrievePostTextData(dirtySrcSets, dirtyImgNames);
     }
 }).waitFor(function check(){
     t2 = performance.now();
@@ -385,6 +407,14 @@ casper.start('https://www.instagram.com/' + targetAccount + '/'
     //for (let i =0; i<finalisedNames.length; i++) {
         //console.log(i + "; " + finalisedNames[i]);
     //}
+    const finalisedCommentsUsers = cleanDataSets(commentsUsers);
+    // console.log("Number of posts with commentators: " + finalisedCommentsUsers.length);
+    // for (let i =0; i<finalisedCommentsUsers.length; i++) {
+    //     console.log(i + "; " + finalisedCommentsUsers[i]);
+    // }
+    const finalisedComments = cleanDataSets(comments);
+    // console.log("Number of posts with comments: " + finalisedComments.length);
+
     console.log("Downloading....");
     t3 = performance.now();
     for (let i = 0; i<finalisedLinks.length; i++) {
@@ -396,15 +426,26 @@ casper.start('https://www.instagram.com/' + targetAccount + '/'
             }
         }
     }
-    post['7-14-2018'] = ["G:happy birthday toddy!! #dadeo, C:ll,G:yy"];
-    post['7-15-2018'] = ["G: Yoinks Scoob, C: Heylo"];
-    for (let x in post) {
-        //console.log(x);
-        let values = post[x];
-        for (let y in values) {
-            //console.log(values[y]);
+
+    for (let i = 0; i<finalisedCommentsUsers.length; i++) {
+        for (let t = 1; t<finalisedCommentsUsers[i].length; t++) {
+            fs.write(path+'text/'+(finalisedCommentsUsers[i])[0] + '.txt',
+                (finalisedCommentsUsers[i])[t] + ": " + (finalisedComments[i])[t] +'\n', 'a');
         }
     }
+
+
+    // post['7-14-2018'] = ["G:happy birthday toddy!! #dadeo, C:ll,G:yy"];
+    // post['7-15-2018'] = ["G: Yoinks Scoob, C: Heylo"];
+    // for (let x in post) {
+    //     //console.log(x);
+    //     let values = post[x];
+    //     for (let y in values) {
+    //         //console.log(values[y]);
+    //     }
+    // }
+
+
     t4 = performance.now();
     console.log("Time to load page, login, and retrieve story: " + (t1-t0));
     console.log("Time to retrieve all media links: " + (t2-t1));
