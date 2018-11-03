@@ -4,3 +4,4 @@
 - Fix login issues
 - Have scraper expand comments to make sure all are collected
 - Create a check on the text download, as currently it will just append everything. Running twice means every line is duplicated.
+- Currently, stories might not be downloaded correctly. If 1 story exists, it will be story 1. Later, if more stories come, what was "story 1", will become story 2 or 3, and when it gets to downloading the final story, it will skip it, as "story 1" already exists. 

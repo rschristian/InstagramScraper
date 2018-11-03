@@ -6,10 +6,10 @@ using System.Windows.Forms;
 
 public class MForm : Form
 {
-    private CheckBox storyCaptureBox, headlessBrowserBox;
+    private CheckBox storyCaptureBox, headlessBrowserBox, textCaptureBox;
     private TextBox targetAccount, password, username;
     private Button btn1;
-    private bool captureStory = false, headless = true;
+    private bool captureStory = false, captureText=false;
     
     public MForm()
     {
@@ -61,15 +61,21 @@ public class MForm : Form
         
         headlessBrowserBox = new CheckBox();
         headlessBrowserBox.Parent = this;
-        headlessBrowserBox.Location = new Point(30, 170);
+        headlessBrowserBox.Location = new Point(30, 180);
         headlessBrowserBox.Text = "Headless";
-        headlessBrowserBox.Checked = true;
-        headlessBrowserBox.CheckedChanged += delegate(object sender, EventArgs e) { OnChanged(sender, e, 1); };
+        headlessBrowserBox.Checked = false;
+        
+        textCaptureBox = new CheckBox();
+        textCaptureBox.Parent = this;
+        textCaptureBox.Location = new Point(30, 210);
+        textCaptureBox.Text = "Download Text";
+        textCaptureBox.Checked = false;
+        textCaptureBox.CheckedChanged += delegate(object sender, EventArgs e) { OnChanged(sender, e, 1); };
         
         btn1 = new Button();
         btn1.Text = "Run";
         btn1.Parent = this;
-        btn1.Location = new Point(30, 210);
+        btn1.Location = new Point(30, 250);
         btn1.Click += new EventHandler(button_Click);
 
         Controls.Add(btn1);
@@ -95,7 +101,7 @@ public class MForm : Form
                 captureStory = !captureStory;
                 break;
             case 1:
-                headless = !headless;
+                captureText = !captureText;
                 break;
         }    
     }
@@ -108,13 +114,13 @@ public class MForm : Form
     private void button_Click(object sender, EventArgs e)
     {
         string publicArgs = String.Format("casperjs --engine=slimerjs PublicProfiles.js --targetAccount" +
-                                   "='" + targetAccount.Text + "' --retrieveText='true' --captureStory='" +
-                                          captureStory + "'");
+                                   "='" + targetAccount.Text + "' --retrieveText='" + captureText + 
+                                   "' --captureStory='" + captureStory + "'");
         
         string privateArgs = String.Format("casperjs --engine=slimerjs LoginProfiles.js --targetAccount" +
-                                         "='" + targetAccount.Text + "' --retrieveText='false' --captureStory='" +
-                                         captureStory + "' --username='" + username.Text + "' --password='" +
-                                         password.Text + "' -P newProfile");
+                                         "='" + targetAccount.Text + "' --retrieveText='" + captureText + 
+                                         "' --captureStory='" + captureStory + "' --username='" + 
+                                         username.Text + "' --password='" + password.Text + "' -P newProfile");
 
         if (headlessBrowserBox.Checked)
         {
