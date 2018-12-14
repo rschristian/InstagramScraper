@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "instagram-scraper", "instagram-scraper\instagram-scraper.csproj", "{0FEF666D-7C63-436B-B2DB-47D203D658A2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Selenium", "Selenium\Selenium.csproj", "{56021C1C-10D5-4EB0-A87D-F8DE8170594A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0FEF666D-7C63-436B-B2DB-47D203D658A2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0FEF666D-7C63-436B-B2DB-47D203D658A2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0FEF666D-7C63-436B-B2DB-47D203D658A2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0FEF666D-7C63-436B-B2DB-47D203D658A2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{56021C1C-10D5-4EB0-A87D-F8DE8170594A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{56021C1C-10D5-4EB0-A87D-F8DE8170594A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{56021C1C-10D5-4EB0-A87D-F8DE8170594A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{56021C1C-10D5-4EB0-A87D-F8DE8170594A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
