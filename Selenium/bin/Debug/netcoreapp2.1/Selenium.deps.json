@@ -1,15 +1,18 @@
 {
   "runtimeTarget": {
     "name": ".NETCoreApp,Version=v2.1",
-    "signature": "224af0c294a1ed58b2a5bc7b117240eba1253478"
+    "signature": "4ad8c862b0eb3a5ca1fbbd6b66465790aed85dae"
   },
   "compilationOptions": {},
   "targets": {
     ".NETCoreApp,Version=v2.1": {
       "Selenium/1.0.0": {
         "dependencies": {
+          "DotNetSeleniumExtras.PageObjects.Core": "3.12.1-beta",
+          "DotNetSeleniumExtras.WaitHelpers": "3.11.0",
           "GtkSharp": "3.22.24.36",
           "Selenium.Firefox.WebDriver": "0.22.0",
+          "Selenium.Support": "3.141.0",
           "Selenium.WebDriver": "3.141.0"
         },
         "runtime": {
@@ -32,6 +35,29 @@
           "lib/netstandard2.0/CairoSharp.dll": {
             "assemblyVersion": "3.22.24.36",
             "fileVersion": "3.22.24.36"
+          }
+        }
+      },
+      "DotNetSeleniumExtras.PageObjects.Core/3.12.1-beta": {
+        "dependencies": {
+          "Selenium.WebDriver": "3.141.0",
+          "System.Reflection.DispatchProxy": "4.4.0"
+        },
+        "runtime": {
+          "lib/netstandard2.0/SeleniumExtras.PageObjects.dll": {
+            "assemblyVersion": "3.12.1.0",
+            "fileVersion": "3.12.1.0"
+          }
+        }
+      },
+      "DotNetSeleniumExtras.WaitHelpers/3.11.0": {
+        "dependencies": {
+          "Selenium.WebDriver": "3.141.0"
+        },
+        "runtime": {
+          "lib/netstandard2.0/SeleniumExtras.WaitHelpers.dll": {
+            "assemblyVersion": "3.11.0.0",
+            "fileVersion": "3.11.0.0"
           }
         }
       },
@@ -132,6 +158,17 @@
         }
       },
       "Selenium.Firefox.WebDriver/0.22.0": {},
+      "Selenium.Support/3.141.0": {
+        "dependencies": {
+          "Selenium.WebDriver": "3.141.0"
+        },
+        "runtime": {
+          "lib/netstandard2.0/WebDriver.Support.dll": {
+            "assemblyVersion": "3.141.0.0",
+            "fileVersion": "3.141.0.0"
+          }
+        }
+      },
       "Selenium.WebDriver/3.141.0": {
         "dependencies": {
           "Newtonsoft.Json": "10.0.3"
@@ -315,6 +352,7 @@
           "System.Runtime": "4.3.0"
         }
       },
+      "System.Reflection.DispatchProxy/4.4.0": {},
       "System.Reflection.Emit/4.3.0": {
         "dependencies": {
           "System.IO": "4.3.0",
@@ -486,6 +524,20 @@
       "path": "cairosharp/3.22.24.36",
       "hashPath": "cairosharp.3.22.24.36.nupkg.sha512"
     },
+    "DotNetSeleniumExtras.PageObjects.Core/3.12.1-beta": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-C8rrln8sedVjw2uVaeaNVCEBnfAjSDU6SWGqyznFtO2BZA1bC+mEwpR/CU4uY/1VdhoAYN8CVyP9aJlTIPN2bg==",
+      "path": "dotnetseleniumextras.pageobjects.core/3.12.1-beta",
+      "hashPath": "dotnetseleniumextras.pageobjects.core.3.12.1-beta.nupkg.sha512"
+    },
+    "DotNetSeleniumExtras.WaitHelpers/3.11.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-atYYxPAJA4IBSE09O45Q0qSTdW8HqfTj/6rjItpo4FfkQ1mtKhiywopgYJYcsRfkgUfAL38r6tgs+5vd7JfHAw==",
+      "path": "dotnetseleniumextras.waithelpers/3.11.0",
+      "hashPath": "dotnetseleniumextras.waithelpers.3.11.0.nupkg.sha512"
+    },
     "GdkSharp/3.22.24.36": {
       "type": "package",
       "serviceable": true,
@@ -541,6 +593,13 @@
       "sha512": "sha512-XdtNgqFa37cqZzj50Kx7t6Jk5eKlTf4EbejejyHna8tBVZL2LZPDsMWH6jwBX2MHx1+N7I3fnLEiUY6Y2JjONQ==",
       "path": "selenium.firefox.webdriver/0.22.0",
       "hashPath": "selenium.firefox.webdriver.0.22.0.nupkg.sha512"
+    },
+    "Selenium.Support/3.141.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-ov2XBE48L1M2bTc8azz5rSpfT45+q6bw9sBc84NObGebFZ/S2SCnV/TSoBy2Zf3vPXij63Nd1VRcwQkyKC4Vyw==",
+      "path": "selenium.support/3.141.0",
+      "hashPath": "selenium.support.3.141.0.nupkg.sha512"
     },
     "Selenium.WebDriver/3.141.0": {
       "type": "package",
@@ -667,6 +726,13 @@
       "sha512": "sha512-KMiAFoW7MfJGa9nDFNcfu+FpEdiHpWgTcS2HdMpDvt9saK3y/G4GwprPyzqjFH9NTaGPQeWNHU+iDlDILj96aQ==",
       "path": "system.reflection/4.3.0",
       "hashPath": "system.reflection.4.3.0.nupkg.sha512"
+    },
+    "System.Reflection.DispatchProxy/4.4.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-OMBZ2YO0MOoi8yarOmXQVLso5RW9S62liNXJ0UjANonTBA4n/H1hn8A90BRNXdwbwIlPKIjis2G2wreukTRSWA==",
+      "path": "system.reflection.dispatchproxy/4.4.0",
+      "hashPath": "system.reflection.dispatchproxy.4.4.0.nupkg.sha512"
     },
     "System.Reflection.Emit/4.3.0": {
       "type": "package",
