@@ -5,8 +5,8 @@ namespace Selenium.UserInterface
 {
 	public class MainWindow : Window
 	{
-		private readonly Entry targetAccount, password, username;
-		private readonly CheckButton headlessBrowserBox;
+		private readonly Entry _targetAccount, _password, _username;
+		private readonly CheckButton _headlessBrowserBox, _getStoryBox, _getTextBox;
 		private readonly Button button;
 		private bool captureStory, captureText;
         
@@ -18,54 +18,91 @@ namespace Selenium.UserInterface
 			WindowPosition = (WindowPosition)4;
 			BorderWidth = 3;
 	        
-	        
-			//Container child MainWindow.Gtk.Container+ContainerChild
 			var alignment = new Alignment(0.5F, 0.5F, 1F, 1F) {Name = "alignment"};
-	        
-	        
-			// Container child alignment.Gtk.Container+ContainerChild
 			var fixedContainer = new Fixed {Name = "fixedContainer", HasWindow = false};
 	        
-	        
-			// Container child fixed1.Gtk.Fixed+FixedChild
-			targetAccount = new Entry
+			_targetAccount = new Entry
 			{
 				CanFocus = true, Name = "TargetAccount", IsEditable = true, PlaceholderText = "Target Account"
 			};
-			fixedContainer.Add(targetAccount);
-			var w1 = ((Fixed.FixedChild)(fixedContainer[targetAccount]));
-			w1.X = 40;
-			w1.Y = 20;
+			fixedContainer.Add(_targetAccount);
+			var w1 = ((Fixed.FixedChild)(fixedContainer[_targetAccount]));
+			w1.X = 10;
+			w1.Y = 25;
+			
+			_username = new Entry
+			{
+				CanFocus = true, Name = "Username", IsEditable = true, PlaceholderText = "Account Username"
+			};
+			fixedContainer.Add(_username);
+			var w2 = ((Fixed.FixedChild)(fixedContainer[_username]));
+			w2.X = 10;
+			w2.Y = 80;
+			
+			_password = new Entry
+			{
+				CanFocus = true, Name = "Password", IsEditable = true, PlaceholderText = "Account Password"
+			};
+			fixedContainer.Add(_password);
+			var w3 = ((Fixed.FixedChild)(fixedContainer[_password]));
+			w3.X = 10;
+			w3.Y = 135;
 	        
 	        
 			// Container child fixed1.Gtk.Fixed+FixedChild
-			headlessBrowserBox = new CheckButton
+			_headlessBrowserBox = new CheckButton
 			{
 				CanFocus = true,
-				Name = "checkbutton2",
+				Name = "HeadlessCheckBox",
 				DrawIndicator = true,
 				UseUnderline = true,
-				Label = "checkbutton2"
+				Label = "Run in Headless Mode"
 			};
-			fixedContainer.Add(headlessBrowserBox);
-			var w2 = (Fixed.FixedChild)fixedContainer[headlessBrowserBox];
-			w2.X = 238;
-			w2.Y = 217;
+			fixedContainer.Add(_headlessBrowserBox);
+			var w4 = (Fixed.FixedChild)fixedContainer[_headlessBrowserBox];
+			w4.X = 10;
+			w4.Y = 190;
+			
+			_getStoryBox = new CheckButton
+			{
+				CanFocus = true,
+				Name = "StoryCheckBox",
+				DrawIndicator = true,
+				UseUnderline = true,
+				Label = "Download the Target Account's Story"
+			};
+			fixedContainer.Add(_getStoryBox);
+			var w5 = (Fixed.FixedChild)fixedContainer[_getStoryBox];
+			w5.X = 10;
+			w5.Y = 225;
+			
+			_getTextBox = new CheckButton
+			{
+				CanFocus = true,
+				Name = "TextCheckBox",
+				DrawIndicator = true,
+				UseUnderline = true,
+				Label = "Download the Comments on the Target Account's Posts"
+			};
+			fixedContainer.Add(_getTextBox);
+			var w6 = (Fixed.FixedChild)fixedContainer[_getTextBox];
+			w6.X = 10;
+			w6.Y = 260;
 
 			button = new Button
 			{
 				CanFocus = true,
-				Name = "run",
+				Name = "RunScraperButton",
 				UseUnderline = true,
-				Label = "Run",
+				Label = "Run Web Scraper",
 				HasFocus = true
 			};
 			button.Clicked += OnClickedEvent;
 			
 			fixedContainer.Add(button);
-			var w3 = (Fixed.FixedChild)fixedContainer[button];
-			w3.X = 238;
-			w3.Y = 237;
+			var w7 = (Fixed.FixedChild)fixedContainer[button];
+			w7.X = 10;
+			w7.Y = 300;
 	        
 			alignment.Add(fixedContainer);
 			Add(alignment);
@@ -78,7 +115,7 @@ namespace Selenium.UserInterface
 
 		private void OnClickedEvent(object obj, EventArgs args)
 		{
-			WebScraper.SetUp(targetAccount.Text);
+			WebScraper.SetUp(_targetAccount.Text);
 		}
 
 		private static void OnDeleteEvent(object sender, DeleteEventArgs a)
