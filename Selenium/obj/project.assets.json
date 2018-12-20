@@ -23,6 +23,31 @@
           "lib/netstandard2.0/CairoSharp.dll": {}
         }
       },
+      "DotNetSeleniumExtras.PageObjects.Core/3.12.1-beta": {
+        "type": "package",
+        "dependencies": {
+          "Selenium.WebDriver": "3.12.0",
+          "System.Reflection.DispatchProxy": "4.4.0"
+        },
+        "compile": {
+          "lib/netstandard2.0/SeleniumExtras.PageObjects.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.0/SeleniumExtras.PageObjects.dll": {}
+        }
+      },
+      "DotNetSeleniumExtras.WaitHelpers/3.11.0": {
+        "type": "package",
+        "dependencies": {
+          "Selenium.WebDriver": "3.10.0"
+        },
+        "compile": {
+          "lib/netstandard2.0/SeleniumExtras.WaitHelpers.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.0/SeleniumExtras.WaitHelpers.dll": {}
+        }
+      },
       "GdkSharp/3.22.24.36": {
         "type": "package",
         "dependencies": {
@@ -345,6 +370,18 @@
           "build/Selenium.Firefox.WebDriver.targets": {}
         }
       },
+      "Selenium.Support/3.141.0": {
+        "type": "package",
+        "dependencies": {
+          "Selenium.WebDriver": "3.141.0"
+        },
+        "compile": {
+          "lib/netstandard2.0/WebDriver.Support.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.0/WebDriver.Support.dll": {}
+        }
+      },
       "Selenium.WebDriver/3.141.0": {
         "type": "package",
         "dependencies": {
@@ -638,6 +675,15 @@
         },
         "compile": {
           "ref/netstandard1.5/System.Reflection.dll": {}
+        }
+      },
+      "System.Reflection.DispatchProxy/4.4.0": {
+        "type": "package",
+        "compile": {
+          "ref/netcoreapp2.0/_._": {}
+        },
+        "runtime": {
+          "lib/netcoreapp2.0/_._": {}
         }
       },
       "System.Reflection.Emit/4.3.0": {
@@ -952,6 +998,34 @@
         "cairosharp.3.22.24.36.nupkg.sha512",
         "cairosharp.nuspec",
         "lib/netstandard2.0/CairoSharp.dll"
+      ]
+    },
+    "DotNetSeleniumExtras.PageObjects.Core/3.12.1-beta": {
+      "sha512": "C8rrln8sedVjw2uVaeaNVCEBnfAjSDU6SWGqyznFtO2BZA1bC+mEwpR/CU4uY/1VdhoAYN8CVyP9aJlTIPN2bg==",
+      "type": "package",
+      "path": "dotnetseleniumextras.pageobjects.core/3.12.1-beta",
+      "files": [
+        ".signature.p7s",
+        "dotnetseleniumextras.pageobjects.core.3.12.1-beta.nupkg.sha512",
+        "dotnetseleniumextras.pageobjects.core.nuspec",
+        "lib/net35/SeleniumExtras.PageObjects.dll",
+        "lib/net40/SeleniumExtras.PageObjects.dll",
+        "lib/net45/SeleniumExtras.PageObjects.dll",
+        "lib/netstandard2.0/SeleniumExtras.PageObjects.dll"
+      ]
+    },
+    "DotNetSeleniumExtras.WaitHelpers/3.11.0": {
+      "sha512": "atYYxPAJA4IBSE09O45Q0qSTdW8HqfTj/6rjItpo4FfkQ1mtKhiywopgYJYcsRfkgUfAL38r6tgs+5vd7JfHAw==",
+      "type": "package",
+      "path": "dotnetseleniumextras.waithelpers/3.11.0",
+      "files": [
+        ".signature.p7s",
+        "dotnetseleniumextras.waithelpers.3.11.0.nupkg.sha512",
+        "dotnetseleniumextras.waithelpers.nuspec",
+        "lib/net35/SeleniumExtras.WaitHelpers.dll",
+        "lib/net40/SeleniumExtras.WaitHelpers.dll",
+        "lib/net45/SeleniumExtras.WaitHelpers.dll",
+        "lib/netstandard2.0/SeleniumExtras.WaitHelpers.dll"
       ]
     },
     "GdkSharp/3.22.24.36": {
@@ -1568,6 +1642,24 @@
         "driver/geckodriver.exe",
         "selenium.firefox.webdriver.0.22.0.nupkg.sha512",
         "selenium.firefox.webdriver.nuspec"
+      ]
+    },
+    "Selenium.Support/3.141.0": {
+      "sha512": "ov2XBE48L1M2bTc8azz5rSpfT45+q6bw9sBc84NObGebFZ/S2SCnV/TSoBy2Zf3vPXij63Nd1VRcwQkyKC4Vyw==",
+      "type": "package",
+      "path": "selenium.support/3.141.0",
+      "files": [
+        ".signature.p7s",
+        "lib/net35/WebDriver.Support.dll",
+        "lib/net35/WebDriver.Support.xml",
+        "lib/net40/WebDriver.Support.dll",
+        "lib/net40/WebDriver.Support.xml",
+        "lib/net45/WebDriver.Support.dll",
+        "lib/net45/WebDriver.Support.xml",
+        "lib/netstandard2.0/WebDriver.Support.dll",
+        "lib/netstandard2.0/WebDriver.Support.xml",
+        "selenium.support.3.141.0.nupkg.sha512",
+        "selenium.support.nuspec"
       ]
     },
     "Selenium.WebDriver/3.141.0": {
@@ -2564,6 +2656,51 @@
         "ref/xamarinwatchos10/_._",
         "system.reflection.4.3.0.nupkg.sha512",
         "system.reflection.nuspec"
+      ]
+    },
+    "System.Reflection.DispatchProxy/4.4.0": {
+      "sha512": "OMBZ2YO0MOoi8yarOmXQVLso5RW9S62liNXJ0UjANonTBA4n/H1hn8A90BRNXdwbwIlPKIjis2G2wreukTRSWA==",
+      "type": "package",
+      "path": "system.reflection.dispatchproxy/4.4.0",
+      "files": [
+        ".signature.p7s",
+        "LICENSE.TXT",
+        "THIRD-PARTY-NOTICES.TXT",
+        "lib/MonoAndroid10/_._",
+        "lib/MonoTouch10/_._",
+        "lib/net461/System.Reflection.DispatchProxy.dll",
+        "lib/netcoreapp2.0/_._",
+        "lib/netstandard1.3/System.Reflection.DispatchProxy.dll",
+        "lib/netstandard2.0/System.Reflection.DispatchProxy.dll",
+        "lib/xamarinios10/_._",
+        "lib/xamarinmac20/_._",
+        "lib/xamarintvos10/_._",
+        "lib/xamarinwatchos10/_._",
+        "ref/MonoAndroid10/_._",
+        "ref/MonoTouch10/_._",
+        "ref/netcoreapp2.0/_._",
+        "ref/netstandard1.3/System.Reflection.DispatchProxy.dll",
+        "ref/netstandard1.3/System.Reflection.DispatchProxy.xml",
+        "ref/netstandard1.3/de/System.Reflection.DispatchProxy.xml",
+        "ref/netstandard1.3/es/System.Reflection.DispatchProxy.xml",
+        "ref/netstandard1.3/fr/System.Reflection.DispatchProxy.xml",
+        "ref/netstandard1.3/it/System.Reflection.DispatchProxy.xml",
+        "ref/netstandard1.3/ja/System.Reflection.DispatchProxy.xml",
+        "ref/netstandard1.3/ko/System.Reflection.DispatchProxy.xml",
+        "ref/netstandard1.3/ru/System.Reflection.DispatchProxy.xml",
+        "ref/netstandard1.3/zh-hans/System.Reflection.DispatchProxy.xml",
+        "ref/netstandard1.3/zh-hant/System.Reflection.DispatchProxy.xml",
+        "ref/netstandard2.0/System.Reflection.DispatchProxy.dll",
+        "ref/netstandard2.0/System.Reflection.DispatchProxy.xml",
+        "ref/xamarinios10/_._",
+        "ref/xamarinmac20/_._",
+        "ref/xamarintvos10/_._",
+        "ref/xamarinwatchos10/_._",
+        "runtimes/aot/lib/netcore50/System.Reflection.DispatchProxy.dll",
+        "system.reflection.dispatchproxy.4.4.0.nupkg.sha512",
+        "system.reflection.dispatchproxy.nuspec",
+        "useSharedDesignerContext.txt",
+        "version.txt"
       ]
     },
     "System.Reflection.Emit/4.3.0": {
@@ -3773,9 +3910,12 @@
   },
   "projectFileDependencyGroups": {
     ".NETCoreApp,Version=v2.1": [
+      "DotNetSeleniumExtras.PageObjects.Core >= 3.12.1-beta",
+      "DotNetSeleniumExtras.WaitHelpers >= 3.11.0",
       "GtkSharp >= 3.22.24.36",
       "Microsoft.NETCore.App >= 2.1.0",
       "Selenium.Firefox.WebDriver >= 0.22.0",
+      "Selenium.Support >= 3.141.0",
       "Selenium.WebDriver >= 3.141.0"
     ]
   },
@@ -3818,6 +3958,14 @@
     "frameworks": {
       "netcoreapp2.1": {
         "dependencies": {
+          "DotNetSeleniumExtras.PageObjects.Core": {
+            "target": "Package",
+            "version": "[3.12.1-beta, )"
+          },
+          "DotNetSeleniumExtras.WaitHelpers": {
+            "target": "Package",
+            "version": "[3.11.0, )"
+          },
           "GtkSharp": {
             "target": "Package",
             "version": "[3.22.24.36, )"
@@ -3831,6 +3979,10 @@
           "Selenium.Firefox.WebDriver": {
             "target": "Package",
             "version": "[0.22.0, )"
+          },
+          "Selenium.Support": {
+            "target": "Package",
+            "version": "[3.141.0, )"
           },
           "Selenium.WebDriver": {
             "target": "Package",

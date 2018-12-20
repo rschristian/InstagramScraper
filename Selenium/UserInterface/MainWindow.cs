@@ -76,9 +76,9 @@ namespace Selenium.UserInterface
 			DeleteEvent += OnDeleteEvent;
 		}
 
-		private static void OnClickedEvent(object obj, EventArgs args)
+		private void OnClickedEvent(object obj, EventArgs args)
 		{
-			Scraper.WebScraper();
+			WebScraper.SetUp(targetAccount.Text);
 		}
 
 		private static void OnDeleteEvent(object sender, DeleteEventArgs a)
