@@ -2,6 +2,80 @@
   "version": 3,
   "targets": {
     ".NETCoreApp,Version=v2.1": {
+      "AtkSharp/3.22.24.36": {
+        "type": "package",
+        "dependencies": {
+          "GLibSharp": "3.22.24.36"
+        },
+        "compile": {
+          "lib/netstandard2.0/AtkSharp.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.0/AtkSharp.dll": {}
+        }
+      },
+      "CairoSharp/3.22.24.36": {
+        "type": "package",
+        "compile": {
+          "lib/netstandard2.0/CairoSharp.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.0/CairoSharp.dll": {}
+        }
+      },
+      "GdkSharp/3.22.24.36": {
+        "type": "package",
+        "dependencies": {
+          "CairoSharp": "3.22.24.36",
+          "GLibSharp": "3.22.24.36",
+          "GioSharp": "3.22.24.36",
+          "PangoSharp": "3.22.24.36"
+        },
+        "compile": {
+          "lib/netstandard2.0/GdkSharp.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.0/GdkSharp.dll": {}
+        }
+      },
+      "GioSharp/3.22.24.36": {
+        "type": "package",
+        "dependencies": {
+          "GLibSharp": "3.22.24.36"
+        },
+        "compile": {
+          "lib/netstandard2.0/GioSharp.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.0/GioSharp.dll": {}
+        }
+      },
+      "GLibSharp/3.22.24.36": {
+        "type": "package",
+        "compile": {
+          "lib/netstandard2.0/GLibSharp.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.0/GLibSharp.dll": {}
+        }
+      },
+      "GtkSharp/3.22.24.36": {
+        "type": "package",
+        "dependencies": {
+          "AtkSharp": "3.22.24.36",
+          "CairoSharp": "3.22.24.36",
+          "GLibSharp": "3.22.24.36",
+          "GdkSharp": "3.22.24.36",
+          "GioSharp": "3.22.24.36",
+          "PangoSharp": "3.22.24.36"
+        },
+        "compile": {
+          "lib/netstandard2.0/GtkSharp.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.0/GtkSharp.dll": {}
+        }
+      },
       "Microsoft.CSharp/4.3.0": {
         "type": "package",
         "dependencies": {
@@ -250,6 +324,19 @@
         },
         "runtime": {
           "lib/netstandard1.3/Newtonsoft.Json.dll": {}
+        }
+      },
+      "PangoSharp/3.22.24.36": {
+        "type": "package",
+        "dependencies": {
+          "CairoSharp": "3.22.24.36",
+          "GLibSharp": "3.22.24.36"
+        },
+        "compile": {
+          "lib/netstandard2.0/PangoSharp.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.0/PangoSharp.dll": {}
         }
       },
       "Selenium.Firefox.WebDriver/0.22.0": {
@@ -845,6 +932,72 @@
     }
   },
   "libraries": {
+    "AtkSharp/3.22.24.36": {
+      "sha512": "wRwWXd3LwV575cRyt//IWu2Ng/pn0S9W5Ht4ZB6GtVHswLrn5U6pXnK+6stLgoJRMoQuyaCXKSR6R2EdLEN3BA==",
+      "type": "package",
+      "path": "atksharp/3.22.24.36",
+      "files": [
+        ".signature.p7s",
+        "atksharp.3.22.24.36.nupkg.sha512",
+        "atksharp.nuspec",
+        "lib/netstandard2.0/AtkSharp.dll"
+      ]
+    },
+    "CairoSharp/3.22.24.36": {
+      "sha512": "LVpGrw1O4db25xTMngJxnTPKRyuNZsd0QB1uK2ffYE88Ll0c38ipPn4gSJm1suI5Ul0Kb+haF6U/EwkuNgJI+g==",
+      "type": "package",
+      "path": "cairosharp/3.22.24.36",
+      "files": [
+        ".signature.p7s",
+        "cairosharp.3.22.24.36.nupkg.sha512",
+        "cairosharp.nuspec",
+        "lib/netstandard2.0/CairoSharp.dll"
+      ]
+    },
+    "GdkSharp/3.22.24.36": {
+      "sha512": "hzIbymYVCcdThu+UYNMHwTgmz5PZvkmno5xgbKShT11thjhVYwAGeoGurA1xE/YdK790N3pjusNgDHqkopfyjg==",
+      "type": "package",
+      "path": "gdksharp/3.22.24.36",
+      "files": [
+        ".signature.p7s",
+        "gdksharp.3.22.24.36.nupkg.sha512",
+        "gdksharp.nuspec",
+        "lib/netstandard2.0/GdkSharp.dll"
+      ]
+    },
+    "GioSharp/3.22.24.36": {
+      "sha512": "icMw7vYAeYOBN4yFudK0aSUv1OYQyparNz7EbbyVXeZwpAQdAFQgJCBycqIBt0RQ/pfuN1fnwPpLXN2jyclccw==",
+      "type": "package",
+      "path": "giosharp/3.22.24.36",
+      "files": [
+        ".signature.p7s",
+        "giosharp.3.22.24.36.nupkg.sha512",
+        "giosharp.nuspec",
+        "lib/netstandard2.0/GioSharp.dll"
+      ]
+    },
+    "GLibSharp/3.22.24.36": {
+      "sha512": "bSNCaDIVfXJeqR9nEea5/huRZRjn8Q0J6FqRcVW9Yw420RCSy5j6FXWSWH51Xbz9l7NPytgq4cCwwnkR7FnOyw==",
+      "type": "package",
+      "path": "glibsharp/3.22.24.36",
+      "files": [
+        ".signature.p7s",
+        "glibsharp.3.22.24.36.nupkg.sha512",
+        "glibsharp.nuspec",
+        "lib/netstandard2.0/GLibSharp.dll"
+      ]
+    },
+    "GtkSharp/3.22.24.36": {
+      "sha512": "Xru+SXnEN1eJRZWjNg6+C5tf1uQaKcOd9Lo+8xn6fp063qQbZunb0UYN5k042ynHbQyw42WAR1c2tJShqgAA/g==",
+      "type": "package",
+      "path": "gtksharp/3.22.24.36",
+      "files": [
+        ".signature.p7s",
+        "gtksharp.3.22.24.36.nupkg.sha512",
+        "gtksharp.nuspec",
+        "lib/netstandard2.0/GtkSharp.dll"
+      ]
+    },
     "Microsoft.CSharp/4.3.0": {
       "sha512": "P+MBhIM0YX+JqROuf7i306ZLJEjQYA9uUyRDE+OqwUI5sh41e2ZbPQV3LfAPh+29cmceE1pUffXsGfR4eMY3KA==",
       "type": "package",
@@ -903,7 +1056,7 @@
       ]
     },
     "Microsoft.NETCore.App/2.1.0": {
-      "sha512": "mVxL8khUMyl0L+MkyY0SLhZU13Z+KoUCcCTDC1MZKaegUVbAuaEzqX0VyGJ5U1lyo8fh6ryJPbsBPJww6qcKpw==",
+      "sha512": "2DtRTpAhUdaPDnBM1R4Tbl1hxLW+3L4/byMonI+7aAQPFRmVeKc1epmM4wpxA4h1E7uK6tSPOBOU7f+MDcY5Bg==",
       "type": "package",
       "path": "microsoft.netcore.app/2.1.0",
       "files": [
@@ -1181,7 +1334,7 @@
       ]
     },
     "Microsoft.NETCore.DotNetHostPolicy/2.1.0": {
-      "sha512": "JHyN4ibWkJy/2HlqHnUXBmcpzZfIhCFw7uGqWU5fyL7mzGq5E5vjCHChpFqPzRugM2QS3q31re6CAVzFBzTMqw==",
+      "sha512": "LdhSWUEZmFalhz6fLBE5WDmCdO9jqvW5q3CUOTk9n/hdmmwnTu7KowPPIw5p2t1vn7ozStLG3RZMJbf48f7WtA==",
       "type": "package",
       "path": "microsoft.netcore.dotnethostpolicy/2.1.0",
       "files": [
@@ -1194,7 +1347,7 @@
       ]
     },
     "Microsoft.NETCore.DotNetHostResolver/2.1.0": {
-      "sha512": "d+V3yHIMimz3m4MkecBtIrf1NI1oPUez5eaAXbVSWqNyFUuTeBeolYwA3yCYeKCS0zDkV0QjXEOaHd0pjujOZA==",
+      "sha512": "+9D7G59Fz1H2ZO87Hlgl7Zv44BrAmWnyRfqrofrHW4gQTu573xQP6cuYiNUeqr189eH6hZuh5MKUhOoUGJjqiQ==",
       "type": "package",
       "path": "microsoft.netcore.dotnethostresolver/2.1.0",
       "files": [
@@ -1207,7 +1360,7 @@
       ]
     },
     "Microsoft.NETCore.Platforms/2.1.0": {
-      "sha512": "aSTPL94NloSiQVL5Len8wbjFKOnoAX/vOh3s3DF6g3c7GUUMLCDvnBhmA72M2iN2AedyA8hpr7m89kzSAKUnJQ==",
+      "sha512": "GmkKfoyerqmsHMn7OZj0AKpcBabD+GaafqphvX2Mw406IwiJRy1pKcKqdCfKJfYmkRyJ6+e+RaUylgdJoDa1jQ==",
       "type": "package",
       "path": "microsoft.netcore.platforms/2.1.0",
       "files": [
@@ -1223,7 +1376,7 @@
       ]
     },
     "Microsoft.NETCore.Targets/2.1.0": {
-      "sha512": "R+z1NrmXptbA6maCVVPcJ9xrCjUZFGEW1CHQeCqOyRni6PFxANYjiEjDBAK7wQUdmdZFy3xKJYUY0qhpb+hSLQ==",
+      "sha512": "I2NAAePyfAzSLl/AWmgNs493xJQDDql2Ldpx3PRl7fE+FrsgdGmVHyyWlfd3doMkxHPstOkqYVGvSLbIBhyzsg==",
       "type": "package",
       "path": "microsoft.netcore.targets/2.1.0",
       "files": [
@@ -1239,11 +1392,11 @@
       ]
     },
     "NETStandard.Library/2.0.3": {
-      "sha512": "R73gEjqCkI2Nw/IlN8QvcgPNklqQiPowp47JwvW0Bnp/RZnjN4UrJwEvWVJWRK1MsQ+HIfGe9i4aQlfK+ei9jA==",
+      "sha512": "st47PosZSHrjECdjeIzZQbzivYBJFv6P2nv4cj2ypdI204DO+vZ7l5raGMiX4eXMJ53RfOIg+/s4DHVZ54Nu2A==",
       "type": "package",
       "path": "netstandard.library/2.0.3",
       "files": [
-        ".signature.p7s",
+        ".nupkg.metadata",
         "LICENSE.TXT",
         "THIRD-PARTY-NOTICES.TXT",
         "build/netstandard2.0/NETStandard.Library.targets",
@@ -1394,6 +1547,17 @@
         "tools/install.ps1"
       ]
     },
+    "PangoSharp/3.22.24.36": {
+      "sha512": "blqcVFWRryKJrqUURL4+GmA8tC8sH2m0ZxXKvxVwysMn8p5dILq05tRriBUoir08R7i2uoToRDiTCYuIkGn4+Q==",
+      "type": "package",
+      "path": "pangosharp/3.22.24.36",
+      "files": [
+        ".signature.p7s",
+        "lib/netstandard2.0/PangoSharp.dll",
+        "pangosharp.3.22.24.36.nupkg.sha512",
+        "pangosharp.nuspec"
+      ]
+    },
     "Selenium.Firefox.WebDriver/0.22.0": {
       "sha512": "XdtNgqFa37cqZzj50Kx7t6Jk5eKlTf4EbejejyHna8tBVZL2LZPDsMWH6jwBX2MHx1+N7I3fnLEiUY6Y2JjONQ==",
       "type": "package",
@@ -1491,10 +1655,12 @@
       ]
     },
     "System.Collections.NonGeneric/4.3.0": {
-      "sha512": "prtjIEMhGUnQq6RnPEYLpFt8AtLbp9yq2zxOSrY7KJJZrw25Fi97IzBqY7iqssbM61Ek5b8f3MG/sG1N2sN5KA==",
+      "sha512": "/D3jtX0+u5+6rS3RGvTMyICPpIuzBgqtUYLjK1aXLua0nWH4JpM1H/tRk1Uxs6Fo0fe22jyJaTpoXPSu0il8Ug==",
       "type": "package",
       "path": "system.collections.nongeneric/4.3.0",
       "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
         "ThirdPartyNotices.txt",
         "dotnet_library_license.txt",
         "lib/MonoAndroid10/_._",
@@ -3566,10 +3732,12 @@
       ]
     },
     "System.Xml.XmlDocument/4.3.0": {
-      "sha512": "lJ8AxvkX7GQxpC6GFCeBj8ThYVyQczx2+f/cWHJU8tjS7YfI6Cv6bon70jVEgs2CiFbmmM8b9j1oZVx0dSI2Ww==",
+      "sha512": "xsnq6w3/S+NeYkUtxoCEDAn2Z+AkgvGLvJnslrTRte4jEU+fkR3DVG+s0sBmQYQ4c3r8949PaGg8AnRb9bBc2w==",
       "type": "package",
       "path": "system.xml.xmldocument/4.3.0",
       "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
         "ThirdPartyNotices.txt",
         "dotnet_library_license.txt",
         "lib/MonoAndroid10/_._",
@@ -3605,29 +3773,30 @@
   },
   "projectFileDependencyGroups": {
     ".NETCoreApp,Version=v2.1": [
+      "GtkSharp >= 3.22.24.36",
       "Microsoft.NETCore.App >= 2.1.0",
       "Selenium.Firefox.WebDriver >= 0.22.0",
       "Selenium.WebDriver >= 3.141.0"
     ]
   },
   "packageFolders": {
-    "/home/ryan/.nuget/packages/": {},
+    "/home/ryun/.nuget/packages/": {},
     "/usr/share/dotnet/sdk/NuGetFallbackFolder": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/home/ryan/Documents/instagram-scraper/Selenium/Selenium.csproj",
+      "projectUniqueName": "/home/ryun/Documents/instagram-scraper/Selenium/Selenium.csproj",
       "projectName": "Selenium",
-      "projectPath": "/home/ryan/Documents/instagram-scraper/Selenium/Selenium.csproj",
-      "packagesPath": "/home/ryan/.nuget/packages/",
-      "outputPath": "/home/ryan/Documents/instagram-scraper/Selenium/obj/",
+      "projectPath": "/home/ryun/Documents/instagram-scraper/Selenium/Selenium.csproj",
+      "packagesPath": "/home/ryun/.nuget/packages/",
+      "outputPath": "/home/ryun/Documents/instagram-scraper/Selenium/obj/",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "/usr/share/dotnet/sdk/NuGetFallbackFolder"
       ],
       "configFilePaths": [
-        "/home/ryan/.config/NuGet/NuGet.Config"
+        "/home/ryun/.config/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "netcoreapp2.1"
@@ -3649,6 +3818,10 @@
     "frameworks": {
       "netcoreapp2.1": {
         "dependencies": {
+          "GtkSharp": {
+            "target": "Package",
+            "version": "[3.22.24.36, )"
+          },
           "Microsoft.NETCore.App": {
             "suppressParent": "All",
             "target": "Package",

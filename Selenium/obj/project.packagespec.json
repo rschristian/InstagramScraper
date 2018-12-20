@@ -1,10 +1,10 @@
 ﻿{
   "version": "1.0.0",
   "restore": {
-    "projectUniqueName": "/home/ryan/Documents/instagram-scraper/Selenium/Selenium.csproj",
+    "projectUniqueName": "/home/ryun/Documents/instagram-scraper/Selenium/Selenium.csproj",
     "projectName": "Selenium",
-    "projectPath": "/home/ryan/Documents/instagram-scraper/Selenium/Selenium.csproj",
-    "outputPath": "/home/ryan/Documents/instagram-scraper/Selenium/obj/",
+    "projectPath": "/home/ryun/Documents/instagram-scraper/Selenium/Selenium.csproj",
+    "outputPath": "/home/ryun/Documents/instagram-scraper/Selenium/obj/",
     "projectStyle": "PackageReference",
     "fallbackFolders": [
       "/usr/share/dotnet/sdk/NuGetFallbackFolder"
@@ -26,6 +26,10 @@
   "frameworks": {
     "netcoreapp2.1": {
       "dependencies": {
+        "GtkSharp": {
+          "target": "Package",
+          "version": "[3.22.24.36, )"
+        },
         "Microsoft.NETCore.App": {
           "suppressParent": "All",
           "target": "Package",

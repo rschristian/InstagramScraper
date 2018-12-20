@@ -253,7 +253,7 @@
   },
   "libraries": {
     "Microsoft.NETCore.App/2.1.0": {
-      "sha512": "mVxL8khUMyl0L+MkyY0SLhZU13Z+KoUCcCTDC1MZKaegUVbAuaEzqX0VyGJ5U1lyo8fh6ryJPbsBPJww6qcKpw==",
+      "sha512": "2DtRTpAhUdaPDnBM1R4Tbl1hxLW+3L4/byMonI+7aAQPFRmVeKc1epmM4wpxA4h1E7uK6tSPOBOU7f+MDcY5Bg==",
       "type": "package",
       "path": "microsoft.netcore.app/2.1.0",
       "files": [
@@ -531,7 +531,7 @@
       ]
     },
     "Microsoft.NETCore.DotNetHostPolicy/2.1.0": {
-      "sha512": "JHyN4ibWkJy/2HlqHnUXBmcpzZfIhCFw7uGqWU5fyL7mzGq5E5vjCHChpFqPzRugM2QS3q31re6CAVzFBzTMqw==",
+      "sha512": "LdhSWUEZmFalhz6fLBE5WDmCdO9jqvW5q3CUOTk9n/hdmmwnTu7KowPPIw5p2t1vn7ozStLG3RZMJbf48f7WtA==",
       "type": "package",
       "path": "microsoft.netcore.dotnethostpolicy/2.1.0",
       "files": [
@@ -544,7 +544,7 @@
       ]
     },
     "Microsoft.NETCore.DotNetHostResolver/2.1.0": {
-      "sha512": "d+V3yHIMimz3m4MkecBtIrf1NI1oPUez5eaAXbVSWqNyFUuTeBeolYwA3yCYeKCS0zDkV0QjXEOaHd0pjujOZA==",
+      "sha512": "+9D7G59Fz1H2ZO87Hlgl7Zv44BrAmWnyRfqrofrHW4gQTu573xQP6cuYiNUeqr189eH6hZuh5MKUhOoUGJjqiQ==",
       "type": "package",
       "path": "microsoft.netcore.dotnethostresolver/2.1.0",
       "files": [
@@ -557,7 +557,7 @@
       ]
     },
     "Microsoft.NETCore.Platforms/2.1.0": {
-      "sha512": "aSTPL94NloSiQVL5Len8wbjFKOnoAX/vOh3s3DF6g3c7GUUMLCDvnBhmA72M2iN2AedyA8hpr7m89kzSAKUnJQ==",
+      "sha512": "GmkKfoyerqmsHMn7OZj0AKpcBabD+GaafqphvX2Mw406IwiJRy1pKcKqdCfKJfYmkRyJ6+e+RaUylgdJoDa1jQ==",
       "type": "package",
       "path": "microsoft.netcore.platforms/2.1.0",
       "files": [
@@ -573,7 +573,7 @@
       ]
     },
     "Microsoft.NETCore.Targets/2.1.0": {
-      "sha512": "R+z1NrmXptbA6maCVVPcJ9xrCjUZFGEW1CHQeCqOyRni6PFxANYjiEjDBAK7wQUdmdZFy3xKJYUY0qhpb+hSLQ==",
+      "sha512": "I2NAAePyfAzSLl/AWmgNs493xJQDDql2Ldpx3PRl7fE+FrsgdGmVHyyWlfd3doMkxHPstOkqYVGvSLbIBhyzsg==",
       "type": "package",
       "path": "microsoft.netcore.targets/2.1.0",
       "files": [
@@ -608,11 +608,11 @@
       ]
     },
     "NETStandard.Library/2.0.3": {
-      "sha512": "R73gEjqCkI2Nw/IlN8QvcgPNklqQiPowp47JwvW0Bnp/RZnjN4UrJwEvWVJWRK1MsQ+HIfGe9i4aQlfK+ei9jA==",
+      "sha512": "st47PosZSHrjECdjeIzZQbzivYBJFv6P2nv4cj2ypdI204DO+vZ7l5raGMiX4eXMJ53RfOIg+/s4DHVZ54Nu2A==",
       "type": "package",
       "path": "netstandard.library/2.0.3",
       "files": [
-        ".signature.p7s",
+        ".nupkg.metadata",
         "LICENSE.TXT",
         "THIRD-PARTY-NOTICES.TXT",
         "build/netstandard2.0/NETStandard.Library.targets",
@@ -736,7 +736,7 @@
       ]
     },
     "System.Drawing.Common/4.5.1": {
-      "sha512": "RR9zs3qhIemEToSoCGZk8p/eox3NIYFrVSuIFJUUVr469+0f5zHJbGsZrzZSq6J1qmXnkaVv9d9t+05TGY9BHw==",
+      "sha512": "m3c7Fe/CS/jZ/nLBrxCCh52dYiC33GPbGfcF4CiVukb8+p121XUTHxs6sYKbWfvDVD8JssHcM+HVFLtzl3X3Xw==",
       "type": "package",
       "path": "system.drawing.common/4.5.1",
       "files": [
@@ -775,23 +775,23 @@
     ]
   },
   "packageFolders": {
-    "/home/ryan/.nuget/packages/": {},
+    "/home/ryun/.nuget/packages/": {},
     "/usr/share/dotnet/sdk/NuGetFallbackFolder": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/home/ryan/Documents/instagram-scraper/instagram-scraper/instagram-scraper.csproj",
+      "projectUniqueName": "/home/ryun/Documents/instagram-scraper/instagram-scraper/instagram-scraper.csproj",
       "projectName": "instagram-scraper",
-      "projectPath": "/home/ryan/Documents/instagram-scraper/instagram-scraper/instagram-scraper.csproj",
-      "packagesPath": "/home/ryan/.nuget/packages/",
-      "outputPath": "/home/ryan/Documents/instagram-scraper/instagram-scraper/obj/",
+      "projectPath": "/home/ryun/Documents/instagram-scraper/instagram-scraper/instagram-scraper.csproj",
+      "packagesPath": "/home/ryun/.nuget/packages/",
+      "outputPath": "/home/ryun/Documents/instagram-scraper/instagram-scraper/obj/",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "/usr/share/dotnet/sdk/NuGetFallbackFolder"
       ],
       "configFilePaths": [
-        "/home/ryan/.config/NuGet/NuGet.Config"
+        "/home/ryun/.config/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "netcoreapp2.1"
