@@ -34,7 +34,7 @@ namespace Selenium.PageObjects
 
         public void GetPostData()
         {
-            _driver.FindElement(By.CssSelector("._97aPb"), 1);
+            _driver.FindElement(By.CssSelector(".kPFhm"), 1);
             Console.WriteLine(_driver.Url);
             if (IsElementPresent(_multiSrcPostChevron))
             {
@@ -45,11 +45,20 @@ namespace Selenium.PageObjects
                 }
                 else if (IsElementPresent(_imageSourceClass))
                 {
-                    var links = _imageSourceClass.GetAttribute("srcset").Split(',');
+                    var links = _driver.FindElements(By.CssSelector(".kPFhm img"));
+                    Console.WriteLine(links);
+//                    var links = _imageSourceClass.GetAttribute("srcset").Split(',');
                     foreach (var link in links)
                     {
-                        if (!link.Contains("1080w")) continue;
-                        Console.WriteLine(link.Remove(link.Length-6));
+                        var x = link.GetAttribute("srcset").Split(',');
+                        Console.WriteLine(x);
+                        foreach (var y in x)
+                        {
+                            if (y.Contains("1080w"))
+                            {
+                                Console.WriteLine(y.Remove(y.Length-6));
+                            } 
+                        }
                     }
                 }
                 _multiSrcPostChevron.Click();
