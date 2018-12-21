@@ -9,29 +9,31 @@ namespace Selenium
     {
         private static IWebDriver _driver;
 
-        public static void SetUp(string targetAccount)
+        public static void SetUp(string targetAccount, bool headless)
         {
             var options = new FirefoxOptions();
-            //options.AddArgument("--headless");
+            if (headless) { options.AddArgument("--headless");}
+            
+            options.SetPreference("pdfjs.enabledCache.state",false);
+            options.SetPreference("browser.helperApps.neverAsk.saveToDisk","png");
+            
             _driver = new FirefoxDriver(options);
-            _driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(5);
+//            _driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(5);
 
             RunScraper(targetAccount);
         }
 
         private static void RunScraper(string targetAccount){
             var profilePage = new ProfilePage(_driver);
-            profilePage.goToProfile(targetAccount);
-
-//            driver.Navigate().GoToUrl("https://www.instagram.com/gwenddalyn/");
-//            var hrefAddress = driver.FindElement(By.CssSelector("div._bz0w a")).GetAttribute("href");
-//
-//            var element = driver.FindElement(By.CssSelector("div._bz0w a"));
-//            var executor = (IJavaScriptExecutor) driver;
-//            executor.ExecuteScript("arguments[0].click();", element);    
-//            
-//            Console.WriteLine(driver.Url);
-//            driver.Quit();
+            profilePage.GoToProfile(targetAccount);
+            profilePage.GetProfilePicture();
+//            profilePage.EnterStory();
+            var postPage = profilePage.EnterPosts();
+            System.Threading.Thread.Sleep(150);
+            postPage.GetPostData();
+            
+                     
+            _driver.Quit();
         }
     }
 }

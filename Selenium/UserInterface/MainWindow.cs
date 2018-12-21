@@ -1,5 +1,6 @@
 using System;
 using Gtk;
+using System.IO;
 
 namespace Selenium.UserInterface
 {
@@ -15,6 +16,7 @@ namespace Selenium.UserInterface
 			// Widget MainWindow
 			Name = "MainWindow";
 			Title = "Instagram Scraper";
+			SetIconFromFile(Directory.GetCurrentDirectory() + "/Resources/InstaScraper.ico");
 			WindowPosition = (WindowPosition)4;
 			BorderWidth = 3;
 	        
@@ -23,7 +25,7 @@ namespace Selenium.UserInterface
 	        
 			_targetAccount = new Entry
 			{
-				CanFocus = true, Name = "TargetAccount", IsEditable = true, PlaceholderText = "Target Account"
+				CanFocus = true, Name = "TargetAccount", Text = "gwenddalyn", IsEditable = true, PlaceholderText = "Target Account"
 			};
 			fixedContainer.Add(_targetAccount);
 			var w1 = ((Fixed.FixedChild)(fixedContainer[_targetAccount]));
@@ -115,7 +117,12 @@ namespace Selenium.UserInterface
 
 		private void OnClickedEvent(object obj, EventArgs args)
 		{
-			WebScraper.SetUp(_targetAccount.Text);
+			if (_targetAccount.Text != "") {WebScraper.SetUp(_targetAccount.Text, _headlessBrowserBox.Active);}
+			else {var md = new MessageDialog(this, 
+					DialogFlags.DestroyWithParent, MessageType.Error, 
+					ButtonsType.Close, "You must give a target account");
+				md.Run();
+				md.Destroy();}
 		}
 
 		private static void OnDeleteEvent(object sender, DeleteEventArgs a)
