@@ -14,11 +14,10 @@ namespace Selenium
             var options = new FirefoxOptions();
             if (headless) { options.AddArgument("--headless");}
             
-            options.SetPreference("pdfjs.enabledCache.state",false);
-            options.SetPreference("browser.helperApps.neverAsk.saveToDisk","png");
+            options.SetPreference("permissions.default.image", 2);
+            options.SetPreference("dom.ipc.plugins.enabled.libflashplayer.so", false);
             
             _driver = new FirefoxDriver(options);
-//            _driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(5);
 
             RunScraper(targetAccount);
         }
@@ -29,7 +28,7 @@ namespace Selenium
             profilePage.GetProfilePicture();
 //            profilePage.EnterStory();
             var postPage = profilePage.EnterPosts();
-            System.Threading.Thread.Sleep(150);
+//            System.Threading.Thread.Sleep(150);
             postPage.GetPostData();
             
                      
