@@ -17,7 +17,7 @@ namespace Selenium.UserInterface
 			Name = "MainWindow";
 			Title = "Instagram Scraper";
 			SetIconFromFile(Directory.GetCurrentDirectory() + "/Resources/InstaScraper.ico");
-			WindowPosition = (WindowPosition)4;
+			WindowPosition = WindowPosition.Center;
 			BorderWidth = 3;
 	        
 			var alignment = new Alignment(0.5F, 0.5F, 1F, 1F) {Name = "alignment"};
