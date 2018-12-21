@@ -34,6 +34,7 @@ namespace Selenium.PageObjects
 
         public void GetPostData()
         {
+            _driver.FindElement(By.CssSelector("._97aPb"), 1);
             Console.WriteLine(_driver.Url);
             if (IsElementPresent(_multiSrcPostChevron))
             {
