@@ -10,9 +10,6 @@ namespace Selenium.PageObjects
     public class ProfilePage
     {
         private readonly IWebDriver _driver;
-        private readonly WebClient _webClient = new WebClient();
-
-        private readonly UriNameDictionary _resourcesDictionary = new UriNameDictionary();
 
         private string _path = "/home/ryun/Pictures/";
 
@@ -22,14 +19,11 @@ namespace Selenium.PageObjects
             PageFactory.InitElements(driver, this);
         }
         
-        [FindsBy(How = How.CssSelector, Using = "div._bz0w a")]
-        private IWebElement _firstPost;
+        private IWebElement FirstPost => _driver.FindElement(By.CssSelector("div._bz0w a"));
         
-        [FindsBy(How = How.CssSelector, Using = "._6q-tv")]
-        private IWebElement _profilePicture;
+        private IWebElement ProfilePicture => _driver.FindElement(By.CssSelector("._6q-tv"));
         
-        [FindsBy(How = How.CssSelector, Using = "div.RR-M-")]
-        private IWebElement _storyClass;
+        private IWebElement StoryClass => _driver.FindElement(By.CssSelector("div.RR-M-"));
         
 
         public void GoToProfile(string targetAccount)
@@ -39,9 +33,9 @@ namespace Selenium.PageObjects
             
         }
         
-        public void GetProfilePicture()
+        public void GetProfilePicture(UriNameDictionary _resourcesDictionary)
         {
-            _resourcesDictionary.Add(DateTime.Now.ToString("yyyy-M-d") + " profile", _profilePicture.GetAttribute("src"));
+            _resourcesDictionary.Add(DateTime.Now.ToString("yyyy-M-d") + " profile", ProfilePicture.GetAttribute("src"));
             
 //            foreach (var entry in _resourcesDictionary)
 //            {
@@ -53,14 +47,14 @@ namespace Selenium.PageObjects
         public StoryPage EnterStory()
         {
             var executor = (IJavaScriptExecutor) _driver;
-            executor.ExecuteScript("arguments[0].click();", _storyClass);
+            executor.ExecuteScript("arguments[0].click();", StoryClass);
             return new StoryPage(_driver);
         }
         
         public PostPage EnterPosts()
         {
             var executor = (IJavaScriptExecutor) _driver;
-            executor.ExecuteScript("arguments[0].click();", _firstPost);
+            executor.ExecuteScript("arguments[0].click();", FirstPost);
             return new PostPage(_driver);
         }
     }

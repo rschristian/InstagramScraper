@@ -14,12 +14,10 @@ namespace Selenium.PageObjects
             PageFactory.InitElements(driver, this);
         }
         
-        [OpenQA.Selenium.Support.PageObjects.FindsBy(How = How.CssSelector, Using = ".OFkrO source")]
-        private IWebElement storyVideoSrcClass;
+//        private IWebElement StoryVideoSrcClass => _driver.FindElement(By.CssSelector(".OFkrO source"));
         
         //This will always exist, as for a video, the thumbnail is stored here
-        [OpenQA.Selenium.Support.PageObjects.FindsBy(How = How.CssSelector, Using = "._7NpAS")]
-        private IWebElement storyImageSrcClass;
+//        private IWebElement StoryImageSrcClass => _driver.FindElement(By.CssSelector("._7NpAS"));
 
         public void SaveStoryContent()
         {

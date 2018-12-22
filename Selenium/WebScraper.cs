@@ -1,11 +1,14 @@
 using System;
+using Gtk;
 using OpenQA.Selenium.Firefox;
 using OpenQA.Selenium;
+using Pango;
 using Selenium.PageObjects;
+using Selenium.Utility;
 
 namespace Selenium
 {
-    public class WebScraper
+    public static class WebScraper
     {
         private static IWebDriver _driver;
 
@@ -23,13 +26,21 @@ namespace Selenium
         }
 
         private static void RunScraper(string targetAccount){
+            var resourcesDictionary = new UriNameDictionary();
             var profilePage = new ProfilePage(_driver);
             profilePage.GoToProfile(targetAccount);
-            profilePage.GetProfilePicture();
+            profilePage.GetProfilePicture(resourcesDictionary);
 //            profilePage.EnterStory();
             var postPage = profilePage.EnterPosts();
-//            System.Threading.Thread.Sleep(150);
-            postPage.GetPostData();
+            var watch = System.Diagnostics.Stopwatch.StartNew();
+            postPage.GetPostData(resourcesDictionary);
+            watch.Stop();
+            var elapsedMs = watch.ElapsedMilliseconds;
+            Console.WriteLine("Time to get all post pictures: " + elapsedMs/1000.00 + " seconds");
+            foreach (var item in resourcesDictionary)
+            {
+                Console.WriteLine("Item Key: " + item.Key + " Item Value: " + item.Value);
+            }
             
                      
             _driver.Quit();
