@@ -61,9 +61,7 @@ namespace Selenium
                     WebClient.DownloadFile(entry.Value, _path + entry.Key + ".png");
                 }
                
-            }
-            
-                     
+            }    
             _driver.Quit();
         }
     }
