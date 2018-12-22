@@ -2,7 +2,6 @@ const casper = require("casper").create({
   viewportSize: {width: 19200, height:480},
   pageSettings: {
     loadImages: false,
-
     loadPlugins: false
   }
 });
