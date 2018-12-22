@@ -48,7 +48,6 @@ namespace Selenium.PageObjects
                     foreach (var webElement in VideoSourceClass)
                     {
                         _tempLinkList.Add(webElement.GetAttribute("src"));
-                        Console.WriteLine(_contentInSet + ": " +webElement.GetAttribute("src"));
                     }
                 }
                 else if (WebDriverExtensions.IsElementsPresent(ImageSourceClass))
@@ -71,7 +70,6 @@ namespace Selenium.PageObjects
                     foreach (var webElement in VideoSourceClass)
                     {
                         _tempLinkList.Add(webElement.GetAttribute("src"));
-                        Console.WriteLine(_contentInSet + ": " +webElement.GetAttribute("src"));
                     }
                 }
                 else if (WebDriverExtensions.IsElementsPresent(ImageSourceClass))
@@ -84,17 +82,13 @@ namespace Selenium.PageObjects
                         _tempLinkList.Add(stringList[index].Remove(stringList[index].Length-6));
                     }
                 }
-                else
-                {
-                    Console.WriteLine("Not a video, or a picture.");
-                }
 
                 _tempLinkList = _tempLinkList.Distinct().ToList();
                 var timeStamp = RefineTimeStamp();
 
                 for (var i = 0; i < _contentInSet; i++)
                 {
-                    resourceDictionary.Add(timeStamp + " " + (i + 1), _tempLinkList[i]);
+                    resourceDictionary.Add(timeStamp + " " + (_contentInSet - i), _tempLinkList[i]);
                 }
 
 
