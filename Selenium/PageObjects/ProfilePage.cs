@@ -11,8 +11,6 @@ namespace Selenium.PageObjects
     {
         private readonly IWebDriver _driver;
 
-        private string _path = "/home/ryun/Pictures/";
-
         public ProfilePage(IWebDriver driver)
         {
             _driver = driver;
@@ -28,20 +26,13 @@ namespace Selenium.PageObjects
 
         public void GoToProfile(string targetAccount)
         {
-            _path = _path + targetAccount + "/";
             _driver.Navigate().GoToUrl("http://www.instagram.com/" + targetAccount + "/");
             
         }
         
-        public void GetProfilePicture(UriNameDictionary _resourcesDictionary)
+        public void GetProfilePicture(UriNameDictionary resourcesDictionary)
         {
-            _resourcesDictionary.Add(DateTime.Now.ToString("yyyy-M-d") + " profile", ProfilePicture.GetAttribute("src"));
-            
-//            foreach (var entry in _resourcesDictionary)
-//            {
-//                Directory.CreateDirectory(_path);
-//                _webClient.DownloadFile(entry.Value, _path + entry.Key + ".png");
-//            }
+            resourcesDictionary.Add(DateTime.Now.ToString("yyyy-M-d") + " profile", ProfilePicture.GetAttribute("src"));
         }
 
         public StoryPage EnterStory()
