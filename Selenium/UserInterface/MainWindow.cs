@@ -9,7 +9,7 @@ namespace Selenium.UserInterface
 		private readonly Entry _targetAccount, _password, _username;
 		private readonly CheckButton _headlessBrowserBox, _getStoryBox, _getTextBox;
 		private readonly Button button;
-		private bool captureStory, captureText;
+//		private bool captureStory, captureText;
         
 		public MainWindow() : base(WindowType.Toplevel)
 		{
