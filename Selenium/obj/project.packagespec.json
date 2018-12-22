@@ -1,10 +1,10 @@
 ﻿{
   "version": "1.0.0",
   "restore": {
-    "projectUniqueName": "/home/ryun/Documents/instagram-scraper/Selenium/Selenium.csproj",
+    "projectUniqueName": "/home/ryun/Projects/instagram-scraper/Selenium/Selenium.csproj",
     "projectName": "Selenium",
-    "projectPath": "/home/ryun/Documents/instagram-scraper/Selenium/Selenium.csproj",
-    "outputPath": "/home/ryun/Documents/instagram-scraper/Selenium/obj/",
+    "projectPath": "/home/ryun/Projects/instagram-scraper/Selenium/Selenium.csproj",
+    "outputPath": "/home/ryun/Projects/instagram-scraper/Selenium/obj/",
     "projectStyle": "PackageReference",
     "fallbackFolders": [
       "/usr/share/dotnet/sdk/NuGetFallbackFolder"

@@ -1,10 +1,10 @@
 ﻿{
   "version": "1.0.0",
   "restore": {
-    "projectUniqueName": "/home/ryun/Documents/instagram-scraper/instagram-scraper/instagram-scraper.csproj",
+    "projectUniqueName": "/home/ryun/Projects/instagram-scraper/instagram-scraper/instagram-scraper.csproj",
     "projectName": "instagram-scraper",
-    "projectPath": "/home/ryun/Documents/instagram-scraper/instagram-scraper/instagram-scraper.csproj",
-    "outputPath": "/home/ryun/Documents/instagram-scraper/instagram-scraper/obj/",
+    "projectPath": "/home/ryun/Projects/instagram-scraper/instagram-scraper/instagram-scraper.csproj",
+    "outputPath": "/home/ryun/Projects/instagram-scraper/instagram-scraper/obj/",
     "projectStyle": "PackageReference",
     "fallbackFolders": [
       "/usr/share/dotnet/sdk/NuGetFallbackFolder"
