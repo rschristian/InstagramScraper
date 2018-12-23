@@ -10,11 +10,13 @@ namespace Selenium.PageObjects
     public class ProfilePage
     {
         private readonly IWebDriver _driver;
+        
+        private readonly WebDriverExtensions _webHelper;
 
         public ProfilePage(IWebDriver driver)
         {
             _driver = driver;
-            PageFactory.InitElements(driver, this);
+            _webHelper = new WebDriverExtensions(driver);
         }
         
         private IWebElement FirstPost => _driver.FindElement(By.CssSelector("div._bz0w a"));
@@ -37,6 +39,8 @@ namespace Selenium.PageObjects
 
         public StoryPage EnterStory()
         {
+            _webHelper.FindElement(By.CssSelector("div.RR-M-"), 5);
+            if (!WebDriverExtensions.IsElementPresent(StoryClass)) return null;
             var executor = (IJavaScriptExecutor) _driver;
             executor.ExecuteScript("arguments[0].click();", StoryClass);
             return new StoryPage(_driver);

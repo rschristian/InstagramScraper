@@ -21,21 +21,21 @@ namespace Selenium
 
         public static void SetUp(string targetAccount, bool headless)
         {
-            var optionsFireFox = new FirefoxOptions();
+            //var optionsFireFox = new FirefoxOptions();
+            //optionsFireFox.SetPreference("permissions.default.image", 2);
+            //optionsFireFox.SetPreference("dom.ipc.plugins.enabled.libflashplayer.so", false);
+            
             var optionsChrome = new ChromeOptions();
-            if (headless) { optionsFireFox.AddArgument("--headless"); optionsChrome.AddArgument("headless");}
-            
-//            optionsFireFox.SetPreference("permissions.default.image", 2);
-//            optionsFireFox.SetPreference("dom.ipc.plugins.enabled.libflashplayer.so", false);
-            
-//            _driver = new FirefoxDriver(options);
-            
-            
             optionsChrome.AddUserProfilePreference("profile.default_content_setting_values.images", 2);
+            if (headless)
+            {
+                //optionsFireFox.AddArgument("--headless");
+                optionsChrome.AddArgument("headless");
+            }
+            //_driver = new FirefoxDriver(options);
             _driver = new ChromeDriver(optionsChrome);
             
             _path = _path + targetAccount + "/";
-
             RunScraper(targetAccount);
         }
 
@@ -59,6 +59,18 @@ namespace Selenium
             Console.WriteLine("Time to get all post pictures: " + getPostPicturesTime/1000.00 + " seconds");
             
             watch.Restart();
+            DownloadFiles(resourcesDictionary);
+            watch.Stop();
+            var downloadPicturesTime = watch.ElapsedMilliseconds;
+            Console.WriteLine("Time to download pictures: " + downloadPicturesTime/1000.00 + " seconds");
+            
+            Console.WriteLine("Total Program Time: " + (enterPostTime + getPostPicturesTime +
+                                                        downloadPicturesTime)/1000.00 + " seconds");
+            _driver.Quit();
+        }
+
+        private static void DownloadFiles(UriNameDictionary resourcesDictionary)
+        {
             foreach (var entry in resourcesDictionary)
             {
                 if(!File.Exists(_path)) {Directory.CreateDirectory(_path);}
@@ -72,12 +84,6 @@ namespace Selenium
                     WebClient.DownloadFile(entry.Value, _path + entry.Key + ".jpg");
                 }
             }
-            watch.Stop();
-            var downloadPicturesTime = watch.ElapsedMilliseconds;
-            Console.WriteLine("Time to download pictures: " + downloadPicturesTime/1000.00 + " seconds");
-            Console.WriteLine("Total Program Time: " + (enterPostTime + getPostPicturesTime +
-                                                        downloadPicturesTime)/1000.00 + " seconds");
-            _driver.Quit();
         }
     }
 }

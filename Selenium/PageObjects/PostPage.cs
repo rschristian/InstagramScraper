@@ -9,17 +9,12 @@ namespace Selenium.PageObjects
 {
     public class PostPage
     {
-        private readonly IWebDriver _driver;
-
-        private int _contentInSet = 1;
-
         private readonly WebDriverExtensions _webHelper;
         
         private List<string> _tempLinkList = new List<string>();
 
         public PostPage(IWebDriver driver)
         {
-            _driver = driver;
             _webHelper = new WebDriverExtensions(driver);
         }
                                                                                                                                 
@@ -40,15 +35,13 @@ namespace Selenium.PageObjects
         {
             try
             {
-                var watch = System.Diagnostics.Stopwatch.StartNew();
-                _webHelper.FindElement(By.CssSelector(".kPFhm img"), 2);
-                watch.Stop();
-                Console.WriteLine("Time spent waiting: " + watch.ElapsedMilliseconds);
-                //Console.WriteLine("URL of Page: " + _driver.Url);
+//                var watch = System.Diagnostics.Stopwatch.StartNew();
+                _webHelper.FindElement(By.CssSelector(".kPFhm img"), 5);
+//                watch.Stop();
+//                Console.WriteLine("Time spent waiting: " + watch.ElapsedMilliseconds);
 
                 if (WebDriverExtensions.IsElementPresent(MultiSrcPostChevron))
                 {
-                    _contentInSet++;
                     if (WebDriverExtensions.IsElementsPresent(VideoSourceClass))
                     {
                         foreach (var webElement in VideoSourceClass)
@@ -101,7 +94,6 @@ namespace Selenium.PageObjects
                     if (WebDriverExtensions.IsElementPresent(NextPostPaginationArrow))
                     {
                         NextPostPaginationArrow.Click();
-                        _contentInSet = 1;
                         _tempLinkList.Clear();
                         GetPostData(resourceDictionary);
                     }
@@ -114,7 +106,7 @@ namespace Selenium.PageObjects
             }
             catch (StaleElementReferenceException)
             {
-                Console.WriteLine("FUCK");
+                Console.WriteLine("Stale Element, Retrying");
                 GetPostData(resourceDictionary);
             }
         }
