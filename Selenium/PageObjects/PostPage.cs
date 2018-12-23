@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using OpenQA.Selenium;
 using Selenium.Utility;
 
@@ -37,76 +38,85 @@ namespace Selenium.PageObjects
 
         public void GetPostData(UriNameDictionary resourceDictionary)
         {
-            _webHelper.FindElement(By.CssSelector(".kPFhm img"), 2);
-//            Console.WriteLine("URL of Page: " + _driver.Url);
-            
-            if (WebDriverExtensions.IsElementPresent(MultiSrcPostChevron))
+            try
             {
-                _contentInSet++;
-                if (WebDriverExtensions.IsElementsPresent(VideoSourceClass))
+                var watch = System.Diagnostics.Stopwatch.StartNew();
+                _webHelper.FindElement(By.CssSelector(".kPFhm img"), 2);
+                watch.Stop();
+                Console.WriteLine("Time spent waiting: " + watch.ElapsedMilliseconds);
+                //Console.WriteLine("URL of Page: " + _driver.Url);
+
+                if (WebDriverExtensions.IsElementPresent(MultiSrcPostChevron))
                 {
-                    foreach (var webElement in VideoSourceClass)
+                    _contentInSet++;
+                    if (WebDriverExtensions.IsElementsPresent(VideoSourceClass))
                     {
-                        _tempLinkList.Add(webElement.GetAttribute("src"));
+                        foreach (var webElement in VideoSourceClass)
+                        {
+                            _tempLinkList.Add(webElement.GetAttribute("src"));
+                        }
                     }
-                }
-                else if (WebDriverExtensions.IsElementsPresent(ImageSourceClass))
-                {
-                    foreach (var webElement in ImageSourceClass)
+                    else if (WebDriverExtensions.IsElementsPresent(ImageSourceClass))
                     {
-                        if (!_webHelper.IsElementVisible(webElement)) continue;
-                        var stringList = webElement.GetAttribute("srcset").Split(',');
-                        var index = Array.FindIndex(stringList, row => row.Contains("1080w"));
-                        _tempLinkList.Add(stringList[index].Remove(stringList[index].Length-6));
+                        foreach (var webElement in ImageSourceClass)
+                        {
+                            if (!_webHelper.IsElementVisible(webElement)) continue;
+                            var stringList = webElement.GetAttribute("srcset").Split(',');
+                            var index = Array.FindIndex(stringList, row => row.Contains("1080w"));
+                            _tempLinkList.Add(stringList[index].Remove(stringList[index].Length - 6));
+                        }
                     }
-                }
-                MultiSrcPostChevron.Click();
-                GetPostData(resourceDictionary);
-            }
-            else
-            {
-                if (WebDriverExtensions.IsElementsPresent(VideoSourceClass))
-                {
-                    foreach (var webElement in VideoSourceClass)
-                    {
-                        _tempLinkList.Add(webElement.GetAttribute("src"));
-                    }
-                }
-                else if (WebDriverExtensions.IsElementsPresent(ImageSourceClass))
-                {
-                    foreach (var webElement in ImageSourceClass)
-                    {
-                        if (!_webHelper.IsElementVisible(webElement)) continue;
-                        var stringList = webElement.GetAttribute("srcset").Split(',');
-                        var index = Array.FindIndex(stringList, row => row.Contains("1080w"));
-                        _tempLinkList.Add(stringList[index].Remove(stringList[index].Length-6));
-                    }
-                }
 
-                _tempLinkList = _tempLinkList.Distinct().ToList();
-                var timeStamp = RefineTimeStamp();
-
-                for (var i = 0; i < _contentInSet; i++)
-                {
-                    resourceDictionary.Add(timeStamp + " " + (_contentInSet - i), _tempLinkList[i]);
-                }
-
-
-
-                if (WebDriverExtensions.IsElementPresent(NextPostPaginationArrow))
-                {
-                    NextPostPaginationArrow.Click();
-                    _contentInSet = 1;
-                    _tempLinkList.Clear();
+                    MultiSrcPostChevron.Click();
                     GetPostData(resourceDictionary);
                 }
                 else
                 {
-                    Console.WriteLine("Finished");
-                    //finish
+                    if (WebDriverExtensions.IsElementsPresent(VideoSourceClass))
+                    {
+                        foreach (var webElement in VideoSourceClass)
+                        {
+                            _tempLinkList.Add(webElement.GetAttribute("src"));
+                        }
+                    }
+                    else if (WebDriverExtensions.IsElementsPresent(ImageSourceClass))
+                    {
+                        foreach (var webElement in ImageSourceClass)
+                        {
+                            if (!_webHelper.IsElementVisible(webElement)) continue;
+                            var stringList = webElement.GetAttribute("srcset").Split(',');
+                            var index = Array.FindIndex(stringList, row => row.Contains("1080w"));
+                            _tempLinkList.Add(stringList[index].Remove(stringList[index].Length - 6));
+                        }
+                    }
+
+                    _tempLinkList = _tempLinkList.Distinct().ToList();
+                    var timeStamp = RefineTimeStamp();
+
+                    for (var i = 0; i < _tempLinkList.Count; i++)
+                    {
+                        resourceDictionary.Add(timeStamp + " " + (_tempLinkList.Count - i), _tempLinkList[i]);
+                    }
+
+                    if (WebDriverExtensions.IsElementPresent(NextPostPaginationArrow))
+                    {
+                        NextPostPaginationArrow.Click();
+                        _contentInSet = 1;
+                        _tempLinkList.Clear();
+                        GetPostData(resourceDictionary);
+                    }
+                    else
+                    {
+                        Console.WriteLine("Finished");
+                        //finish
+                    }
                 }
             }
-            
+            catch (StaleElementReferenceException)
+            {
+                Console.WriteLine("FUCK");
+                GetPostData(resourceDictionary);
+            }
         }
 
         private string RefineTimeStamp()
