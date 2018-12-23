@@ -1,13 +1,16 @@
 using System;
 using System.IO;
 using System.Net;
-using Gtk;
 using OpenQA.Selenium.Firefox;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
-using Pango;
 using Selenium.PageObjects;
 using Selenium.Utility;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Selenium
 {
@@ -15,7 +18,7 @@ namespace Selenium
     {
         private static IWebDriver _driver;
         
-        private static string _path = "/home/ryun/Pictures/";
+        private static string _path;
         
         private static readonly WebClient WebClient = new WebClient();
 
@@ -34,8 +37,10 @@ namespace Selenium
             }
             //_driver = new FirefoxDriver(options);
             _driver = new ChromeDriver(optionsChrome);
+
+            const string userSaveLocation = "/home/ryun/Pictures/";
             
-            _path = _path + targetAccount + "/";
+            _path = userSaveLocation + targetAccount + "/";
             RunScraper(targetAccount);
         }
 
@@ -46,7 +51,7 @@ namespace Selenium
             
             profilePage.GoToProfile(targetAccount);
             profilePage.GetProfilePicture(resourcesDictionary);
-//            profilePage.EnterStory();
+            // profilePage.EnterStory();
             var postPage = profilePage.EnterPosts();
             watch.Stop();
             var enterPostTime = watch.ElapsedMilliseconds;
