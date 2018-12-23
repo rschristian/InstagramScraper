@@ -14,10 +14,10 @@ namespace Selenium.PageObjects
             PageFactory.InitElements(driver, this);
         }
         
-//        private IWebElement StoryVideoSrcClass => _driver.FindElement(By.CssSelector(".OFkrO source"));
+        private IWebElement StoryVideoSrcClass => _driver.FindElement(By.CssSelector(".OFkrO source"));
         
         //This will always exist, as for a video, the thumbnail is stored here
-//        private IWebElement StoryImageSrcClass => _driver.FindElement(By.CssSelector("._7NpAS"));
+        private IWebElement StoryImageSrcClass => _driver.FindElement(By.CssSelector("._7NpAS"));
 
         public void SaveStoryContent()
         {
