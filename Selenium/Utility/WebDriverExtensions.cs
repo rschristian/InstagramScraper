@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using OpenQA.Selenium;
@@ -36,14 +37,7 @@ namespace Selenium.Utility
         
         public IEnumerable<IWebElement> SafeFindElements(string selector)
         {
-            try
-            {
-                return _driver.FindElements(By.CssSelector(selector));
-            }
-            catch (NoSuchElementException)
-            {
-                return null;
-            }
+            return _driver.FindElements(By.CssSelector(selector));
         }
         
         public static bool IsElementPresent(IWebElement element)
@@ -57,6 +51,19 @@ namespace Selenium.Utility
                 return false;
             }
             catch (NullReferenceException)
+            {
+                return false;
+            }
+        }
+        
+        public bool IsElementPresent(string cssSelector)
+        {
+            try
+            {
+                _driver.FindElement(By.CssSelector(cssSelector));
+                return true;
+            }
+            catch (NoSuchElementException)
             {
                 return false;
             }
