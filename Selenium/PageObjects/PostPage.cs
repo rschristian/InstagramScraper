@@ -22,6 +22,13 @@ namespace Selenium.PageObjects
 
         private const string Path = UserSaveLocation + "gwenddalyn" + "/";
 
+        private const string MultiSrcPostChevronRootString = "._97aPb";
+        private const string MultiSrcPostChevronString = ".coreSpriteRightChevron";
+        private const string NextPostPaginationArrowString = ".coreSpriteRightPaginationArrow";
+        private const string PostTimeStampString = ".time[datetime]";
+        private const string ImageSourceClassString = ".kPFhm img";
+        private const string VideoSourceClassString = ".tWeCl";
+
         public PostPage(IWebDriver driver, Queue<KeyValuePair<string, string>> downloadQueue)
         {
             _downloadQueue = downloadQueue;
@@ -45,26 +52,21 @@ namespace Selenium.PageObjects
         {
             try
             {
-                // var watch = System.Diagnostics.Stopwatch.StartNew();
-                _webHelper.FindElement(By.CssSelector("._97aPb"), 5);
-                System.Threading.Thread.Sleep(25);
-                // watch.Stop();
-                // Console.WriteLine("Time spent waiting: " + watch.ElapsedMilliseconds);
+                _webHelper.FindElement(By.CssSelector(".kPFhm"), 5);
 
-                if (WebDriverExtensions.IsElementPresent(MultiSrcPostChevron))
+                if (MultiSrcPostChevron != null)
                 {
-                    if (WebDriverExtensions.IsElementsPresent(VideoSourceClass))
+                    if (VideoSourceClass.Any())
                     {
                         foreach (var webElement in VideoSourceClass)
                         {
                             _tempLinkList.Add(webElement.GetAttribute("src"));
                         }
                     }
-                    else if (WebDriverExtensions.IsElementsPresent(ImageSourceClass))
+                    else if (ImageSourceClass.Any())
                     {
                         foreach (var webElement in ImageSourceClass)
                         {
-                            if (!webElement.Displayed) continue;
                             var stringList = webElement.GetAttribute("srcset").Split(',');
                             var index = Array.FindIndex(stringList, row => row.Contains("1080w"));
                             _tempLinkList.Add(stringList[index].Remove(stringList[index].Length - 6));
@@ -76,18 +78,17 @@ namespace Selenium.PageObjects
                 }
                 else
                 {
-                    if (WebDriverExtensions.IsElementsPresent(VideoSourceClass))
+                    if (VideoSourceClass.Any())
                     {
                         foreach (var webElement in VideoSourceClass)
                         {
                             _tempLinkList.Add(webElement.GetAttribute("src"));
                         }
                     }
-                    else if (WebDriverExtensions.IsElementsPresent(ImageSourceClass))
+                    else if (ImageSourceClass.Any())
                     {
                         foreach (var webElement in ImageSourceClass)
                         {
-                            if (!webElement.Displayed) continue;
                             var stringList = webElement.GetAttribute("srcset").Split(',');
                             var index = Array.FindIndex(stringList, row => row.Contains("1080w"));
                             _tempLinkList.Add(stringList[index].Remove(stringList[index].Length - 6));
@@ -117,10 +118,9 @@ namespace Selenium.PageObjects
                     }
                 }
             }
-            catch (StaleElementReferenceException ex)
+            catch (StaleElementReferenceException)
             {
                 Console.WriteLine("Stale Element, Retrying");
-                Console.WriteLine(ex.ToString());
                 GetPostData(resourceDictionary);
             }
         }
@@ -138,34 +138,20 @@ namespace Selenium.PageObjects
             
             if (!_downloadQueue.Any()) return;
             var client = new WebClient();
-            client.DownloadFileCompleted += client_DownloadFileCompleted;
             
             var url = _downloadQueue.Dequeue();
-                
-            if (File.Exists(Path + url.Key + ".mp4") && File.Exists(Path + url.Key + ".jpg")) return;
-            if (url.Value.Contains(".mp4"))
+            
+            if (!File.Exists(Path + url.Key + ".*"))
             {
-                client.DownloadFileAsync(new Uri(url.Value), Path + url.Key + ".mp4");
-            }
-            else
-            {
-                client.DownloadFileAsync(new Uri(url.Value), Path + url.Key + ".jpg");
+                if (url.Value.Contains(".mp4"))
+                {
+                    client.DownloadFileAsync(new Uri(url.Value), Path + url.Key + ".mp4");
+                }
+                else
+                {
+                    client.DownloadFileAsync(new Uri(url.Value), Path + url.Key + ".jpg");
+                }   
             }
         }
-        
-        private void client_DownloadFileCompleted(object sender, AsyncCompletedEventArgs e)
-        {
-            if (e.Error != null)
-            {
-                // handle error scenario
-                throw e.Error;
-            }
-            if (e.Cancelled)
-            {
-                // handle cancelled scenario
-            }
-            DownloadFile();
-        }
-
     }
 }
