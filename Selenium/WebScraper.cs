@@ -6,9 +6,7 @@ using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using Selenium.PageObjects;
 using Selenium.Utility;
-using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -68,6 +66,13 @@ namespace Selenium
             watch.Stop();
             var downloadPicturesTime = watch.ElapsedMilliseconds;
             Console.WriteLine("Time to download pictures: " + downloadPicturesTime/1000.00 + " seconds");
+
+            // foreach (var entry in resourcesDictionary)
+            // {
+            //   Console.WriteLine("Entry Key: " + entry.Key + " Entry Value: " + entry.Value);  
+            // }
+            Console.WriteLine(resourcesDictionary.Count);
+            Console.WriteLine("Correct Value is: 98");
             
             Console.WriteLine("Total Program Time: " + (enterPostTime + getPostPicturesTime +
                                                         downloadPicturesTime)/1000.00 + " seconds");
