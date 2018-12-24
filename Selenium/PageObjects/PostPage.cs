@@ -1,5 +1,8 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Net;
 using OpenQA.Selenium;
@@ -13,21 +16,28 @@ namespace Selenium.PageObjects
         
         private List<string> _tempLinkList = new List<string>();
 
-        public PostPage(IWebDriver driver)
+        private readonly Queue<KeyValuePair<string, string>> _downloadQueue;
+
+        private const string UserSaveLocation = "/home/ryun/Pictures/";
+
+        private const string Path = UserSaveLocation + "***REMOVED***" + "/";
+
+        public PostPage(IWebDriver driver, Queue<KeyValuePair<string, string>> downloadQueue)
         {
+            _downloadQueue = downloadQueue;
             _webHelper = new WebDriverExtensions(driver);
         }
                                                                                                                                 
         private IWebElement MultiSrcPostChevronRoot => _webHelper.SafeFindElement("._97aPb");
 
         private IWebElement MultiSrcPostChevron => _webHelper.SafeFindElement(".coreSpriteRightChevron");
-
+        
         private IWebElement NextPostPaginationArrow => _webHelper.SafeFindElement(".coreSpriteRightPaginationArrow");
         
         private IWebElement PostTimeStamp => _webHelper.SafeFindElement("time[datetime]");
-
+        
         private IEnumerable<IWebElement> ImageSourceClass => _webHelper.SafeFindElements(".kPFhm img");
-
+        
         private IEnumerable<IWebElement> VideoSourceClass => _webHelper.SafeFindElements(".tWeCl");
         
 
@@ -35,10 +45,11 @@ namespace Selenium.PageObjects
         {
             try
             {
-//                var watch = System.Diagnostics.Stopwatch.StartNew();
-                _webHelper.FindElement(By.CssSelector(".kPFhm img"), 5);
-//                watch.Stop();
-//                Console.WriteLine("Time spent waiting: " + watch.ElapsedMilliseconds);
+                // var watch = System.Diagnostics.Stopwatch.StartNew();
+                _webHelper.FindElement(By.CssSelector("._97aPb"), 5);
+                System.Threading.Thread.Sleep(25);
+                // watch.Stop();
+                // Console.WriteLine("Time spent waiting: " + watch.ElapsedMilliseconds);
 
                 if (WebDriverExtensions.IsElementPresent(MultiSrcPostChevron))
                 {
@@ -53,7 +64,7 @@ namespace Selenium.PageObjects
                     {
                         foreach (var webElement in ImageSourceClass)
                         {
-                            if (!_webHelper.IsElementVisible(webElement)) continue;
+                            if (!webElement.Displayed) continue;
                             var stringList = webElement.GetAttribute("srcset").Split(',');
                             var index = Array.FindIndex(stringList, row => row.Contains("1080w"));
                             _tempLinkList.Add(stringList[index].Remove(stringList[index].Length - 6));
@@ -76,7 +87,7 @@ namespace Selenium.PageObjects
                     {
                         foreach (var webElement in ImageSourceClass)
                         {
-                            if (!_webHelper.IsElementVisible(webElement)) continue;
+                            if (!webElement.Displayed) continue;
                             var stringList = webElement.GetAttribute("srcset").Split(',');
                             var index = Array.FindIndex(stringList, row => row.Contains("1080w"));
                             _tempLinkList.Add(stringList[index].Remove(stringList[index].Length - 6));
@@ -89,6 +100,8 @@ namespace Selenium.PageObjects
                     for (var i = 0; i < _tempLinkList.Count; i++)
                     {
                         resourceDictionary.Add(timeStamp + " " + (_tempLinkList.Count - i), _tempLinkList[i]);
+                        _downloadQueue.Enqueue(new KeyValuePair<string,string>(timeStamp + " " + (_tempLinkList.Count - i), _tempLinkList[i]));
+                        DownloadFile();
                     }
 
                     if (WebDriverExtensions.IsElementPresent(NextPostPaginationArrow))
@@ -104,9 +117,10 @@ namespace Selenium.PageObjects
                     }
                 }
             }
-            catch (StaleElementReferenceException)
+            catch (StaleElementReferenceException ex)
             {
                 Console.WriteLine("Stale Element, Retrying");
+                Console.WriteLine(ex.ToString());
                 GetPostData(resourceDictionary);
             }
         }
@@ -117,5 +131,41 @@ namespace Selenium.PageObjects
             timeStamp = timeStamp.Substring(0, 10) + " " + timeStamp.Substring(12, 7);
             return timeStamp;
         }
+
+        private void DownloadFile()
+        {
+            if(!File.Exists(Path)) {Directory.CreateDirectory(Path);}
+            
+            if (!_downloadQueue.Any()) return;
+            var client = new WebClient();
+            client.DownloadFileCompleted += client_DownloadFileCompleted;
+            
+            var url = _downloadQueue.Dequeue();
+                
+            if (File.Exists(Path + url.Key + ".mp4") && File.Exists(Path + url.Key + ".jpg")) return;
+            if (url.Value.Contains(".mp4"))
+            {
+                client.DownloadFileAsync(new Uri(url.Value), Path + url.Key + ".mp4");
+            }
+            else
+            {
+                client.DownloadFileAsync(new Uri(url.Value), Path + url.Key + ".jpg");
+            }
+        }
+        
+        private void client_DownloadFileCompleted(object sender, AsyncCompletedEventArgs e)
+        {
+            if (e.Error != null)
+            {
+                // handle error scenario
+                throw e.Error;
+            }
+            if (e.Cancelled)
+            {
+                // handle cancelled scenario
+            }
+            DownloadFile();
+        }
+
     }
 }

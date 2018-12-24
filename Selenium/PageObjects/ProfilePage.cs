@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using OpenQA.Selenium;
 using SeleniumExtras.PageObjects;
@@ -50,7 +51,7 @@ namespace Selenium.PageObjects
         {
             var executor = (IJavaScriptExecutor) _driver;
             executor.ExecuteScript("arguments[0].click();", FirstPost);
-            return new PostPage(_driver);
+            return new PostPage(_driver, new Queue<KeyValuePair<string, string>>());
         }
     }
 }
