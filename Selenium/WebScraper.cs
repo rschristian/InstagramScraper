@@ -20,22 +20,25 @@ namespace Selenium
         
         private static readonly WebClient WebClient = new WebClient();
 
-        public static void SetUp(string targetAccount, bool headless)
+        public static void SetUp(string targetAccount, bool headless, bool firefoxProfile)
         {
-            //var optionsFireFox = new FirefoxOptions();
-            //optionsFireFox.SetPreference("permissions.default.image", 2);
-            //optionsFireFox.SetPreference("dom.ipc.plugins.enabled.libflashplayer.so", false);
-            
-            var optionsChrome = new ChromeOptions();
-            optionsChrome.AddUserProfilePreference("profile.default_content_setting_values.images", 2);
-            if (headless)
+            if (firefoxProfile)
             {
-                //optionsFireFox.AddArgument("--headless");
-                optionsChrome.AddArgument("headless");
+                var optionsFireFox = new FirefoxOptions();
+                optionsFireFox.SetPreference("permissions.default.image", 2);
+                optionsFireFox.SetPreference("dom.ipc.plugins.enabled.libflashplayer.so", false);
+                if (headless) { optionsFireFox.AddArgument("--headless"); }
+                _driver = new FirefoxDriver(optionsFireFox);
             }
-            //_driver = new FirefoxDriver(options);
-            _driver = new ChromeDriver(optionsChrome);
-
+            else
+            {
+                var optionsChrome = new ChromeOptions();
+                optionsChrome.AddUserProfilePreference("profile.default_content_setting_values.images", 2);
+            
+                if (headless) { optionsChrome.AddArgument("headless"); }
+                _driver = new ChromeDriver(optionsChrome);
+            }
+            
             const string userSaveLocation = "/home/ryun/Pictures/";
             
             _path = userSaveLocation + targetAccount + "/";
@@ -72,7 +75,7 @@ namespace Selenium
             //   Console.WriteLine("Entry Key: " + entry.Key + " Entry Value: " + entry.Value);  
             // }
             Console.WriteLine(resourcesDictionary.Count);
-            Console.WriteLine("Correct Value is: 98");
+            Console.WriteLine("Correct Value is: 99 (98 posts, 1 profile pic)");
             
             Console.WriteLine("Total Program Time: " + (enterPostTime + getPostPicturesTime +
                                                         downloadPicturesTime)/1000.00 + " seconds");

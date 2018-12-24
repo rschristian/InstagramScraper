@@ -9,6 +9,7 @@ namespace Selenium.UserInterface
 		private readonly Entry _targetAccount, _password, _username;
 		private readonly CheckButton _headlessBrowserBox, _getStoryBox, _getTextBox;
 		private readonly Button button;
+		private readonly RadioButton _firefoxRadioButton, _chromeRadioButton;
 //		private bool captureStory, captureText;
         
 		public MainWindow() : base(WindowType.Toplevel)
@@ -54,6 +55,7 @@ namespace Selenium.UserInterface
 			// Container child fixed1.Gtk.Fixed+FixedChild
 			_headlessBrowserBox = new CheckButton
 			{
+				Active = true,
 				CanFocus = true,
 				Name = "HeadlessCheckBox",
 				DrawIndicator = true,
@@ -90,6 +92,32 @@ namespace Selenium.UserInterface
 			var w6 = (Fixed.FixedChild)fixedContainer[_getTextBox];
 			w6.X = 10;
 			w6.Y = 260;
+			
+			_firefoxRadioButton = new RadioButton (null, "FireFoxRadioButton")
+			{
+				CanFocus = true,
+				Name = "FireFoxRadioButton",
+				DrawIndicator = true,
+				UseUnderline = true,
+				Label = "FireFox"
+			};
+			fixedContainer.Add(_firefoxRadioButton);
+			var w7 = (Fixed.FixedChild)fixedContainer[_firefoxRadioButton];
+			w7.X = 10;
+			w7.Y = 295;
+			
+			_chromeRadioButton = new RadioButton (_firefoxRadioButton, "ChromeRadioButton")
+			{
+				CanFocus = true,
+				Name = "ChromeRadioButton",
+				DrawIndicator = true,
+				UseUnderline = true,
+				Label = "Chrome"
+			};
+			fixedContainer.Add(_chromeRadioButton);
+			var w8 = (Fixed.FixedChild)fixedContainer[_chromeRadioButton];
+			w8.X = 10;
+			w8.Y = 330;
 
 			button = new Button
 			{
@@ -102,9 +130,9 @@ namespace Selenium.UserInterface
 			button.Clicked += OnClickedEvent;
 			
 			fixedContainer.Add(button);
-			var w7 = (Fixed.FixedChild)fixedContainer[button];
-			w7.X = 10;
-			w7.Y = 300;
+			var w9 = (Fixed.FixedChild)fixedContainer[button];
+			w9.X = 10;
+			w9.Y = 370;
 	        
 			alignment.Add(fixedContainer);
 			Add(alignment);
@@ -117,7 +145,7 @@ namespace Selenium.UserInterface
 
 		private void OnClickedEvent(object obj, EventArgs args)
 		{
-			if (_targetAccount.Text != "") {WebScraper.SetUp(_targetAccount.Text, _headlessBrowserBox.Active);}
+			if (_targetAccount.Text != "") {WebScraper.SetUp(_targetAccount.Text, _headlessBrowserBox.Active, _firefoxRadioButton.Active);}
 			else {var md = new MessageDialog(this, 
 					DialogFlags.DestroyWithParent, MessageType.Error, 
 					ButtonsType.Close, "You must give a target account");
