@@ -11,7 +11,6 @@ namespace Selenium.PageObjects
         public StoryPage(IWebDriver driver)
         {
             _driver = driver;
-            PageFactory.InitElements(driver, this);
         }
         
         private IWebElement StoryVideoSrcClass => _driver.FindElement(By.CssSelector(".OFkrO source"));

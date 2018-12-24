@@ -50,7 +50,6 @@ namespace Selenium.Utility
         {
             try
             {
-
                 return element.Displayed;
             }
             catch (NoSuchElementException)
@@ -81,11 +80,6 @@ namespace Selenium.Utility
                 return false;
             }
             return false;
-        }
-
-        public bool IsElementVisible(IWebElement element)
-        {
-            return element.Displayed && element.Enabled;
         }
     }
 }
