@@ -18,24 +18,14 @@ namespace Selenium.PageObjects
 
         private readonly Queue<KeyValuePair<string, string>> _downloadQueue;
 
-        private const string UserSaveLocation = "/home/ryun/Pictures/";
+        private readonly string _path;
 
-        private const string Path = UserSaveLocation + "***REMOVED***" + "/";
-
-        private const string MultiSrcPostChevronRootString = "._97aPb";
-        private const string MultiSrcPostChevronString = ".coreSpriteRightChevron";
-        private const string NextPostPaginationArrowString = ".coreSpriteRightPaginationArrow";
-        private const string PostTimeStampString = ".time[datetime]";
-        private const string ImageSourceClassString = ".kPFhm img";
-        private const string VideoSourceClassString = ".tWeCl";
-
-        public PostPage(IWebDriver driver, Queue<KeyValuePair<string, string>> downloadQueue)
+        public PostPage(IWebDriver driver, string fileSavePath, Queue<KeyValuePair<string, string>> downloadQueue)
         {
             _downloadQueue = downloadQueue;
             _webHelper = new WebDriverExtensions(driver);
+            _path = fileSavePath + "/";
         }
-                                                                                                                                
-        private IWebElement MultiSrcPostChevronRoot => _webHelper.SafeFindElement("._97aPb");
 
         private IWebElement MultiSrcPostChevron => _webHelper.SafeFindElement(".coreSpriteRightChevron");
         
@@ -52,7 +42,7 @@ namespace Selenium.PageObjects
         {
             try
             {
-                _webHelper.FindElement(By.CssSelector(".kPFhm"), 5);
+                _webHelper.FindElement(By.CssSelector(".eo2As"), 5);
 
                 if (MultiSrcPostChevron != null)
                 {
@@ -113,6 +103,7 @@ namespace Selenium.PageObjects
                     }
                     else
                     {
+                        DownloadFile();
                         Console.WriteLine("Finished");
                         //finish
                     }
@@ -134,23 +125,21 @@ namespace Selenium.PageObjects
 
         private void DownloadFile()
         {
-            if(!File.Exists(Path)) {Directory.CreateDirectory(Path);}
-            
-            if (!_downloadQueue.Any()) return;
+            if(!File.Exists(_path)) {Directory.CreateDirectory(_path);}
             var client = new WebClient();
             
-            var url = _downloadQueue.Dequeue();
+            while (!_downloadQueue.Any()) return;
             
-            if (!File.Exists(Path + url.Key + ".*"))
+            var url = _downloadQueue.Dequeue();
+
+            if (File.Exists(_path + url.Key + ".*")) return;
+            if (url.Value.Contains(".mp4"))
             {
-                if (url.Value.Contains(".mp4"))
-                {
-                    client.DownloadFileAsync(new Uri(url.Value), Path + url.Key + ".mp4");
-                }
-                else
-                {
-                    client.DownloadFileAsync(new Uri(url.Value), Path + url.Key + ".jpg");
-                }   
+                client.DownloadFileAsync(new Uri(url.Value), _path + url.Key + ".mp4");
+            }
+            else
+            {
+                client.DownloadFileAsync(new Uri(url.Value), _path + url.Key + ".jpg");
             }
         }
     }
