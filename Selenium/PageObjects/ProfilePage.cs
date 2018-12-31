@@ -33,9 +33,9 @@ namespace Selenium.PageObjects
             
         }
         
-        public void GetProfilePicture(UriNameDictionary resourcesDictionary)
+        public void GetProfilePicture(Queue<KeyValuePair<string, string>> downloadQueue)
         {
-            resourcesDictionary.Add(DateTime.Now.ToString("yyyy-M-d") + " profile", ProfilePicture.GetAttribute("src"));
+            downloadQueue.Enqueue(new KeyValuePair<string, string>(DateTime.Now.ToString("yyyy-M-d") + " profile", ProfilePicture.GetAttribute("src")));
         }
 
         public StoryPage EnterStory()
@@ -47,11 +47,11 @@ namespace Selenium.PageObjects
             return new StoryPage(_driver);
         }
         
-        public PostPage EnterPosts()
+        public PostPage EnterPosts(string fileSavePath, Queue<KeyValuePair<string, string>> downloadQueue)
         {
             var executor = (IJavaScriptExecutor) _driver;
             executor.ExecuteScript("arguments[0].click();", FirstPost);
-            return new PostPage(_driver, new Queue<KeyValuePair<string, string>>());
+            return new PostPage(_driver, fileSavePath, downloadQueue);
         }
     }
 }

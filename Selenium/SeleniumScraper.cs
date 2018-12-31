@@ -3,7 +3,7 @@ using Selenium.UserInterface;
 
 namespace Selenium
 {
-    class SeleniumScraper
+    internal static class SeleniumScraper
     {
         private static void Main(string[] args)
         {
