@@ -6,12 +6,9 @@ namespace Selenium.UserInterface
 {
 	public class MainWindow : Window
 	{
-		private readonly Entry _targetAccount, _password, _username;
+		private readonly Entry _targetAccount, _password, _username, _savePath;
 		private readonly CheckButton _headlessBrowserBox, _getStoryBox, _getTextBox;
-		private readonly Button button;
-		private readonly RadioButton _firefoxRadioButton, _chromeRadioButton;
-		private readonly FileChooserWidget _fileChooserWidget;
-//		private bool captureStory, captureText;
+		private readonly RadioButton _firefoxRadioButton;
         
 		public MainWindow() : base(WindowType.Toplevel)
 		{
@@ -107,7 +104,7 @@ namespace Selenium.UserInterface
 			w7.X = 10;
 			w7.Y = 295;
 			
-			_chromeRadioButton = new RadioButton (_firefoxRadioButton, "ChromeRadioButton")
+			var chromeRadioButton = new RadioButton (_firefoxRadioButton, "ChromeRadioButton")
 			{
 				CanFocus = true,
 				Name = "ChromeRadioButton",
@@ -115,12 +112,12 @@ namespace Selenium.UserInterface
 				UseUnderline = true,
 				Label = "Chrome"
 			};
-			fixedContainer.Add(_chromeRadioButton);
-			var w8 = (Fixed.FixedChild)fixedContainer[_chromeRadioButton];
+			fixedContainer.Add(chromeRadioButton);
+			var w8 = (Fixed.FixedChild)fixedContainer[chromeRadioButton];
 			w8.X = 10;
 			w8.Y = 330;
 
-			button = new Button
+			var runProgramButton = new Button
 			{
 				CanFocus = true,
 				Name = "RunScraperButton",
@@ -128,21 +125,36 @@ namespace Selenium.UserInterface
 				Label = "Run Web Scraper",
 				HasFocus = true
 			};
-			button.Clicked += OnClickedEvent;
-			
-			fixedContainer.Add(button);
-			var w9 = (Fixed.FixedChild)fixedContainer[button];
+			runProgramButton.Clicked += OnClickedEvent;
+			fixedContainer.Add(runProgramButton);
+			var w9 = (Fixed.FixedChild)fixedContainer[runProgramButton];
 			w9.X = 10;
 			w9.Y = 370;
-
-			_fileChooserWidget = new FileChooserWidget(FileChooserAction.SelectFolder)
+			
+			_savePath = new Entry
 			{
-				Name = "FileChooserWidget"
+				CanFocus = true, Name = "SavePath",
+				IsEditable = true,
+				PlaceholderText = "Where would you like these files to be saved?"
 			};
-			fixedContainer.Add(_fileChooserWidget);
-			var w10 = (Fixed.FixedChild)fixedContainer[_fileChooserWidget];
+			fixedContainer.Add(_savePath);
+			var w10 = ((Fixed.FixedChild)(fixedContainer[_savePath]));
 			w10.X = 300;
 			w10.Y = 300;
+			
+			var chooseSavePathButton = new Button
+			{
+				CanFocus = true,
+				Name = "ChooseSavePathButton",
+				UseUnderline = true,
+				Label = "Select File Save Path",
+				HasFocus = true
+			};
+			chooseSavePathButton.Clicked += OnClickedEvent;
+			fixedContainer.Add(chooseSavePathButton);
+			var w11 = (Fixed.FixedChild)fixedContainer[chooseSavePathButton];
+			w11.X = 467;
+			w11.Y = 301;
 
 	        
 			alignment.Add(fixedContainer);
@@ -154,17 +166,65 @@ namespace Selenium.UserInterface
 			DeleteEvent += OnDeleteEvent;
 		}
 
-		private void OnClickedEvent(object obj, EventArgs args)
+		private void OnClickedEvent(object sender, EventArgs args)
 		{
-			if (_targetAccount.Text != "")
+			if(!(sender is Button clickedButton))
 			{
-				WebScraper.SetUp(_targetAccount.Text, _fileChooserWidget.Uri.Substring(7), _headlessBrowserBox.Active, _firefoxRadioButton.Active);
+				return;
 			}
-			else {var md = new MessageDialog(this, 
-					DialogFlags.DestroyWithParent, MessageType.Error, 
-					ButtonsType.Close, "You must give a target account");
-				md.Run();
-				md.Destroy();}
+
+			if (clickedButton.Name.Equals("RunScraperButton"))
+			{
+				if (_targetAccount.Text != "" && _savePath.Text != "")
+				{
+					WebScraper.SetUp(_targetAccount.Text, _savePath.Text, _headlessBrowserBox.Active, _firefoxRadioButton.Active);
+				}
+				else switch (_targetAccount.Text) {
+					case "" when _savePath.Text == "": {
+						var targetAccountAndPathErrorDialog = new MessageDialog(this, 
+							DialogFlags.DestroyWithParent, MessageType.Error, 
+							ButtonsType.Close, "You must give a target account and a file save location");
+						targetAccountAndPathErrorDialog.Run();
+						targetAccountAndPathErrorDialog.Destroy();
+						break;
+					}
+					case "": {
+						var targetAccountErrorDialog = new MessageDialog(this, 
+							DialogFlags.DestroyWithParent, MessageType.Error, 
+							ButtonsType.Close, "You must give a target account");
+						targetAccountErrorDialog.Run();
+						targetAccountErrorDialog.Destroy();
+						break;
+					}
+					default:
+					{
+						if (_savePath.Text == "")
+						{
+							var fileSaveErrorDialog = new MessageDialog(this, 
+								DialogFlags.DestroyWithParent, MessageType.Error, 
+								ButtonsType.Close, "You must provide a file save location");
+							fileSaveErrorDialog.Run();
+							fileSaveErrorDialog.Destroy();
+						}
+
+						break;
+					}
+				}
+				
+			}
+			else if (clickedButton.Name.Equals("ChooseSavePathButton"))
+			{
+				var fileChooserDialog = new FileChooserDialog("Choose a file", this, FileChooserAction.SelectFolder,
+					"Cancel", ResponseType.Cancel,
+					"Select", ResponseType.Accept);
+				
+				if (fileChooserDialog.Run() == (int) ResponseType.Accept)
+				{
+					_savePath.Text = fileChooserDialog.Filename;
+				}
+					
+				fileChooserDialog.Destroy();
+			}
 		}
 
 		private static void OnDeleteEvent(object sender, DeleteEventArgs a)
