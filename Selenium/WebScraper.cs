@@ -1,5 +1,10 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Net;
+using System.Threading.Tasks;
+using System.Threading.Tasks.Dataflow;
 using OpenQA.Selenium.Firefox;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
@@ -11,11 +16,8 @@ namespace Selenium
     public static class WebScraper
     {
         private static IWebDriver _driver;
-        
-        private static string _path;
-        
 
-        public static void SetUp(string targetAccount, bool headless, bool firefoxProfile)
+        public static async void SetUp(string targetAccount, string folderSavePath, bool headless, bool firefoxProfile)
         {
             if (firefoxProfile)
             {
@@ -33,35 +35,53 @@ namespace Selenium
                 if (headless) { optionsChrome.AddArgument("headless"); }
                 _driver = new ChromeDriver(optionsChrome);
             }
+
+
+            string savePath;
+            var folderSavePathSections = folderSavePath.Split("/");
+            var maxIndex = folderSavePathSections.Length - 1;
+            if (folderSavePathSections[maxIndex].Contains(targetAccount) ||
+                folderSavePathSections[maxIndex].Equals(targetAccount, StringComparison.InvariantCultureIgnoreCase))
+            {
+                savePath = folderSavePath + "/";
+            }
+            else
+            {
+                savePath = folderSavePath + "/" + targetAccount + "/";
+            }
             
-            const string userSaveLocation = "/home/ryun/Pictures/";
+            var buffer = new BufferBlock<KeyValuePair<string, string>>();
+            var consumer = DownloadManager.ConsumeAsync(savePath, buffer);
             
-            _path = userSaveLocation + targetAccount + "/";
-            RunScraper(targetAccount, _path);
+            RunScraper(targetAccount, buffer);
+
+            await consumer;
+            
+            Console.WriteLine("Processed {0} files.", consumer.Result);
+            // _driver.Quit();
         }
 
-        private static void RunScraper(string targetAccount, string fileSavePath){
-            var downloadQueue = new Queue<KeyValuePair<string, string>>();
-            var resourcesDictionary = new UriNameDictionary();
+        private static void RunScraper(string targetAccount, ITargetBlock<KeyValuePair<string, string>> target)
+        {
             var profilePage = new ProfilePage(_driver);
             var watch = System.Diagnostics.Stopwatch.StartNew();
             
             profilePage.GoToProfile(targetAccount);
-            profilePage.GetProfilePicture(downloadQueue);
+            profilePage.GetProfilePicture(target);
+            
             // profilePage.EnterStory();
-            var postPage = profilePage.EnterPosts(fileSavePath, downloadQueue);
+            var postPage = profilePage.EnterPosts(target);
             watch.Stop();
             var enterPostTime = watch.ElapsedMilliseconds;
             Console.WriteLine("Time to enter post: " + enterPostTime/1000.00 + " seconds");
             
             watch.Restart();
-            postPage.GetPostData(resourcesDictionary);
+            postPage.GetPostData();
             watch.Stop();
             var getPostPicturesTime = watch.ElapsedMilliseconds;
             Console.WriteLine("Time to get all post pictures: " + getPostPicturesTime/1000.00 + " seconds");
             
             Console.WriteLine("Total Program Time: " + (enterPostTime + getPostPicturesTime)/1000.00 + " seconds");
-            _driver.Quit();
         }
     }
 }
