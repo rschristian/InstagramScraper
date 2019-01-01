@@ -58,7 +58,7 @@ namespace Selenium
             await consumer;
             
             Console.WriteLine("Processed {0} files.", consumer.Result);
-            // _driver.Quit();
+            _driver.Quit();
         }
 
         private static void RunScraper(string targetAccount, ITargetBlock<KeyValuePair<string, string>> target)
