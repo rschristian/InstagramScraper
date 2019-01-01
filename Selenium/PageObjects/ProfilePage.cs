@@ -4,6 +4,7 @@ using System.IO;
 using OpenQA.Selenium;
 using SeleniumExtras.PageObjects;
 using System.Net;
+using System.Threading.Tasks.Dataflow;
 using Selenium.Utility;
 
 namespace Selenium.PageObjects
@@ -30,28 +31,27 @@ namespace Selenium.PageObjects
         public void GoToProfile(string targetAccount)
         {
             _driver.Navigate().GoToUrl("http://www.instagram.com/" + targetAccount + "/");
-            
         }
         
-        public void GetProfilePicture(Queue<KeyValuePair<string, string>> downloadQueue)
+        public void GetProfilePicture(ITargetBlock<KeyValuePair<string, string>> target)
         {
-            downloadQueue.Enqueue(new KeyValuePair<string, string>(DateTime.Now.ToString("yyyy-M-d") + " profile", ProfilePicture.GetAttribute("src")));
+            target.SendAsync(new KeyValuePair<string, string>(DateTime.Now.ToString("yyyy-M-d") + " profile", ProfilePicture.GetAttribute("src")));
         }
 
-        public StoryPage EnterStory()
+        public StoryPage EnterStory(Queue<KeyValuePair<string, string>> downloadQueue)
         {
             _webHelper.FindElement(By.CssSelector("div.RR-M-"), 5);
-            if (!WebDriverExtensions.IsElementPresent(StoryClass)) return null;
+            if (StoryClass == null) return null;
             var executor = (IJavaScriptExecutor) _driver;
             executor.ExecuteScript("arguments[0].click();", StoryClass);
-            return new StoryPage(_driver);
+            return new StoryPage(_driver, downloadQueue);
         }
         
-        public PostPage EnterPosts(string fileSavePath, Queue<KeyValuePair<string, string>> downloadQueue)
+        public PostPage EnterPosts(ITargetBlock<KeyValuePair<string, string>> target)
         {
             var executor = (IJavaScriptExecutor) _driver;
             executor.ExecuteScript("arguments[0].click();", FirstPost);
-            return new PostPage(_driver, fileSavePath, downloadQueue);
+            return new PostPage(_driver, target);
         }
     }
 }
