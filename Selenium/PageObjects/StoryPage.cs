@@ -1,6 +1,5 @@
+using System.Collections.Generic;
 using OpenQA.Selenium;
-using SeleniumExtras.PageObjects;
-using How = OpenQA.Selenium.Support.PageObjects.How;
 
 namespace Selenium.PageObjects
 {
@@ -8,9 +7,12 @@ namespace Selenium.PageObjects
     {
         private readonly IWebDriver _driver;
 
-        public StoryPage(IWebDriver driver)
+        private readonly Queue<KeyValuePair<string, string>> _downloadQueue;
+
+        public StoryPage(IWebDriver driver, Queue<KeyValuePair<string, string>> downloadQueue)
         {
             _driver = driver;
+            _downloadQueue = downloadQueue;
         }
         
         private IWebElement StoryVideoSrcClass => _driver.FindElement(By.CssSelector(".OFkrO source"));

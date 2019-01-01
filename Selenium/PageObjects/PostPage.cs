@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Threading.Tasks.Dataflow;
 using OpenQA.Selenium;
 using Selenium.Utility;
 
@@ -16,15 +17,14 @@ namespace Selenium.PageObjects
         
         private List<string> _tempLinkList = new List<string>();
 
-        private readonly Queue<KeyValuePair<string, string>> _downloadQueue;
+        private readonly ITargetBlock<KeyValuePair<string, string>> _target;
+        
+        private UriNameDictionary resourceDictionary = new UriNameDictionary();
 
-        private readonly string _path;
-
-        public PostPage(IWebDriver driver, string fileSavePath, Queue<KeyValuePair<string, string>> downloadQueue)
+        public PostPage(IWebDriver driver, ITargetBlock<KeyValuePair<string, string>> target)
         {
-            _downloadQueue = downloadQueue;
             _webHelper = new WebDriverExtensions(driver);
-            _path = fileSavePath + "/";
+            _target = target;
         }
 
         private IWebElement MultiSrcPostChevron => _webHelper.SafeFindElement(".coreSpriteRightChevron");
@@ -38,7 +38,7 @@ namespace Selenium.PageObjects
         private IEnumerable<IWebElement> VideoSourceClass => _webHelper.SafeFindElements(".tWeCl");
         
 
-        public void GetPostData(UriNameDictionary resourceDictionary)
+        public void GetPostData()
         {
             try
             {
@@ -64,7 +64,7 @@ namespace Selenium.PageObjects
                     }
 
                     MultiSrcPostChevron.Click();
-                    GetPostData(resourceDictionary);
+                    GetPostData();
                 }
                 else
                 {
@@ -91,28 +91,27 @@ namespace Selenium.PageObjects
                     for (var i = 0; i < _tempLinkList.Count; i++)
                     {
                         resourceDictionary.Add(timeStamp + " " + (_tempLinkList.Count - i), _tempLinkList[i]);
-                        _downloadQueue.Enqueue(new KeyValuePair<string,string>(timeStamp + " " + (_tempLinkList.Count - i), _tempLinkList[i]));
-                        DownloadFile();
+                        _target.Post(new KeyValuePair<string, string>(timeStamp + " " + (_tempLinkList.Count - i), 
+                            _tempLinkList[i]));
                     }
 
                     if (WebDriverExtensions.IsElementPresent(NextPostPaginationArrow))
                     {
                         NextPostPaginationArrow.Click();
                         _tempLinkList.Clear();
-                        GetPostData(resourceDictionary);
+                        GetPostData();
                     }
                     else
                     {
-                        DownloadFile();
+                        _target.Complete();
                         Console.WriteLine("Finished");
-                        //finish
                     }
                 }
             }
             catch (StaleElementReferenceException)
             {
                 Console.WriteLine("Stale Element, Retrying");
-                GetPostData(resourceDictionary);
+                GetPostData();
             }
         }
 
@@ -123,24 +122,24 @@ namespace Selenium.PageObjects
             return timeStamp;
         }
 
-        private void DownloadFile()
-        {
-            if(!File.Exists(_path)) {Directory.CreateDirectory(_path);}
-            var client = new WebClient();
-            
-            while (!_downloadQueue.Any()) return;
-            
-            var url = _downloadQueue.Dequeue();
-
-            if (File.Exists(_path + url.Key + ".*")) return;
-            if (url.Value.Contains(".mp4"))
-            {
-                client.DownloadFileAsync(new Uri(url.Value), _path + url.Key + ".mp4");
-            }
-            else
-            {
-                client.DownloadFileAsync(new Uri(url.Value), _path + url.Key + ".jpg");
-            }
-        }
+        // private void DownloadFile()
+        // {
+        //     if(!File.Exists(_path)) {Directory.CreateDirectory(_path);}
+        //     var client = new WebClient();
+        //     
+        //     while (!_downloadQueue.Any()) return;
+        //     
+        //     var url = _downloadQueue.Dequeue();
+        //
+        //     if (File.Exists(_path + url.Key + ".*")) return;
+        //     if (url.Value.Contains(".mp4"))
+        //     {
+        //         client.DownloadFileAsync(new Uri(url.Value), _path + url.Key + ".mp4");
+        //     }
+        //     else
+        //     {
+        //         client.DownloadFileAsync(new Uri(url.Value), _path + url.Key + ".jpg");
+        //     }
+        // }
     }
 }

@@ -10,6 +10,7 @@ namespace Selenium.UserInterface
 		private readonly CheckButton _headlessBrowserBox, _getStoryBox, _getTextBox;
 		private readonly Button button;
 		private readonly RadioButton _firefoxRadioButton, _chromeRadioButton;
+		private readonly FileChooserWidget _fileChooserWidget;
 //		private bool captureStory, captureText;
         
 		public MainWindow() : base(WindowType.Toplevel)
@@ -133,6 +134,16 @@ namespace Selenium.UserInterface
 			var w9 = (Fixed.FixedChild)fixedContainer[button];
 			w9.X = 10;
 			w9.Y = 370;
+
+			_fileChooserWidget = new FileChooserWidget(FileChooserAction.SelectFolder)
+			{
+				Name = "FileChooserWidget"
+			};
+			fixedContainer.Add(_fileChooserWidget);
+			var w10 = (Fixed.FixedChild)fixedContainer[_fileChooserWidget];
+			w10.X = 300;
+			w10.Y = 300;
+
 	        
 			alignment.Add(fixedContainer);
 			Add(alignment);
@@ -145,7 +156,10 @@ namespace Selenium.UserInterface
 
 		private void OnClickedEvent(object obj, EventArgs args)
 		{
-			if (_targetAccount.Text != "") {WebScraper.SetUp(_targetAccount.Text, _headlessBrowserBox.Active, _firefoxRadioButton.Active);}
+			if (_targetAccount.Text != "")
+			{
+				WebScraper.SetUp(_targetAccount.Text, _fileChooserWidget.Uri.Substring(7), _headlessBrowserBox.Active, _firefoxRadioButton.Active);
+			}
 			else {var md = new MessageDialog(this, 
 					DialogFlags.DestroyWithParent, MessageType.Error, 
 					ButtonsType.Close, "You must give a target account");
