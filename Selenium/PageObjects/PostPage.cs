@@ -19,7 +19,7 @@ namespace Selenium.PageObjects
 
         private readonly ITargetBlock<KeyValuePair<string, string>> _target;
         
-        private UriNameDictionary resourceDictionary = new UriNameDictionary();
+        private readonly UriNameDictionary _resourceDictionary = new UriNameDictionary();
 
         public PostPage(IWebDriver driver, ITargetBlock<KeyValuePair<string, string>> target)
         {
@@ -90,7 +90,7 @@ namespace Selenium.PageObjects
 
                     for (var i = 0; i < _tempLinkList.Count; i++)
                     {
-                        resourceDictionary.Add(timeStamp + " " + (_tempLinkList.Count - i), _tempLinkList[i]);
+                        _resourceDictionary.Add(timeStamp + " " + (_tempLinkList.Count - i), _tempLinkList[i]);
                         _target.Post(new KeyValuePair<string, string>(timeStamp + " " + (_tempLinkList.Count - i), 
                             _tempLinkList[i]));
                     }
@@ -121,25 +121,5 @@ namespace Selenium.PageObjects
             timeStamp = timeStamp.Substring(0, 10) + " " + timeStamp.Substring(12, 7);
             return timeStamp;
         }
-
-        // private void DownloadFile()
-        // {
-        //     if(!File.Exists(_path)) {Directory.CreateDirectory(_path);}
-        //     var client = new WebClient();
-        //     
-        //     while (!_downloadQueue.Any()) return;
-        //     
-        //     var url = _downloadQueue.Dequeue();
-        //
-        //     if (File.Exists(_path + url.Key + ".*")) return;
-        //     if (url.Value.Contains(".mp4"))
-        //     {
-        //         client.DownloadFileAsync(new Uri(url.Value), _path + url.Key + ".mp4");
-        //     }
-        //     else
-        //     {
-        //         client.DownloadFileAsync(new Uri(url.Value), _path + url.Key + ".jpg");
-        //     }
-        // }
     }
 }
