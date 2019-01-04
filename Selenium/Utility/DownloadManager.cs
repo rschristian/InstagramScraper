@@ -2,17 +2,15 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Net;
-using System.Threading.Tasks;
 using System.Threading.Tasks.Dataflow;
 
 namespace Selenium.Utility
 {
     public static class DownloadManager
     {
-        public static async Task<int> ConsumeAsync(string path, ISourceBlock<KeyValuePair<string, string>> source)
+        public static async void ConsumeAsync(string path, ISourceBlock<KeyValuePair<string, string>> source)
         {
             if(!File.Exists(path)) {Directory.CreateDirectory(path);}
-            var filesProcessed = 0;
             
             while (await source.OutputAvailableAsync())
             {
@@ -20,6 +18,7 @@ namespace Selenium.Utility
                 var (key, value) = source.Receive();
         
                 if (File.Exists(path + key + ".*")) continue;
+                Console.WriteLine("Downloading: " + key);
                 if (value.Contains(".mp4"))
                 {
                     client.DownloadFileAsync(new Uri(value), path + key + ".mp4");
@@ -28,10 +27,7 @@ namespace Selenium.Utility
                 {
                     client.DownloadFileAsync(new Uri(value), path + key + ".jpg");
                 }
-        
-                filesProcessed++;
             }
-            return filesProcessed;
         }
     }
 }

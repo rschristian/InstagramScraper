@@ -24,7 +24,7 @@ namespace Selenium.UserInterface
 	        
 			_targetAccount = new Entry
 			{
-				CanFocus = true, Name = "TargetAccount", Text = "***REMOVED***", IsEditable = true, PlaceholderText = "Target Account"
+				CanFocus = true, Name = "TargetAccount", IsEditable = true, PlaceholderText = "Target Account"
 			};
 			fixedContainer.Add(_targetAccount);
 			var w1 = ((Fixed.FixedChild)(fixedContainer[_targetAccount]));
@@ -206,11 +206,9 @@ namespace Selenium.UserInterface
 							fileSaveErrorDialog.Run();
 							fileSaveErrorDialog.Destroy();
 						}
-
 						break;
 					}
 				}
-				
 			}
 			else if (clickedButton.Name.Equals("ChooseSavePathButton"))
 			{

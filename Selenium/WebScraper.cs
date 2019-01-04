@@ -1,9 +1,6 @@
 using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Net;
-using System.Threading.Tasks;
+using System.Threading;
 using System.Threading.Tasks.Dataflow;
 using OpenQA.Selenium.Firefox;
 using OpenQA.Selenium;
@@ -51,17 +48,19 @@ namespace Selenium
             }
             
             var buffer = new BufferBlock<KeyValuePair<string, string>>();
-            var consumer = DownloadManager.ConsumeAsync(savePath, buffer);
-            
-            RunScraper(targetAccount, buffer);
+            var backgroundThread =
+                new Thread(() => DownloadManager.ConsumeAsync(savePath, buffer)) {IsBackground = true};
 
-            await consumer;
+            backgroundThread.Start();
             
-            Console.WriteLine("Processed {0} files.", consumer.Result);
+            ExecuteScraper(targetAccount, buffer);
+
+            await buffer.Completion;
+            
             _driver.Quit();
         }
 
-        private static void RunScraper(string targetAccount, ITargetBlock<KeyValuePair<string, string>> target)
+        private static void ExecuteScraper(string targetAccount, ITargetBlock<KeyValuePair<string, string>> target)
         {
             var profilePage = new ProfilePage(_driver);
             var watch = System.Diagnostics.Stopwatch.StartNew();
