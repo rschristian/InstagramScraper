@@ -69,7 +69,7 @@ namespace Selenium
 
             await buffer.Completion;
             
-            _driver.Quit();
+            // _driver.Quit();
         }
 
         private static void ExecuteScraper(string targetAccount, ITargetBlock<KeyValuePair<string, string>> target,
