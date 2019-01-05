@@ -16,11 +16,11 @@ namespace Selenium.Utility
             _driver = driver;
         }
         
-        public IWebElement FindElement(By by, int timeoutInSeconds)
+        public void WaitForElement(By by, int timeoutInSeconds)
         {
-            if (timeoutInSeconds <= 0) return _driver.FindElement(by);
+            if (timeoutInSeconds <= 0) _driver.FindElement(by);
             var wait = new WebDriverWait(_driver, TimeSpan.FromSeconds(timeoutInSeconds));
-            return wait.Until(drv => drv.FindElement(by));
+            wait.Until(drv => drv.FindElement(by));
         }
         
         public IWebElement SafeFindElement(string selector)
@@ -39,22 +39,5 @@ namespace Selenium.Utility
         {
             return _driver.FindElements(By.CssSelector(selector));
         }
-        
-        public static bool IsElementPresent(IWebElement element)
-        {
-            try
-            {
-                return element.Displayed;
-            }
-            catch (NoSuchElementException)
-            {
-                return false;
-            }
-            catch (NullReferenceException)
-            {
-                return false;
-            }
-        }
-        
     }
 }

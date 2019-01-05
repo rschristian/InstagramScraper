@@ -40,7 +40,7 @@ namespace Selenium.PageObjects
 
         public StoryPage EnterStory(ITargetBlock<KeyValuePair<string, string>> target)
         {
-            _webHelper.FindElement(By.CssSelector("div.RR-M-"), 5);
+            _webHelper.WaitForElement(By.CssSelector("div.RR-M-"), 5);
             if (StoryClass == null) return null;
             var executor = (IJavaScriptExecutor) _driver;
             executor.ExecuteScript("arguments[0].click();", StoryClass);
