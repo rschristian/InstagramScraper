@@ -14,7 +14,8 @@ namespace Selenium
     {
         private static IWebDriver _driver;
 
-        public static async void SetUp(string targetAccount, string folderSavePath, bool headless, bool firefoxProfile)
+        public static async void SetUp(string targetAccount, bool scrapeStory, string username, string password,
+                                       string folderSavePath, bool headless, bool firefoxProfile)
         {
             if (firefoxProfile)
             {
@@ -39,8 +40,6 @@ namespace Selenium
                                Environment.OSVersion.Platform == PlatformID.MacOSX)
                 ? Environment.GetEnvironmentVariable("HOME")
                 : Environment.ExpandEnvironmentVariables("%HOMEDRIVE%%HOMEPATH%");
-
-
             if (folderSavePath.Equals(""))
             {
                 savePath = homePath + "/Pictures/" + targetAccount + "/";
@@ -64,25 +63,34 @@ namespace Selenium
             var buffer = new BufferBlock<KeyValuePair<string, string>>();
             var backgroundThread =
                 new Thread(() => DownloadManager.ConsumeAsync(savePath, buffer)) {IsBackground = true};
-
             backgroundThread.Start();
             
-            ExecuteScraper(targetAccount, buffer);
+            ExecuteScraper(targetAccount, buffer, scrapeStory, username, password);
 
             await buffer.Completion;
             
             _driver.Quit();
         }
 
-        private static void ExecuteScraper(string targetAccount, ITargetBlock<KeyValuePair<string, string>> target)
+        private static void ExecuteScraper(string targetAccount, ITargetBlock<KeyValuePair<string, string>> target,
+                                           bool scrapeStory, string username, string password)
         {
-            var profilePage = new ProfilePage(_driver);
             var watch = System.Diagnostics.Stopwatch.StartNew();
+            if (!password.Equals(""))
+            {
+                var loginPage = new LoginPage(_driver);
+                loginPage.Login(username, password);
+            }
+            watch.Stop();
+            var loginTime = watch.ElapsedMilliseconds;
+            Console.WriteLine("Time to login: " + loginTime/1000.00 + " seconds");
             
+            watch.Restart();
+            var profilePage = new ProfilePage(_driver);
             profilePage.GoToProfile(targetAccount);
             profilePage.GetProfilePicture(target);
-            
-            // profilePage.EnterStory();
+
+            if (scrapeStory) { profilePage.EnterStory(target); }
             var postPage = profilePage.EnterPosts(target);
             watch.Stop();
             var enterPostTime = watch.ElapsedMilliseconds;
@@ -94,7 +102,7 @@ namespace Selenium
             var getPostPicturesTime = watch.ElapsedMilliseconds;
             Console.WriteLine("Time to get all post pictures: " + getPostPicturesTime/1000.00 + " seconds");
             
-            Console.WriteLine("Total Program Time: " + (enterPostTime + getPostPicturesTime)/1000.00 + " seconds");
+            Console.WriteLine("Total Program Time: " + (loginTime + enterPostTime + getPostPicturesTime)/1000.00 + " seconds");
         }
     }
 }
