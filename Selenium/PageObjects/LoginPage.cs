@@ -34,7 +34,8 @@ namespace Selenium.PageObjects
             
             LoginButton.Click();
             
-            System.Threading.Thread.Sleep(500);
+            // System.Threading.Thread.Sleep(500);
+            _webHelper.FindElement(By.ClassName("piCib"), 5);
         }
     }
 }
