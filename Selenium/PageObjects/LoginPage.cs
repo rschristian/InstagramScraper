@@ -17,6 +17,7 @@ namespace Selenium.PageObjects
             _driver = driver;
         }
         
+        //TODO Change this over to safe-fail elements, so that, if null, display an error telling me to update the selectors
         private IWebElement UsernameField => _driver.FindElement(By.Name("username"));
         
         private IWebElement PasswordField => _driver.FindElement(By.Name("password"));
@@ -27,15 +28,16 @@ namespace Selenium.PageObjects
         {
             _driver.Navigate().GoToUrl("http://www.instagram.com/accounts/login");
             
-            _webHelper.FindElement(By.CssSelector(".K-1uj"), 5);
+            _webHelper.WaitForElement(By.CssSelector(".K-1uj"), 5);
             
             UsernameField.SendKeys(username);
             PasswordField.SendKeys(password);
             
             LoginButton.Click();
             
-            // System.Threading.Thread.Sleep(500);
-            _webHelper.FindElement(By.ClassName("piCib"), 5);
+            //.piCib is the alert that pops up when you first log in. The drivers don't save cookies,
+            //so each run will be a "new" login.
+            _webHelper.WaitForElement(By.ClassName("piCib"), 5);
         }
     }
 }

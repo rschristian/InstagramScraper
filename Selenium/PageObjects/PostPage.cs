@@ -42,7 +42,7 @@ namespace Selenium.PageObjects
         {
             try
             {
-                _webHelper.FindElement(By.CssSelector(".eo2As"), 5);
+                _webHelper.WaitForElement(By.CssSelector(".eo2As"), 5);
 
                 if (MultiSrcPostChevron != null)
                 {
@@ -95,7 +95,7 @@ namespace Selenium.PageObjects
                             _tempLinkList[i]));
                     }
 
-                    if (WebDriverExtensions.IsElementPresent(NextPostPaginationArrow))
+                    if (NextPostPaginationArrow != null)
                     {
                         NextPostPaginationArrow.Click();
                         _tempLinkList.Clear();
