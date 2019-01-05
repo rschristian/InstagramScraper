@@ -1,24 +1,26 @@
 using System.Collections.Generic;
+using System.Threading.Tasks.Dataflow;
 using OpenQA.Selenium;
+using Selenium.Utility;
 
 namespace Selenium.PageObjects
 {
     public class StoryPage
     {
-        private readonly IWebDriver _driver;
+        private readonly WebDriverExtensions _webHelper;
+        
+        private readonly ITargetBlock<KeyValuePair<string, string>> _target;
 
-        private readonly Queue<KeyValuePair<string, string>> _downloadQueue;
-
-        public StoryPage(IWebDriver driver, Queue<KeyValuePair<string, string>> downloadQueue)
+        public StoryPage(IWebDriver driver, ITargetBlock<KeyValuePair<string, string>> target)
         {
-            _driver = driver;
-            _downloadQueue = downloadQueue;
+            _webHelper = new WebDriverExtensions(driver);
+            _target = target;
         }
         
-        private IWebElement StoryVideoSrcClass => _driver.FindElement(By.CssSelector(".OFkrO source"));
+        private IWebElement StoryVideoSrcClass => _webHelper.SafeFindElement(".OFkrO source");
         
         //This will always exist, as for a video, the thumbnail is stored here
-        private IWebElement StoryImageSrcClass => _driver.FindElement(By.CssSelector("._7NpAS"));
+        private IWebElement StoryImageSrcClass => _webHelper.SafeFindElement("._7NpAS");
 
         public void SaveStoryContent()
         {
