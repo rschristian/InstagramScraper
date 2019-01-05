@@ -135,7 +135,6 @@ namespace Selenium.UserInterface
 			{
 				CanFocus = true,
 				Name = "SavePath",
-				Text = "~/Pictures",
 				IsEditable = true,
 				PlaceholderText = "Save Path (Leave Blank to store in home)"
 			};
@@ -177,7 +176,8 @@ namespace Selenium.UserInterface
 
 			if (clickedButton.Name.Equals("RunScraperButton"))
 			{
-				if (_targetAccount.Text != "" && _savePath.Text != "")
+				// if (_targetAccount.Text != "" && _savePath.Text != "")
+				if (_targetAccount.Text != "")
 				{
 					WebScraper.SetUp(_targetAccount.Text, _savePath.Text, _headlessBrowserBox.Active, _firefoxRadioButton.Active);
 				}
@@ -200,14 +200,14 @@ namespace Selenium.UserInterface
 					}
 					default:
 					{
-						if (_savePath.Text == "")
-						{
-							var fileSaveErrorDialog = new MessageDialog(this, 
-								DialogFlags.DestroyWithParent, MessageType.Error, 
-								ButtonsType.Close, "You must provide a file save location");
-							fileSaveErrorDialog.Run();
-							fileSaveErrorDialog.Destroy();
-						}
+						// if (_savePath.Text == "")
+						// {
+						// 	var fileSaveErrorDialog = new MessageDialog(this, 
+						// 		DialogFlags.DestroyWithParent, MessageType.Error, 
+						// 		ButtonsType.Close, "You must provide a file save location");
+						// 	fileSaveErrorDialog.Run();
+						// 	fileSaveErrorDialog.Destroy();
+						// }
 						break;
 					}
 				}

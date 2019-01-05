@@ -11,7 +11,7 @@ namespace Selenium.Utility
         public static async void ConsumeAsync(string path, ISourceBlock<KeyValuePair<string, string>> source)
         {
             if(!File.Exists(path)) {Directory.CreateDirectory(path);}
-            var filesProcessed = 0;
+            var filesProcessed = 1;
             
             while (await source.OutputAvailableAsync())
             {

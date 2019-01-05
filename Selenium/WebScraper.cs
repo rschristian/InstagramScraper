@@ -39,18 +39,27 @@ namespace Selenium
                                Environment.OSVersion.Platform == PlatformID.MacOSX)
                 ? Environment.GetEnvironmentVariable("HOME")
                 : Environment.ExpandEnvironmentVariables("%HOMEDRIVE%%HOMEPATH%");
-            Console.WriteLine(homePath);
-            var folderSavePathSections = folderSavePath.Split("/");
-            var maxIndex = folderSavePathSections.Length - 1;
-            if (folderSavePathSections[maxIndex].Contains(targetAccount) ||
-                folderSavePathSections[maxIndex].Equals(targetAccount, StringComparison.InvariantCultureIgnoreCase))
+
+
+            if (folderSavePath.Equals(""))
             {
-                savePath = folderSavePath + "/";
+                savePath = homePath + "/Pictures";
             }
             else
             {
-                savePath = folderSavePath + "/" + targetAccount + "/";
+                var folderSavePathSections = folderSavePath.Split("/");
+                var maxIndex = folderSavePathSections.Length - 1;
+                if (folderSavePathSections[maxIndex].Contains(targetAccount) ||
+                    folderSavePathSections[maxIndex].Equals(targetAccount, StringComparison.InvariantCultureIgnoreCase))
+                {
+                    savePath = folderSavePath + "/";
+                }
+                else
+                {
+                    savePath = folderSavePath + "/" + targetAccount + "/";
+                } 
             }
+            
             
             var buffer = new BufferBlock<KeyValuePair<string, string>>();
             var backgroundThread =
