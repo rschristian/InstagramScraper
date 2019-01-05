@@ -179,7 +179,8 @@ namespace Selenium.UserInterface
 				// if (_targetAccount.Text != "" && _savePath.Text != "")
 				if (_targetAccount.Text != "")
 				{
-					WebScraper.SetUp(_targetAccount.Text, _savePath.Text, _headlessBrowserBox.Active, _firefoxRadioButton.Active);
+					WebScraper.SetUp(_targetAccount.Text, _getStoryBox.Active, _username.Text, _password.Text,
+									 _savePath.Text, _headlessBrowserBox.Active,_firefoxRadioButton.Active);
 				}
 				else switch (_targetAccount.Text) {
 					case "" when _savePath.Text == "": {

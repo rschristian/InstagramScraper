@@ -38,13 +38,13 @@ namespace Selenium.PageObjects
             target.SendAsync(new KeyValuePair<string, string>(DateTime.Now.ToString("yyyy-M-d") + " profile", ProfilePicture.GetAttribute("src")));
         }
 
-        public StoryPage EnterStory(Queue<KeyValuePair<string, string>> downloadQueue)
+        public StoryPage EnterStory(ITargetBlock<KeyValuePair<string, string>> target)
         {
             _webHelper.FindElement(By.CssSelector("div.RR-M-"), 5);
             if (StoryClass == null) return null;
             var executor = (IJavaScriptExecutor) _driver;
             executor.ExecuteScript("arguments[0].click();", StoryClass);
-            return new StoryPage(_driver, downloadQueue);
+            return new StoryPage(_driver, target);
         }
         
         public PostPage EnterPosts(ITargetBlock<KeyValuePair<string, string>> target)
