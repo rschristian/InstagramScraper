@@ -35,6 +35,11 @@ namespace Selenium
 
 
             string savePath;
+            var homePath = (Environment.OSVersion.Platform == PlatformID.Unix || 
+                               Environment.OSVersion.Platform == PlatformID.MacOSX)
+                ? Environment.GetEnvironmentVariable("HOME")
+                : Environment.ExpandEnvironmentVariables("%HOMEDRIVE%%HOMEPATH%");
+            Console.WriteLine(homePath);
             var folderSavePathSections = folderSavePath.Split("/");
             var maxIndex = folderSavePathSections.Length - 1;
             if (folderSavePathSections[maxIndex].Contains(targetAccount) ||

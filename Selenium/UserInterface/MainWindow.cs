@@ -133,9 +133,11 @@ namespace Selenium.UserInterface
 			
 			_savePath = new Entry
 			{
-				CanFocus = true, Name = "SavePath",
+				CanFocus = true,
+				Name = "SavePath",
+				Text = "~/Pictures",
 				IsEditable = true,
-				PlaceholderText = "Where would you like these files to be saved?"
+				PlaceholderText = "Save Path (Leave Blank to store in home)"
 			};
 			fixedContainer.Add(_savePath);
 			var w10 = ((Fixed.FixedChild)(fixedContainer[_savePath]));
