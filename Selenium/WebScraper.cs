@@ -43,7 +43,7 @@ namespace Selenium
 
             if (folderSavePath.Equals(""))
             {
-                savePath = homePath + "/Pictures";
+                savePath = homePath + "/Pictures/" + targetAccount + "/";
             }
             else
             {
