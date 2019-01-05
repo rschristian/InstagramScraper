@@ -11,6 +11,7 @@ namespace Selenium.Utility
         public static async void ConsumeAsync(string path, ISourceBlock<KeyValuePair<string, string>> source)
         {
             if(!File.Exists(path)) {Directory.CreateDirectory(path);}
+            var filesProcessed = 0;
             
             while (await source.OutputAvailableAsync())
             {
@@ -18,7 +19,7 @@ namespace Selenium.Utility
                 var (key, value) = source.Receive();
         
                 if (File.Exists(path + key + ".*")) continue;
-                Console.WriteLine("Downloading: " + key);
+                Console.WriteLine(filesProcessed + " Downloading: " + key);
                 if (value.Contains(".mp4"))
                 {
                     client.DownloadFileAsync(new Uri(value), path + key + ".mp4");
@@ -27,7 +28,11 @@ namespace Selenium.Utility
                 {
                     client.DownloadFileAsync(new Uri(value), path + key + ".jpg");
                 }
+                
+                filesProcessed++;
             }
+            
+            Console.WriteLine("Processed {0} files.", filesProcessed);
         }
     }
 }
