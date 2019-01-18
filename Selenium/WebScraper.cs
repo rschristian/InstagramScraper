@@ -30,6 +30,7 @@ namespace Selenium
                 var optionsChrome = new ChromeOptions();
                 optionsChrome.AddUserProfilePreference("profile.default_content_setting_values.images", 2);
                 optionsChrome.AddArgument("--disable-popup-blocking");
+                optionsChrome.AddArgument("--window-size=1920,1080");
             
                 if (headless) { optionsChrome.AddArgument("headless"); }
                 _driver = new ChromeDriver(optionsChrome);
