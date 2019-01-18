@@ -57,7 +57,7 @@ const
     profileStoryClass = '.h5uC0',
 
     //Class for nav chevron, ensuring necessary classes have been loaded
-    storyRootClass = '.ow3u_',
+    storyChevronClass = '.ow3u_',
 
     //If story is a video, this class exists
     storyVideoSrcClass = '.OFkrO source',
@@ -101,7 +101,7 @@ function logIn() {
 //Retrieves the story items from the profile
 function storyCapture(arrayURL, arrayNames) {
     casper.wait(500, function(){
-        if (casper.exists(storyRootClass)) {
+        if (casper.exists(storyChevronClass)) {
             pictsInStory++;
             if (casper.exists(storyVideoSrcClass)) {
                 const vidURL = casper.evaluate(getVideoSrc, storyVideoSrcClass).toString().split(',');
@@ -110,7 +110,7 @@ function storyCapture(arrayURL, arrayNames) {
                 const partsOfStr = casper.evaluate(getVideoSrc, storyImageSrcClass).toString().split(',');
                 arrayURL.push(partsOfStr[partsOfStr.length-1]);
             }
-            casper.click(storyRootClass);
+            casper.click(storyChevronClass);
             storyCapture(arrayURL, arrayNames);
         } else {
             for (pictsInStory; pictsInStory>0; pictsInStory--) {

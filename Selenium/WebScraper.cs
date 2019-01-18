@@ -29,6 +29,7 @@ namespace Selenium
             {
                 var optionsChrome = new ChromeOptions();
                 optionsChrome.AddUserProfilePreference("profile.default_content_setting_values.images", 2);
+                optionsChrome.AddArgument("--disable-popup-blocking");
             
                 if (headless) { optionsChrome.AddArgument("headless"); }
                 _driver = new ChromeDriver(optionsChrome);
@@ -69,7 +70,7 @@ namespace Selenium
 
             await buffer.Completion;
             
-            // _driver.Quit();
+            _driver.Quit();
         }
 
         private static void ExecuteScraper(string targetAccount, ITargetBlock<KeyValuePair<string, string>> target,
@@ -90,7 +91,13 @@ namespace Selenium
             profilePage.GoToProfile(targetAccount);
             profilePage.GetProfilePicture(target);
 
-            if (scrapeStory) { profilePage.EnterStory(target); }
+            if (scrapeStory)
+            {
+                var storyPage = profilePage.EnterStory(target);
+                storyPage?.SaveStoryContent();
+            }
+            
+            
             var postPage = profilePage.EnterPosts(target);
             watch.Stop();
             var enterPostTime = watch.ElapsedMilliseconds;
