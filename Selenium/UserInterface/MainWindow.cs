@@ -1,6 +1,7 @@
 using System;
 using Gtk;
 using System.IO;
+using System.Text;
 
 namespace Selenium.UserInterface
 {
@@ -67,10 +68,7 @@ namespace Selenium.UserInterface
 			
 			_getStoryBox = new CheckButton
 			{
-				CanFocus = true,
-				Name = "StoryCheckBox",
-				DrawIndicator = true,
-				UseUnderline = true,
+				CanFocus = true, Name = "StoryCheckBox", DrawIndicator = true, UseUnderline = true,
 				Label = "Download the Target Account's Story"
 			};
 			fixedContainer.Add(_getStoryBox);
@@ -80,10 +78,7 @@ namespace Selenium.UserInterface
 			
 			_getTextBox = new CheckButton
 			{
-				CanFocus = true,
-				Name = "TextCheckBox",
-				DrawIndicator = true,
-				UseUnderline = true,
+				CanFocus = true, Name = "TextCheckBox", DrawIndicator = true, UseUnderline = true,
 				Label = "Download the Comments on the Target Account's Posts"
 			};
 			fixedContainer.Add(_getTextBox);
@@ -93,10 +88,7 @@ namespace Selenium.UserInterface
 			
 			_firefoxRadioButton = new RadioButton (null, "FireFoxRadioButton")
 			{
-				CanFocus = true,
-				Name = "FireFoxRadioButton",
-				DrawIndicator = true,
-				UseUnderline = true,
+				CanFocus = true, Name = "FireFoxRadioButton", DrawIndicator = true, UseUnderline = true,
 				Label = "FireFox"
 			};
 			fixedContainer.Add(_firefoxRadioButton);
@@ -106,11 +98,7 @@ namespace Selenium.UserInterface
 			
 			var chromeRadioButton = new RadioButton (_firefoxRadioButton, "ChromeRadioButton")
 			{
-				CanFocus = true,
-				Name = "ChromeRadioButton",
-				DrawIndicator = true,
-				UseUnderline = true,
-				Label = "Chrome"
+				CanFocus = true, Name = "ChromeRadioButton", DrawIndicator = true, UseUnderline = true, Label = "Chrome"
 			};
 			fixedContainer.Add(chromeRadioButton);
 			var w8 = (Fixed.FixedChild)fixedContainer[chromeRadioButton];
@@ -119,10 +107,7 @@ namespace Selenium.UserInterface
 
 			var runProgramButton = new Button
 			{
-				CanFocus = true,
-				Name = "RunScraperButton",
-				UseUnderline = true,
-				Label = "Run Web Scraper",
+				CanFocus = true, Name = "RunScraperButton", UseUnderline = true, Label = "Run Web Scraper",
 				HasFocus = true
 			};
 			runProgramButton.Clicked += OnClickedEvent;
@@ -133,10 +118,8 @@ namespace Selenium.UserInterface
 			
 			_savePath = new Entry
 			{
-				CanFocus = true,
-				Name = "SavePath",
-				IsEditable = true,
-				PlaceholderText = "Save Path (Leave Blank to store in home)"
+				CanFocus = true, Name = "SavePath", IsEditable = true, 
+				PlaceholderText = "Save Path (Default is Home/Pictures/[Account-Name])"
 			};
 			fixedContainer.Add(_savePath);
 			var w10 = ((Fixed.FixedChild)(fixedContainer[_savePath]));
@@ -145,10 +128,7 @@ namespace Selenium.UserInterface
 			
 			var chooseSavePathButton = new Button
 			{
-				CanFocus = true,
-				Name = "ChooseSavePathButton",
-				UseUnderline = true,
-				Label = "Select File Save Path",
+				CanFocus = true, Name = "ChooseSavePathButton", UseUnderline = true, Label = "Select File Save Path",
 				HasFocus = true
 			};
 			chooseSavePathButton.Clicked += OnClickedEvent;
@@ -176,47 +156,40 @@ namespace Selenium.UserInterface
 
 			if (clickedButton.Name.Equals("RunScraperButton"))
 			{
-				// if (_targetAccount.Text != "" && _savePath.Text != "")
-				if (_targetAccount.Text != "")
+				
+				//Error Validation
+				var errorMessages = new StringBuilder();
+				
+				if (_targetAccount.Text.Equals(string.Empty))
+				{
+					errorMessages.Append("You must provide a target account\n");
+				}
+
+				if (_getStoryBox.Active && (_username.Text.Equals(string.Empty) ||
+				                            _password.Text.Equals(string.Empty)))
+				{
+					errorMessages.Append("In order to view stories, Instagram requires login details");
+				}
+
+				if (!errorMessages.ToString().Equals(string.Empty))
+				{
+					var errorMessageDialog = new MessageDialog(this, 
+						DialogFlags.DestroyWithParent, MessageType.Error, 
+						ButtonsType.Close, errorMessages.ToString());
+					errorMessageDialog.Run();
+					errorMessageDialog.Destroy();
+				}
+				else
 				{
 					WebScraper.SetUp(_targetAccount.Text, _getStoryBox.Active, _username.Text, _password.Text,
-									 _savePath.Text, _headlessBrowserBox.Active,_firefoxRadioButton.Active);
+						_savePath.Text, _headlessBrowserBox.Active,_firefoxRadioButton.Active);	
 				}
-				else switch (_targetAccount.Text) {
-					case "" when _savePath.Text == "": {
-						var targetAccountAndPathErrorDialog = new MessageDialog(this, 
-							DialogFlags.DestroyWithParent, MessageType.Error, 
-							ButtonsType.Close, "You must give a target account and a file save location");
-						targetAccountAndPathErrorDialog.Run();
-						targetAccountAndPathErrorDialog.Destroy();
-						break;
-					}
-					case "": {
-						var targetAccountErrorDialog = new MessageDialog(this, 
-							DialogFlags.DestroyWithParent, MessageType.Error, 
-							ButtonsType.Close, "You must give a target account");
-						targetAccountErrorDialog.Run();
-						targetAccountErrorDialog.Destroy();
-						break;
-					}
-					default:
-					{
-						// if (_savePath.Text == "")
-						// {
-						// 	var fileSaveErrorDialog = new MessageDialog(this, 
-						// 		DialogFlags.DestroyWithParent, MessageType.Error, 
-						// 		ButtonsType.Close, "You must provide a file save location");
-						// 	fileSaveErrorDialog.Run();
-						// 	fileSaveErrorDialog.Destroy();
-						// }
-						break;
-					}
-				}
+
 			}
 			else if (clickedButton.Name.Equals("ChooseSavePathButton"))
 			{
-				var fileChooserDialog = new FileChooserDialog("Choose a file", this, FileChooserAction.SelectFolder,
-					"Cancel", ResponseType.Cancel,
+				var fileChooserDialog = new FileChooserDialog("Choose a file", this,
+					FileChooserAction.SelectFolder,"Cancel", ResponseType.Cancel,
 					"Select", ResponseType.Accept);
 				
 				if (fileChooserDialog.Run() == (int) ResponseType.Accept)
