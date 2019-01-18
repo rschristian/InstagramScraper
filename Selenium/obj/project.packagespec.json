@@ -55,6 +55,10 @@
         "Selenium.WebDriver": {
           "target": "Package",
           "version": "[3.141.0, )"
+        },
+        "log4net": {
+          "target": "Package",
+          "version": "[2.0.8, )"
         }
       },
       "imports": [
