@@ -19,12 +19,13 @@ namespace Selenium.PageObjects
 
         private readonly ITargetBlock<KeyValuePair<string, string>> _target;
         
-        private readonly UriNameDictionary _resourceDictionary = new UriNameDictionary();
+        private readonly IWebDriver _driver;
 
         public PostPage(IWebDriver driver, ITargetBlock<KeyValuePair<string, string>> target)
         {
             _webHelper = new WebDriverExtensions(driver);
             _target = target;
+            _driver = driver;
         }
 
         private IWebElement MultiSrcPostChevron => _webHelper.SafeFindElement(".coreSpriteRightChevron");
@@ -37,7 +38,7 @@ namespace Selenium.PageObjects
         
         private IEnumerable<IWebElement> VideoSourceClass => _webHelper.SafeFindElements(".tWeCl");
         
-
+        //TODO Issues with posts. Occasionally, mutli-src posts are skipped over entirely
         public void GetPostData()
         {
             try
@@ -90,7 +91,6 @@ namespace Selenium.PageObjects
 
                     for (var i = 0; i < _tempLinkList.Count; i++)
                     {
-                        _resourceDictionary.Add(timeStamp + " " + (_tempLinkList.Count - i), _tempLinkList[i]);
                         _target.Post(new KeyValuePair<string, string>(timeStamp + " " + (_tempLinkList.Count - i), 
                             _tempLinkList[i]));
                     }
@@ -99,7 +99,8 @@ namespace Selenium.PageObjects
                     {
                         NextPostPaginationArrow.Click();
                         _tempLinkList.Clear();
-                        GetPostData();
+                        // GetPostData();
+                        new PostPage(_driver, _target).GetPostData();
                     }
                     else
                     {

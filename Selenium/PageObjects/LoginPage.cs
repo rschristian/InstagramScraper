@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-using System.Threading.Tasks.Dataflow;
 using OpenQA.Selenium;
 using Selenium.Utility;
 
@@ -37,7 +35,8 @@ namespace Selenium.PageObjects
             
             //.piCib is the alert that pops up when you first log in. The drivers don't save cookies,
             //so each run will be a "new" login.
-            _webHelper.WaitForElement(By.ClassName("piCib"), 5);
+            //COOzN is the sidebar, lower in the DOM. Hopefully the user is fully logged in by the time this is found.
+            _webHelper.WaitForElement(By.CssSelector(".COOzN"), 2);
         }
     }
 }

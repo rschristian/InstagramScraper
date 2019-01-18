@@ -25,7 +25,7 @@ namespace Selenium.PageObjects
         
         private IWebElement ProfilePicture => _driver.FindElement(By.CssSelector("._6q-tv"));
         
-        private IWebElement StoryClass => _driver.FindElement(By.CssSelector("div.RR-M-"));
+        private IWebElement StoryClass => _webHelper.SafeFindElement(".h5uC0");
         
 
         public void GoToProfile(string targetAccount)
@@ -35,20 +35,21 @@ namespace Selenium.PageObjects
         
         public void GetProfilePicture(ITargetBlock<KeyValuePair<string, string>> target)
         {
-            target.SendAsync(new KeyValuePair<string, string>(DateTime.Now.ToString("yyyy-M-d") + " profile", ProfilePicture.GetAttribute("src")));
+            target.SendAsync(new KeyValuePair<string, string>(DateTime.Now.ToString("yyyy-MM-d") + " profile",
+                ProfilePicture.GetAttribute("src")));
         }
 
         public StoryPage EnterStory(ITargetBlock<KeyValuePair<string, string>> target)
         {
-            _webHelper.WaitForElement(By.CssSelector("div.RR-M-"), 5);
             if (StoryClass == null) return null;
-            var executor = (IJavaScriptExecutor) _driver;
-            executor.ExecuteScript("arguments[0].click();", StoryClass);
+            System.Threading.Thread.Sleep(750);
+            StoryClass.Click();
             return new StoryPage(_driver, target);
         }
         
         public PostPage EnterPosts(ITargetBlock<KeyValuePair<string, string>> target)
         {
+            _webHelper.WaitForElement(By.CssSelector("div._bz0w a"), 5);
             var executor = (IJavaScriptExecutor) _driver;
             executor.ExecuteScript("arguments[0].click();", FirstPost);
             return new PostPage(_driver, target);
