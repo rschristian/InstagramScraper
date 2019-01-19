@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ContentModelStore">
+    <e p="$USER_HOME$/.Rider2018.3/system/extResources" t="IncludeRecursive" />
+    <e p="$USER_HOME$/.Rider2018.3/system/resharper-host/local/Transient/ReSharperHost/v183/SolutionCaches/_InstagramScraper.-2135351175.00" t="ExcludeRecursive" />
+    <e p="$PROJECT_DIR$" t="IncludeFlat">
+      <e p="InstagramScraper.sln" t="IncludeFlat" />
+      <e p="Instagram_Scraper" t="IncludeRecursive">
+        <e p="Instagram_Scraper.csproj" t="IncludeRecursive" />
+        <e p="Instagram_Scraper.csproj.DotSettings" t="Include" />
+        <e p="PageObjects" t="Include">
+          <e p="LoginPage.cs" t="Include" />
+          <e p="PostPage.cs" t="Include" />
+          <e p="ProfilePage.cs" t="Include" />
+          <e p="StoryPage.cs" t="Include" />
+        </e>
+        <e p="Resources" t="Include">
+          <e p="InstaScraper.ico" t="Include" />
+          <e p="js.old" t="Include">
+            <e p="LoginProfiles.js" t="Include" />
+            <e p="PublicProfiles.js" t="Include" />
+          </e>
+        </e>
+        <e p="SeleniumScraper.cs" t="Include" />
+        <e p="UserInterface" t="Include">
+          <e p="MainWindow.cs" t="Include" />
+        </e>
+        <e p="Utility" t="Include">
+          <e p="DownloadManager.cs" t="Include" />
+          <e p="UriNameDictionary.cs" t="Include" />
+          <e p="WebDriverExtensions.cs" t="Include" />
+        </e>
+        <e p="WebScraper.cs" t="Include" />
+        <e p="bin" t="ExcludeRecursive" />
+        <e p="obj" t="ExcludeRecursive">
+          <e p="Debug" t="Include">
+            <e p="netcoreapp2.1" t="Include">
+              <e p="Instagram_Scraper.AssemblyInfo.cs" t="Include" />
+            </e>
+          </e>
+        </e>
+      </e>
+      <e p="packages" t="ExcludeRecursive" />
+    </e>
+  </component>
+</project>

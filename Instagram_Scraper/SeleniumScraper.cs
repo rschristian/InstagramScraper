@@ -1,7 +1,7 @@
 ﻿using Gtk;
-using Selenium.UserInterface;
+using Instagram_Scraper.UserInterface;
 
-namespace Selenium
+namespace Instagram_Scraper
 {
     internal static class SeleniumScraper
     {

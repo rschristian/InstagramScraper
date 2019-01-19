@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace Selenium.Utility
+namespace Instagram_Scraper.Utility
 {
     public class UriNameDictionary : Dictionary<string, string>
     {

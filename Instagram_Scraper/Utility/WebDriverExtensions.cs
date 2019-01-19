@@ -5,7 +5,7 @@ using System.Linq;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
 
-namespace Selenium.Utility
+namespace Instagram_Scraper.Utility
 {
     public class WebDriverExtensions
     {

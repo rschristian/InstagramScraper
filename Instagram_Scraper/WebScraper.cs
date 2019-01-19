@@ -2,13 +2,13 @@ using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks.Dataflow;
+using Instagram_Scraper.PageObjects;
+using Instagram_Scraper.Utility;
 using OpenQA.Selenium.Firefox;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
-using Selenium.PageObjects;
-using Selenium.Utility;
 
-namespace Selenium
+namespace Instagram_Scraper
 {
     public static class WebScraper
     {

@@ -6,10 +6,10 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks.Dataflow;
+using Instagram_Scraper.Utility;
 using OpenQA.Selenium;
-using Selenium.Utility;
 
-namespace Selenium.PageObjects
+namespace Instagram_Scraper.PageObjects
 {
     public class PostPage
     {
