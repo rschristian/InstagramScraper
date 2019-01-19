@@ -4,7 +4,7 @@ using System.IO;
 using System.Net;
 using System.Threading.Tasks.Dataflow;
 
-namespace Selenium.Utility
+namespace Instagram_Scraper.Utility
 {
     public static class DownloadManager
     {

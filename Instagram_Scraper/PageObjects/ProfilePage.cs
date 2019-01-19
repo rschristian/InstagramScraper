@@ -5,9 +5,9 @@ using OpenQA.Selenium;
 using SeleniumExtras.PageObjects;
 using System.Net;
 using System.Threading.Tasks.Dataflow;
-using Selenium.Utility;
+using Instagram_Scraper.Utility;
 
-namespace Selenium.PageObjects
+namespace Instagram_Scraper.PageObjects
 {
     public class ProfilePage
     {
@@ -41,7 +41,13 @@ namespace Selenium.PageObjects
 
         public StoryPage EnterStory(ITargetBlock<KeyValuePair<string, string>> target)
         {
-            if (StoryClass == null) return null;
+            System.Threading.Thread.Sleep(500);
+            if (StoryClass == null)
+            {
+                Console.WriteLine("No Story");
+                return null;
+            }
+            Console.WriteLine("There is a story");
             System.Threading.Thread.Sleep(750);
             StoryClass.Click();
             return new StoryPage(_driver, target);

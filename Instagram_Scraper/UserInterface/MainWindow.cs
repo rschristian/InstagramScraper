@@ -3,7 +3,7 @@ using Gtk;
 using System.IO;
 using System.Text;
 
-namespace Selenium.UserInterface
+namespace Instagram_Scraper.UserInterface
 {
 	public class MainWindow : Window
 	{
