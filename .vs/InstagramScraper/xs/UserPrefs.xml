@@ -1,0 +1,10 @@
+﻿<Properties StartupConfiguration="{0FEF666D-7C63-436B-B2DB-47D203D658A2}|Default">
+  <MonoDevelop.Ide.Workbench />
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MultiItemStartupConfigurations />
+  <MonoDevelop.Ide.ItemProperties.instagram-scraper PreferredExecutionTarget="MonoDevelop.Default" />
+</Properties>
