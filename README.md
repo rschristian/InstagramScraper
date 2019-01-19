@@ -2,4 +2,4 @@ This project exists to be a tool that I can use (or give to others, who need it)
 
 The version that I did using CasperJS/SlimerJS was quite quick, though hard to maintain. It had a number of issues with logins and the like, so it wasn't ideal. The current version made with Selenium in C# is much, much more maintainable and likely better overall, though it is a bit slow. I've tried to make it compatible with Chrome and FireFox, but FireFox is incredibly slow, and Chrome is very touchy. It likes to call it quits if the element isn't at the top of the DOM. 
 
-I plan to use AngleSharp and PuppeteerSharp for sure, anything beyond that is unplanned. I might branch into F# and Canopy too, but we'll see.
+I plan to use PuppeteerSharp for sure, anything beyond that is unplanned. I might branch into F# and Canopy too, but we'll see.
