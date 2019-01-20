@@ -28,7 +28,7 @@ namespace Instagram_Scraper.PageObjects
             _driver = driver;
         }
 
-        private IWebElement MultiSrcPostChevron => _webHelper.SafeFindElement(".coreSpriteRightChevron");
+        private IWebElement MultiSrcPostChevron => _webHelper.SafeFindElement("._6CZji");
         
         private IWebElement NextPostPaginationArrow => _webHelper.SafeFindElement(".coreSpriteRightPaginationArrow");
         
@@ -41,10 +41,10 @@ namespace Instagram_Scraper.PageObjects
         //TODO Issues with posts. Occasionally, mutli-src posts are skipped over entirely
         public void GetPostData()
         {
-            // try
-            // {
-                _webHelper.WaitForElement(By.CssSelector(".eo2As"), 5);
-
+            try
+            {
+                _webHelper.WaitForElement(By.CssSelector(".eo2As"), 20);
+    
                 if (MultiSrcPostChevron != null)
                 {
                     if (VideoSourceClass.Any())
@@ -63,7 +63,7 @@ namespace Instagram_Scraper.PageObjects
                             _tempLinkList.Add(stringList[index].Remove(stringList[index].Length - 6));
                         }
                     }
-
+    
                     MultiSrcPostChevron.Click();
                     GetPostData();
                 }
@@ -85,21 +85,20 @@ namespace Instagram_Scraper.PageObjects
                             _tempLinkList.Add(stringList[index].Remove(stringList[index].Length - 6));
                         }
                     }
-
+    
                     _tempLinkList = _tempLinkList.Distinct().ToList();
                     var timeStamp = RefineTimeStamp();
-
+    
                     for (var i = 0; i < _tempLinkList.Count; i++)
                     {
                         _target.Post(new KeyValuePair<string, string>(timeStamp + " " + (_tempLinkList.Count - i), 
                             _tempLinkList[i]));
                     }
-
+    
                     if (NextPostPaginationArrow != null)
                     {
                         NextPostPaginationArrow.Click();
                         _tempLinkList.Clear();
-                        // GetPostData();
                         new PostPage(_driver, _target).GetPostData();
                     }
                     else
@@ -108,12 +107,12 @@ namespace Instagram_Scraper.PageObjects
                         Console.WriteLine("Finished");
                     }
                 }
-            // }
-            // catch (StaleElementReferenceException)
-            // {
-            //     Console.WriteLine("Stale Element, Retrying");
-            //     GetPostData();
-            // }
+            }
+            catch (StaleElementReferenceException)
+            {
+                Console.WriteLine("Stale Element, Retrying");
+                GetPostData();
+            }
         }
 
         private string RefineTimeStamp()
