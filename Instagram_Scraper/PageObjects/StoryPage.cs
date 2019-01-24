@@ -11,7 +11,11 @@ namespace Instagram_Scraper.PageObjects
     {
         private readonly WebDriverExtensions _webHelper;
         
-        private List<string> _tempLinkList = new List<string>();
+        private readonly Dictionary<string, string> _tempDictionary = new Dictionary<string, string>();
+        
+        private readonly List<string> _tempLinkList = new List<string>();
+        
+        private readonly List<string> _tempDateTimeList = new List<string>();
         
         private readonly ITargetBlock<KeyValuePair<string, string>> _target;
 
@@ -35,7 +39,7 @@ namespace Instagram_Scraper.PageObjects
                 
             if (StoryVideoSrcClass.Any())
             {
-                _tempLinkList.Add(StoryVideoSrcClass.First().GetAttribute("src"));
+                _tempDictionary.Add(StoryVideoSrcClass.First().GetAttribute("src"), _webHelper.RefineDateStamp());
             }
             else if (StoryImageSrcClass.Any())
             {
@@ -43,21 +47,24 @@ namespace Instagram_Scraper.PageObjects
                 {
                     var stringList = webElement.GetAttribute("srcset").Split(',');
                     var index = Array.FindIndex(stringList, row => row.Contains("1080w"));
-                    _tempLinkList.Add(stringList[index].Remove(stringList[index].Length - 6));
+                    _tempDictionary.Add(stringList[index].Remove(stringList[index].Length - 6), _webHelper.RefineDateStamp());
                 }
             }
 
-            if (_tempLinkList.Count < StoryPageNavigationClass.Count())
+            if (_tempDictionary.Count < StoryPageNavigationClass.Count())
             {
                 StoryChevronClass.Click();
                 SaveStoryContent();
             }
             else
             {
-                for (var i = 0; i < _tempLinkList.Count; i++)
+                var i = 0;
+                var currentTime = DateTime.Now.Hour + ":" + DateTime.Now.Minute + ":" + DateTime.Now.Second;
+                foreach (var (link, timestamp) in _tempDictionary)
                 {
-                    _target.Post(new KeyValuePair<string, string>(DateTime.Now.ToString("yyyy-MM-d") + " story " 
-                                                                                                     + (_tempLinkList.Count - i), _tempLinkList[i]));
+                    _target.Post(new KeyValuePair<string, string>(timestamp + " " + currentTime + " story " +
+                                                                  (_tempDictionary.Count - i), link));
+                    i++;
                 }
             
                 Console.WriteLine("Story Capture Complete");
