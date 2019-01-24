@@ -39,5 +39,19 @@ namespace Instagram_Scraper.Utility
         {
             return _driver.FindElements(By.CssSelector(selector));
         }
+        
+        public string RefineTimeStamp()
+        {
+            var timeStamp = SafeFindElement("time[datetime]").GetAttribute("datetime");
+            timeStamp = timeStamp.Substring(0, 10) + " " + timeStamp.Substring(11, 8);
+            return timeStamp;
+        }
+        
+        public string RefineDateStamp()
+        {
+            var timeStamp = SafeFindElement("time[datetime]").GetAttribute("datetime");
+            timeStamp = timeStamp.Substring(0, 10);
+            return timeStamp;
+        }
     }
 }

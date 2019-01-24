@@ -1,9 +1,6 @@
 using System;
 using System.Collections.Generic;
-using System.IO;
 using OpenQA.Selenium;
-using SeleniumExtras.PageObjects;
-using System.Net;
 using System.Threading.Tasks.Dataflow;
 using Instagram_Scraper.Utility;
 
