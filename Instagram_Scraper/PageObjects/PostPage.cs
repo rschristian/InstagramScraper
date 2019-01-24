@@ -28,11 +28,9 @@ namespace Instagram_Scraper.PageObjects
             _driver = driver;
         }
 
-        private IWebElement MultiSrcPostChevron => _webHelper.SafeFindElement("._6CZji");
+        private IWebElement MultiSrcPostChevron => _webHelper.SafeFindElement(".coreSpriteRightChevron");
         
         private IWebElement NextPostPaginationArrow => _webHelper.SafeFindElement(".coreSpriteRightPaginationArrow");
-        
-        private IWebElement PostTimeStamp => _webHelper.SafeFindElement("time[datetime]");
         
         private IEnumerable<IWebElement> ImageSourceClass => _webHelper.SafeFindElements(".kPFhm img");
         
@@ -87,7 +85,7 @@ namespace Instagram_Scraper.PageObjects
                     }
     
                     _tempLinkList = _tempLinkList.Distinct().ToList();
-                    var timeStamp = RefineTimeStamp();
+                    var timeStamp = _webHelper.RefineTimeStamp();
     
                     for (var i = 0; i < _tempLinkList.Count; i++)
                     {
@@ -113,13 +111,6 @@ namespace Instagram_Scraper.PageObjects
                 Console.WriteLine("Stale Element, Retrying");
                 GetPostData();
             }
-        }
-
-        private string RefineTimeStamp()
-        {
-            var timeStamp = PostTimeStamp.GetAttribute("datetime");
-            timeStamp = timeStamp.Substring(0, 10) + " " + timeStamp.Substring(12, 7);
-            return timeStamp;
         }
     }
 }
