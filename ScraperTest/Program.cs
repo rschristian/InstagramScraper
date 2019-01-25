@@ -11,7 +11,7 @@ namespace ScraperTest
 
             var totalScraperRunTime = 0.000;
             
-            const int testPasses = 5;
+            const int testPasses = 20;
             for (var i = 0; i < testPasses; i++)
             {
                 using (var outputCapture = new OutputCapture())
@@ -19,10 +19,10 @@ namespace ScraperTest
                     var watch = System.Diagnostics.Stopwatch.StartNew();
                     
                     WebScraper.SetUp("***REMOVED***", false, string.Empty, string.Empty,
-                        string.Empty, true, false);
+                        string.Empty, false, false);
                 
                     var stuff = outputCapture.Captured.ToString();
-                    if (stuff.Contains("31 Downloading:")) correctRunPercentage++;
+                    if (stuff.Contains("24 Downloading:")) correctRunPercentage++;
                     
                     watch.Stop();
                     totalScraperRunTime = totalScraperRunTime + watch.ElapsedMilliseconds;

@@ -1,7 +1,7 @@
 {
   "runtimeTarget": {
     "name": ".NETCoreApp,Version=v2.2",
-    "signature": "edfe96155090c30ae9ce095fc10feb57552fe56b"
+    "signature": "ada71caf15262ce734b3aa4875d2f4f8ad3e7fee"
   },
   "compilationOptions": {},
   "targets": {
@@ -30,18 +30,6 @@
           "lib/netstandard2.0/CairoSharp.dll": {
             "assemblyVersion": "3.22.24.36",
             "fileVersion": "3.22.24.36"
-          }
-        }
-      },
-      "DotNetSeleniumExtras.PageObjects.Core/3.12.1-beta": {
-        "dependencies": {
-          "Selenium.WebDriver": "3.141.0",
-          "System.Reflection.DispatchProxy": "4.4.0"
-        },
-        "runtime": {
-          "lib/netstandard2.0/SeleniumExtras.PageObjects.dll": {
-            "assemblyVersion": "3.12.1.0",
-            "fileVersion": "3.12.1.0"
           }
         }
       },
@@ -142,17 +130,6 @@
         }
       },
       "Selenium.Firefox.WebDriver/0.22.0": {},
-      "Selenium.Support/3.141.0": {
-        "dependencies": {
-          "Selenium.WebDriver": "3.141.0"
-        },
-        "runtime": {
-          "lib/netstandard2.0/WebDriver.Support.dll": {
-            "assemblyVersion": "3.141.0.0",
-            "fileVersion": "3.141.0.0"
-          }
-        }
-      },
       "Selenium.WebDriver/3.141.0": {
         "dependencies": {
           "Newtonsoft.Json": "10.0.3"
@@ -337,7 +314,6 @@
           "System.Runtime": "4.3.0"
         }
       },
-      "System.Reflection.DispatchProxy/4.4.0": {},
       "System.Reflection.Emit/4.3.0": {
         "dependencies": {
           "System.IO": "4.3.0",
@@ -489,10 +465,8 @@
       },
       "Instagram_Scraper/1.0.0": {
         "dependencies": {
-          "DotNetSeleniumExtras.PageObjects.Core": "3.12.1-beta",
           "GtkSharp": "3.22.24.36",
           "Selenium.Firefox.WebDriver": "0.22.0",
-          "Selenium.Support": "3.141.0",
           "Selenium.WebDriver": "3.141.0",
           "Selenium.WebDriver.ChromeDriver": "2.45.0"
         },
@@ -521,13 +495,6 @@
       "sha512": "sha512-etDr3ctTc8GLlvkj6MoV0g/JKPfF6NfpXrdxeLt31kEyBLwOk+xdVcD6OBTpO+Z0M9T2pjNvrV3aU3pB027BIg==",
       "path": "cairosharp/3.22.24.36",
       "hashPath": "cairosharp.3.22.24.36.nupkg.sha512"
-    },
-    "DotNetSeleniumExtras.PageObjects.Core/3.12.1-beta": {
-      "type": "package",
-      "serviceable": true,
-      "sha512": "sha512-qNeyRT8iu9NJYHsV0PXTEti4vFm2dp2TxiNcXaRLAatUfYlkwUcb4tBBwRFhZGd67T1G11zAwqf4RSdUAEKGEQ==",
-      "path": "dotnetseleniumextras.pageobjects.core/3.12.1-beta",
-      "hashPath": "dotnetseleniumextras.pageobjects.core.3.12.1-beta.nupkg.sha512"
     },
     "GdkSharp/3.22.24.36": {
       "type": "package",
@@ -584,13 +551,6 @@
       "sha512": "sha512-dLyRGrjvE9S4aeTi6oSPVRqcpKTjp5XYgsPh0u5g9qtFqqocPh+/vYHeHFSGE9+Hp68hFJ0JMx3x9Oyq9KZyhg==",
       "path": "selenium.firefox.webdriver/0.22.0",
       "hashPath": "selenium.firefox.webdriver.0.22.0.nupkg.sha512"
-    },
-    "Selenium.Support/3.141.0": {
-      "type": "package",
-      "serviceable": true,
-      "sha512": "sha512-F4sxMCXGyqWtbw5qsniJRgza2UsBnslHwFgNA2p7hPxvJhqg73lyXu/ZscJ7FSfRvq3eJrosysv92+4sZ3vWsg==",
-      "path": "selenium.support/3.141.0",
-      "hashPath": "selenium.support.3.141.0.nupkg.sha512"
     },
     "Selenium.WebDriver/3.141.0": {
       "type": "package",
@@ -724,13 +684,6 @@
       "sha512": "sha512-KMiAFoW7MfJGa9nDFNcfu+FpEdiHpWgTcS2HdMpDvt9saK3y/G4GwprPyzqjFH9NTaGPQeWNHU+iDlDILj96aQ==",
       "path": "system.reflection/4.3.0",
       "hashPath": "system.reflection.4.3.0.nupkg.sha512"
-    },
-    "System.Reflection.DispatchProxy/4.4.0": {
-      "type": "package",
-      "serviceable": true,
-      "sha512": "sha512-xK6JE0mpsBD+T0qu3V6dmVRa06PxAvIIM/zSjouqP7Sk6X+FQj+9XFRz9GmZk9aJGMU1LX6AgTZIlsYZ64QKsw==",
-      "path": "system.reflection.dispatchproxy/4.4.0",
-      "hashPath": "system.reflection.dispatchproxy.4.4.0.nupkg.sha512"
     },
     "System.Reflection.Emit/4.3.0": {
       "type": "package",
