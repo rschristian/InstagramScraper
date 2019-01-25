@@ -7,9 +7,8 @@ namespace Instagram_Scraper.UserInterface
 {
     public class MainWindow : Window
     {
-        // private readonly CheckButton _getCommentsBox;
         private readonly RadioButton _firefoxRadioButton;
-        private readonly CheckButton _headlessBrowserBox, _getStoryBox;
+        private readonly CheckButton _headlessBrowserBox, _getStoryBox, _getCommentsBox;
         private readonly Entry _targetAccount, _password, _username, _savePath;
 
         public MainWindow() : base(WindowType.Toplevel)
@@ -76,15 +75,15 @@ namespace Instagram_Scraper.UserInterface
             w5.X = 10;
             w5.Y = 225;
 
-            // _getCommentsBox = new CheckButton
-            // {
-            // 	CanFocus = true, Name = "TextCheckBox", DrawIndicator = true, UseUnderline = true,
-            // 	Label = "Download the Comments on the Target Account's Posts"
-            // };
-            // fixedContainer.Add(_getCommentsBox);
-            // var w6 = (Fixed.FixedChild)fixedContainer[_getCommentsBox];
-            // w6.X = 10;
-            // w6.Y = 260;
+            _getCommentsBox = new CheckButton
+            {
+            	CanFocus = true, Name = "TextCheckBox", DrawIndicator = true, UseUnderline = true,
+            	Label = "Download the Comments on the Target Account's Posts"
+            };
+            fixedContainer.Add(_getCommentsBox);
+            var w6 = (Fixed.FixedChild)fixedContainer[_getCommentsBox];
+            w6.X = 10;
+            w6.Y = 260;
 
 
             _firefoxRadioButton = new RadioButton(null, "FireFoxRadioButton")
@@ -176,7 +175,7 @@ namespace Instagram_Scraper.UserInterface
                 else
                 {
                     WebScraper.SetUp(_targetAccount.Text, _getStoryBox.Active, _username.Text, _password.Text,
-                        _savePath.Text, _headlessBrowserBox.Active, _firefoxRadioButton.Active);
+                        _savePath.Text, _headlessBrowserBox.Active, _firefoxRadioButton.Active, _getCommentsBox.Active);
                 }
             }
             else if (clickedButton.Name.Equals("ChooseSavePathButton"))

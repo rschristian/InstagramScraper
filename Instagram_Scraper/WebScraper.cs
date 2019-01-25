@@ -15,7 +15,7 @@ namespace Instagram_Scraper
         private static IWebDriver _driver;
 
         public static async void SetUp(string targetAccount, bool scrapeStory, string username, string password,
-                                       string folderSavePath, bool headless, bool firefoxProfile)
+                                       string folderSavePath, bool headless, bool firefoxProfile, bool scrapeComments)
         {
             if (firefoxProfile)
             {
@@ -67,7 +67,7 @@ namespace Instagram_Scraper
                 new Thread(() => DownloadManager.ConsumeAsync(savePath, buffer)) {IsBackground = true};
             backgroundThread.Start();
             
-            ExecuteScraper(targetAccount, buffer, scrapeStory, username, password);
+            ExecuteScraper(targetAccount, buffer, scrapeStory, username, password, scrapeComments);
 
             await buffer.Completion;
             
@@ -75,7 +75,7 @@ namespace Instagram_Scraper
         }
 
         private static void ExecuteScraper(string targetAccount, ITargetBlock<KeyValuePair<string, string>> target,
-                                           bool scrapeStory, string username, string password)
+                                           bool scrapeStory, string username, string password, bool scrapeComments)
         {
             var watch = System.Diagnostics.Stopwatch.StartNew();
             if (!password.Equals(""))
@@ -104,7 +104,14 @@ namespace Instagram_Scraper
             Console.WriteLine("Time to enter post: " + enterPostTime/1000.00 + " seconds");
             
             watch.Restart();
-            postPage.GetPostData();
+            if (scrapeComments)
+            {
+                postPage.GetPostDataWithComments();
+            }
+            else
+            {
+                postPage.GetPostData(); 
+            }
             watch.Stop();
             var getPostPicturesTime = watch.ElapsedMilliseconds;
             Console.WriteLine("Time to get all post pictures: " + getPostPicturesTime/1000.00 + " seconds");

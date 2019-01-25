@@ -112,5 +112,81 @@ namespace Instagram_Scraper.PageObjects
                 GetPostData();
             }
         }
+        
+        public void GetPostDataWithComments()
+        {
+            try
+            {
+                _webHelper.WaitForElement(By.CssSelector(".eo2As"), 20);
+    
+                if (MultiSrcPostChevron != null)
+                {
+                    if (VideoSourceClass.Any())
+                    {
+                        foreach (var webElement in VideoSourceClass)
+                        {
+                            _tempLinkList.Add(webElement.GetAttribute("src"));
+                        }
+                    }
+                    else if (ImageSourceClass.Any())
+                    {
+                        foreach (var webElement in ImageSourceClass)
+                        {
+                            var stringList = webElement.GetAttribute("srcset").Split(',');
+                            var index = Array.FindIndex(stringList, row => row.Contains("1080w"));
+                            _tempLinkList.Add(stringList[index].Remove(stringList[index].Length - 6));
+                        }
+                    }
+    
+                    MultiSrcPostChevron.Click();
+                    GetPostDataWithComments();
+                }
+                else
+                {
+                    if (VideoSourceClass.Any())
+                    {
+                        foreach (var webElement in VideoSourceClass)
+                        {
+                            _tempLinkList.Add(webElement.GetAttribute("src"));
+                        }
+                    }
+                    else if (ImageSourceClass.Any())
+                    {
+                        foreach (var webElement in ImageSourceClass)
+                        {
+                            var stringList = webElement.GetAttribute("srcset").Split(',');
+                            var index = Array.FindIndex(stringList, row => row.Contains("1080w"));
+                            _tempLinkList.Add(stringList[index].Remove(stringList[index].Length - 6));
+                        }
+                    }
+    
+                    _tempLinkList = _tempLinkList.Distinct().ToList();
+                    var timeStamp = _webHelper.RefineTimeStamp();
+    
+                    for (var i = 0; i < _tempLinkList.Count; i++)
+                    {
+                        _target.Post(new KeyValuePair<string, string>(timeStamp + " " + (_tempLinkList.Count - i), 
+                            _tempLinkList[i]));
+                    }
+    
+                    if (NextPostPaginationArrow != null)
+                    {
+                        NextPostPaginationArrow.Click();
+                        _tempLinkList.Clear();
+                        new PostPage(_driver, _target).GetPostDataWithComments();
+                    }
+                    else
+                    {
+                        _target.Complete();
+                        Console.WriteLine("Finished");
+                    }
+                }
+            }
+            catch (StaleElementReferenceException)
+            {
+                Console.WriteLine("Stale Element, Retrying");
+                GetPostData();
+            }
+        }
     }
 }
