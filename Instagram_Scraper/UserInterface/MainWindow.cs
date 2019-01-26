@@ -98,7 +98,8 @@ namespace Instagram_Scraper.UserInterface
 
             var chromeRadioButton = new RadioButton(_firefoxRadioButton, "ChromeRadioButton")
             {
-                CanFocus = true, Name = "ChromeRadioButton", DrawIndicator = true, UseUnderline = true, Label = "Chrome"
+                CanFocus = true, Name = "ChromeRadioButton", DrawIndicator = true, UseUnderline = true,
+                Label = "Chrome", Active = true
             };
             fixedContainer.Add(chromeRadioButton);
             var w8 = (Fixed.FixedChild) fixedContainer[chromeRadioButton];

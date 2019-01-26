@@ -26,7 +26,7 @@ namespace Instagram_Scraper.PageObjects
         {
             _driver.Navigate().GoToUrl("http://www.instagram.com/accounts/login");
             
-            _webHelper.WaitForElement(By.CssSelector(".K-1uj"), 5);
+            _webHelper.WaitForElement(By.CssSelector(".K-1uj"), 50000);
             
             UsernameField.SendKeys(username);
             PasswordField.SendKeys(password);
@@ -37,7 +37,7 @@ namespace Instagram_Scraper.PageObjects
             //so each run will be a "new" login.
             //COOzN is the sidebar, lower in the DOM. Hopefully the user is fully logged in by the time this is found.
             //TODO figure out what I'm doing here
-            _webHelper.WaitForElement(By.CssSelector(".COOzN"), 2);
+            _webHelper.WaitForElement(By.CssSelector(".COOzN"), 2000);
         }
     }
 }

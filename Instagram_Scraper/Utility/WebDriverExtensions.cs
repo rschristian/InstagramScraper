@@ -16,11 +16,18 @@ namespace Instagram_Scraper.Utility
             _driver = driver;
         }
         
-        public void WaitForElement(By by, int timeoutInSeconds)
+        public IWebElement WaitForElement(By by, int timeoutInMilliSeconds)
         {
-            if (timeoutInSeconds <= 0) _driver.FindElement(by);
-            var wait = new WebDriverWait(_driver, TimeSpan.FromSeconds(timeoutInSeconds));
-            wait.Until(drv => drv.FindElement(by));
+            try
+            {
+                if (timeoutInMilliSeconds <= 0) _driver.FindElement(by);
+                var wait = new WebDriverWait(_driver, TimeSpan.FromMilliseconds(timeoutInMilliSeconds));
+                return wait.Until(drv => drv.FindElement(by));
+            }
+            catch (WebDriverTimeoutException)
+            {
+                return null;
+            }
         }
         
         public IWebElement SafeFindElement(string selector)
