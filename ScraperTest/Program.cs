@@ -1,5 +1,6 @@
 ﻿using System;
 using Instagram_Scraper;
+using Instagram_Scraper.Utility;
 
 namespace ScraperTest
 {
@@ -18,8 +19,8 @@ namespace ScraperTest
                 {
                     var watch = System.Diagnostics.Stopwatch.StartNew();
                     
-                    WebScraper.SetUp("***REMOVED***", false, string.Empty, string.Empty,
-                        string.Empty, true, true, false);
+                    WebScraper.SetUp(new ScraperOptions("***REMOVED***", false, string.Empty, string.Empty,
+                        string.Empty, true, true, false));
                 
                     var stuff = outputCapture.Captured.ToString();
                     if (stuff.Contains("24 Downloading:")) correctRunPercentage++;

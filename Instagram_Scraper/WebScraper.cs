@@ -21,6 +21,7 @@ namespace Instagram_Scraper
                 var optionsFireFox = new FirefoxOptions();
                 optionsFireFox.SetPreference("permissions.default.image", 2);
                 optionsFireFox.SetPreference("dom.ipc.plugins.enabled.libflashplayer.so", false);
+                
                 if (scraperOptions.Headless) optionsFireFox.AddArgument("--headless");
                 _driver = new FirefoxDriver(optionsFireFox);
             }
@@ -47,9 +48,8 @@ namespace Instagram_Scraper
             {
                 var folderSavePathSections = scraperOptions.FolderSavePath.Split("/");
                 var maxIndex = folderSavePathSections.Length - 1;
-                if (folderSavePathSections[maxIndex].Contains(scraperOptions.TargetAccount) ||
-                    folderSavePathSections[maxIndex].Equals(scraperOptions.TargetAccount,
-                        StringComparison.InvariantCultureIgnoreCase))
+                if (folderSavePathSections[maxIndex].IndexOf(scraperOptions.TargetAccount,
+                        StringComparison.OrdinalIgnoreCase) >= 0)
                     savePath = scraperOptions.FolderSavePath + "/";
                 else
                     savePath = scraperOptions.FolderSavePath + "/" + scraperOptions.TargetAccount + "/";
@@ -62,68 +62,59 @@ namespace Instagram_Scraper
             backgroundThreadMedia.Start();
             
             var bufferText = new BufferBlock<KeyValuePair<string, List<KeyValuePair<string, string>>>>();
-
-            if (scraperOptions.ScrapeComments)
-            {
-                var backgroundThreadText =
-                    new Thread(() => DownloadManager.ConsumeTextAsync(savePath, bufferText)) {IsBackground = true};
-                backgroundThreadText.Start();
-            }
+            var backgroundThreadText =
+                new Thread(() => DownloadManager.ConsumeTextAsync(savePath, bufferText)) {IsBackground = true};
+            backgroundThreadText.Start();
             
             
-            ExecuteScraper(scraperOptions.TargetAccount, bufferMedia, bufferText, scraperOptions.ScrapeStory,
-                scraperOptions.Username, scraperOptions.Password, scraperOptions.ScrapeComments);
+            ExecuteScraper(scraperOptions, bufferMedia, bufferText);
 
             await bufferMedia.Completion;
-            if (scraperOptions.ScrapeComments) await bufferText.Completion;
+            if (scraperOptions.ScrapeComments)
+                await bufferText.Completion;
             
             _driver.Quit();
         }
 
-        private static void ExecuteScraper(string targetAccount, ITargetBlock<KeyValuePair<string, string>> targetMedia,
-            ITargetBlock<KeyValuePair<string, List<KeyValuePair<string, string>>>> targetText, bool scrapeStory,
-            string username, string password, bool scrapeComments)
+        private static void ExecuteScraper(ScraperOptions scraperOptions, ITargetBlock<KeyValuePair<string, string>> targetMedia,
+            ITargetBlock<KeyValuePair<string, List<KeyValuePair<string, string>>>> targetText)
         {
             var watch = System.Diagnostics.Stopwatch.StartNew();
-            if (!password.Equals(""))
-            {
-                var loginPage = new LoginPage(_driver);
-                loginPage.Login(username, password);
-            }
+            if (!scraperOptions.Password.Equals(string.Empty))
+                new LoginPage(_driver).Login(scraperOptions.Username, scraperOptions.Password);
             watch.Stop();
             var loginTime = watch.ElapsedMilliseconds;
             Console.WriteLine("Time to login: " + loginTime/1000.00 + " seconds");
             
             watch.Restart();
             var profilePage = new ProfilePage(_driver);
-            profilePage.GoToProfile(targetAccount);
+            profilePage.GoToProfile(scraperOptions.TargetAccount);
             profilePage.GetProfilePicture(targetMedia);
 
-            if (scrapeStory)
+            if (scraperOptions.ScrapeStory)
             {
                 var storyPage = profilePage.EnterStory(targetMedia);
                 storyPage?.SaveStoryContent();
             }
-
-            var postPage = scrapeComments ? profilePage.EnterPosts(targetMedia, targetText) : profilePage.EnterPosts(targetMedia);
-            
+            var postPage = scraperOptions.ScrapeComments ? profilePage.EnterPosts(targetMedia, targetText) :
+                profilePage.EnterPosts(targetMedia);
             watch.Stop();
             var enterPostTime = watch.ElapsedMilliseconds;
             Console.WriteLine("Time to enter post: " + enterPostTime/1000.00 + " seconds");
             
             
             watch.Restart();
-            
-            if (scrapeComments) postPage.GetPostDataWithComments();
-            else postPage.GetPostData();
-            
+            if (scraperOptions.ScrapeComments)
+                postPage.GetPostDataWithComments();
+            else
+                postPage.GetPostData();
             watch.Stop();
             var getPostPicturesTime = watch.ElapsedMilliseconds;
             Console.WriteLine("Time to get all post pictures: " + getPostPicturesTime/1000.00 + " seconds");
             
             
-            Console.WriteLine("Total Program Time: " + (loginTime + enterPostTime + getPostPicturesTime)/1000.00
-                                                     + " seconds");
+            Console.WriteLine("Total Program Time: " +
+                              (loginTime + enterPostTime + getPostPicturesTime)/1000.00 + " seconds");
         }
     }
 }
