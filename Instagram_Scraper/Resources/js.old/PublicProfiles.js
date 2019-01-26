@@ -369,19 +369,6 @@ casper.start('https://www.instagram.com/' + targetAccount + '/'
         }
     }
 
-
-
-
-    // post['7-14-2018'] = ["G:happy birthday toddy!! #dadeo, C:ll,G:yy"];
-    // post['7-15-2018'] = ["G: Yoinks Scoob, C: Heylo"];
-    // for (let x in post) {
-    //     console.log(x);
-    //     let values = post[x];
-    //     for (let y in values) {
-    //         console.log(values[y]);
-    //     }
-    // }
-
     t4 = performance.now();
     console.log("Time to load page, login, and retrieve story: " + (t1-t0));
     console.log("Time to retrieve all media links: " + (t2-t1));
