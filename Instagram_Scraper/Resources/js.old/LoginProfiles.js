@@ -1,5 +1,3 @@
-// noinspection JSUnusedGlobalSymbols
-// noinspection JSUnusedGlobalSymbols
 const casper = require("casper").create({
   viewportSize: {width: 1920, height:480},
   waitTimeout: 100000,
@@ -349,11 +347,6 @@ function cleanDataSets(a) {
 
 casper.start('https://www.instagram.com/' + targetAccount + '/'
 ).waitForSelector(pageContentClass, function() {
-    // phantom.addCookie({
-    //     'name': "sessionid",
-    //     'value': "IGSC59e64fbfd66817fdb37c7ffb7804868e2fdcf9273cff626c7b8efda22a305454%3AHSzRvf1SM5T0p3Ii3nUmHV0P0BkCLN4T%3A%7B%22_auth_user_id%22%3A1754178657%2C%22_auth_user_backend%22%3A%22accounts.backends.CaseInsensitiveModelBackend%22%2C%22_auth_user_hash%22%3A%22%22%2C%22_platform%22%3A4%2C%22_token_ver%22%3A2%2C%22_token%22%3A%221754178657%3AZ6PUfbQBaFXicYmJsMZXKjdSW4A0ClwY%3Ad72ccc9b1fad789d0fc03b894d70469a954b77c41b271c9a141d6aca345f5760%22%2C%22last_refreshed%22%3A1539550276.0981733799%7D",
-    //     'domain': ".instagram.com"
-    // });
     if (casper.exists(pagePrivateClass)) {
         console.log("Error: Account is private and user does not have access. " +
             "You will need to request to follow this user, or log in " +
@@ -433,18 +426,6 @@ casper.start('https://www.instagram.com/' + targetAccount + '/'
                 (finalisedCommentsUsers[i])[t] + ": " + (finalisedComments[i])[t] +'\n', 'a');
         }
     }
-
-
-    // post['7-14-2018'] = ["G:happy birthday toddy!! #dadeo, C:ll,G:yy"];
-    // post['7-15-2018'] = ["G: Yoinks Scoob, C: Heylo"];
-    // for (let x in post) {
-    //     //console.log(x);
-    //     let values = post[x];
-    //     for (let y in values) {
-    //         //console.log(values[y]);
-    //     }
-    // }
-
 
     t4 = performance.now();
     console.log("Time to load page, login, and retrieve story: " + (t1-t0));
