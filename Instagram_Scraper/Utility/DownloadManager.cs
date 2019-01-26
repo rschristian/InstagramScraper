@@ -10,16 +10,23 @@ namespace Instagram_Scraper.Utility
     {
         public static async void ConsumeAsync(string path, ISourceBlock<KeyValuePair<string, string>> source)
         {
-            if(!File.Exists(path)) {Directory.CreateDirectory(path);}
+            if(!File.Exists(path)) Directory.CreateDirectory(path);
             var filesProcessed = 0;
+            var filesDownloaded = 0;
             
             while (await source.OutputAvailableAsync())
             {
                 var client = new WebClient();
                 var (key, value) = source.Receive();
+                filesProcessed++;
         
-                if (File.Exists(path + key + ".*")) continue;
-                Console.WriteLine((filesProcessed + 1) + " Downloading: " + key);
+                //Conflicted about whether or not this should exist. Doesn't save time, but can fix (or break)
+                //previous downloads.
+                var fileExists = Directory.GetFiles(path,key + ".*");
+                if (fileExists.Length > 0) continue;
+                
+                Console.WriteLine((filesProcessed) + " Downloading: " + key);
+                
                 if (value.Contains(".mp4"))
                 {
                     client.DownloadFileAsync(new Uri(value), path + key + ".mp4");
