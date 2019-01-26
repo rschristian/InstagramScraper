@@ -1,10 +1,6 @@
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Diagnostics;
-using System.IO;
 using System.Linq;
-using System.Net;
 using System.Threading.Tasks.Dataflow;
 using Instagram_Scraper.Utility;
 using OpenQA.Selenium;
@@ -36,12 +32,12 @@ namespace Instagram_Scraper.PageObjects
         
         private IEnumerable<IWebElement> VideoSourceClass => _webHelper.SafeFindElements(".tWeCl");
         
-        //TODO Issues with posts. Occasionally, mutli-src posts are skipped over entirely
+        //TODO Issues with posts. Occasionally, multi-src posts are skipped over entirely
         public void GetPostData()
         {
             try
             {
-                _webHelper.WaitForElement(By.CssSelector(".eo2As"), 20);
+                _webHelper.WaitForElement(By.CssSelector(".eo2As"), 2000);
     
                 if (MultiSrcPostChevron != null)
                 {
@@ -102,7 +98,7 @@ namespace Instagram_Scraper.PageObjects
                     else
                     {
                         _target.Complete();
-                        Console.WriteLine("Finished");
+                        Console.WriteLine("Finished capture of post data");
                     }
                 }
             }
@@ -117,7 +113,7 @@ namespace Instagram_Scraper.PageObjects
         {
             try
             {
-                _webHelper.WaitForElement(By.CssSelector(".eo2As"), 20);
+                _webHelper.WaitForElement(By.CssSelector(".eo2As"), 2000);
     
                 if (MultiSrcPostChevron != null)
                 {

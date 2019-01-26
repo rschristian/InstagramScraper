@@ -35,7 +35,7 @@ namespace Instagram_Scraper.PageObjects
 
         public void SaveStoryContent()
         {
-            _webHelper.WaitForElement(By.CssSelector("._7zQEa"), 2);
+            _webHelper.WaitForElement(By.CssSelector("._7zQEa"), 2000);
                 
             if (StoryVideoSrcClass.Any())
             {

@@ -52,7 +52,7 @@ namespace Instagram_Scraper.PageObjects
         
         public PostPage EnterPosts(ITargetBlock<KeyValuePair<string, string>> target)
         {
-            _webHelper.WaitForElement(By.CssSelector("div._bz0w a"), 5);
+            _webHelper.WaitForElement(By.CssSelector("div._bz0w a"), 5000);
             var executor = (IJavaScriptExecutor) _driver;
             executor.ExecuteScript("arguments[0].click();", FirstPost);
             return new PostPage(_driver, target);
