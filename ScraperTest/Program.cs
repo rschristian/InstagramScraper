@@ -19,8 +19,8 @@ namespace ScraperTest
                 {
                     var watch = System.Diagnostics.Stopwatch.StartNew();
                     
-                    WebScraper.SetUp(new ScraperOptions("***REMOVED***", false, string.Empty, string.Empty,
-                        string.Empty, true, true, false));
+                    WebScraper.SetUp(new ScraperOptions("***REMOVED***", string.Empty, string.Empty,
+                        true, false, false, false, string.Empty));
                 
                     var stuff = outputCapture.Captured.ToString();
                     if (stuff.Contains("24 Downloading:")) correctRunPercentage++;

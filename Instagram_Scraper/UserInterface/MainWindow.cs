@@ -176,9 +176,9 @@ namespace Instagram_Scraper.UserInterface
                 }
                 else
                 {
-                    WebScraper.SetUp(new ScraperOptions(_targetAccount.Text, _getStoryBox.Active, _username.Text,
-                        _password.Text, _savePath.Text, _headlessBrowserBox.Active,
-                        _firefoxRadioButton.Active, _getCommentsBox.Active));
+                    WebScraper.SetUp(new ScraperOptions(_targetAccount.Text, _username.Text, _password.Text,
+                        _headlessBrowserBox.Active, _getStoryBox.Active,  _getCommentsBox.Active,
+                        _firefoxRadioButton.Active, _savePath.Text));
                 }
             }
             else if (clickedButton.Name.Equals("ChooseSavePathButton"))
