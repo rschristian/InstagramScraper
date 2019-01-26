@@ -2,21 +2,21 @@ namespace Instagram_Scraper.Utility
 {
     public class ScraperOptions
     {
-        public string TargetAccount;
+        public readonly string TargetAccount;
         
-        public bool ScrapeStory;
+        public readonly bool ScrapeStory;
         
-        public string Username;
+        public readonly string Username;
         
-        public string Password;
+        public readonly string Password;
         
-        public string FolderSavePath;
+        public readonly string FolderSavePath;
         
-        public bool Headless;
+        public readonly bool Headless;
         
-        public bool FireFoxProfile;
+        public readonly bool FireFoxProfile;
         
-        public bool ScrapeComments;
+        public readonly bool ScrapeComments;
 
         public ScraperOptions(string targetAccount, bool scrapeStory, string username, string password,
             string folderSavePath, bool headless, bool firefoxProfile, bool scrapeComments)
