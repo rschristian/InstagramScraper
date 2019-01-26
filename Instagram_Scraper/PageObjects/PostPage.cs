@@ -13,16 +13,12 @@ namespace Instagram_Scraper.PageObjects
         
         private List<string> _tempLinkList = new List<string>();
 
-        private readonly ITargetBlock<KeyValuePair<string, string>> _target;
+        private readonly ITargetBlock<KeyValuePair<string, string>> _targetMedia;
+        
+        private readonly ITargetBlock<KeyValuePair<string, List<KeyValuePair<string, string>>>> _targetText;
         
         private readonly IWebDriver _driver;
-
-        public PostPage(IWebDriver driver, ITargetBlock<KeyValuePair<string, string>> target)
-        {
-            _webHelper = new WebDriverExtensions(driver);
-            _target = target;
-            _driver = driver;
-        }
+        
 
         private IWebElement MultiSrcPostChevron => _webHelper.SafeFindElement(".coreSpriteRightChevron");
         
@@ -31,6 +27,30 @@ namespace Instagram_Scraper.PageObjects
         private IEnumerable<IWebElement> ImageSourceClass => _webHelper.SafeFindElements(".kPFhm img");
         
         private IEnumerable<IWebElement> VideoSourceClass => _webHelper.SafeFindElements(".tWeCl");
+        
+            
+        private IWebElement ViewAllCommentsClass => _webHelper.SafeFindElement(".lnrre");
+
+        private IList<IWebElement> _commentUserClass; 
+
+        private IList<IWebElement> _commentTextClass;
+        
+        
+        public PostPage(IWebDriver driver, ITargetBlock<KeyValuePair<string, string>> targetMediaMedia)
+        {
+            _webHelper = new WebDriverExtensions(driver);
+            _targetMedia = targetMediaMedia;
+            _driver = driver;
+        }
+        
+        public PostPage(IWebDriver driver, ITargetBlock<KeyValuePair<string, string>> targetMediaMedia,
+            ITargetBlock<KeyValuePair<string, List<KeyValuePair<string, string>>>> targetText)
+        {
+            _webHelper = new WebDriverExtensions(driver);
+            _targetMedia = targetMediaMedia;
+            _driver = driver;
+            _targetText = targetText;
+        }
         
         //TODO Issues with posts. Occasionally, multi-src posts are skipped over entirely
         public void GetPostData()
@@ -85,7 +105,7 @@ namespace Instagram_Scraper.PageObjects
     
                     for (var i = 0; i < _tempLinkList.Count; i++)
                     {
-                        _target.Post(new KeyValuePair<string, string>(timeStamp + " " + (_tempLinkList.Count - i), 
+                        _targetMedia.Post(new KeyValuePair<string, string>(timeStamp + " " + (_tempLinkList.Count - i), 
                             _tempLinkList[i]));
                     }
     
@@ -93,11 +113,11 @@ namespace Instagram_Scraper.PageObjects
                     {
                         NextPostPaginationArrow.Click();
                         _tempLinkList.Clear();
-                        new PostPage(_driver, _target).GetPostData();
+                        new PostPage(_driver, _targetMedia).GetPostData();
                     }
                     else
                     {
-                        _target.Complete();
+                        _targetMedia.Complete();
                         Console.WriteLine("Finished capture of post data");
                     }
                 }
@@ -161,19 +181,35 @@ namespace Instagram_Scraper.PageObjects
     
                     for (var i = 0; i < _tempLinkList.Count; i++)
                     {
-                        _target.Post(new KeyValuePair<string, string>(timeStamp + " " + (_tempLinkList.Count - i), 
+                        _targetMedia.Post(new KeyValuePair<string, string>(timeStamp + " " + (_tempLinkList.Count - i), 
                             _tempLinkList[i]));
                     }
-    
+
+                    ViewAllCommentsClass?.Click();
+                    _commentUserClass = _webHelper.SafeFindElements(".FPmhX").ToList();
+                    _commentTextClass = _webHelper.SafeFindElements("div.C4VMK span").ToList();
+                    
+                    //First element is a header for the post, which is unrelated to the comments section
+                    _commentUserClass.RemoveAt(0);
+
+                    var commentUsernameList = _commentUserClass.Select(username => username.GetAttribute("title")).ToList();
+                    var commentTextList = _commentTextClass.Select(text => text.Text).ToList();
+
+                    var x = commentUsernameList.Select((t, i) => new KeyValuePair<string, string>(t, commentTextList[i])).ToList();
+                    
+                    _targetText.Post(new KeyValuePair<string, List<KeyValuePair<string, string>>>(timeStamp, x));
+                    
+
                     if (NextPostPaginationArrow != null)
                     {
                         NextPostPaginationArrow.Click();
                         _tempLinkList.Clear();
-                        new PostPage(_driver, _target).GetPostDataWithComments();
+                        new PostPage(_driver, _targetMedia, _targetText).GetPostDataWithComments();
                     }
                     else
                     {
-                        _target.Complete();
+                        _targetMedia.Complete();
+                        _targetText.Complete();
                         Console.WriteLine("Finished");
                     }
                 }

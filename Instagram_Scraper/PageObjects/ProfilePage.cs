@@ -57,5 +57,13 @@ namespace Instagram_Scraper.PageObjects
             executor.ExecuteScript("arguments[0].click();", FirstPost);
             return new PostPage(_driver, target);
         }
+        
+        public PostPage EnterPosts(ITargetBlock<KeyValuePair<string, string>> targetMedia, ITargetBlock<KeyValuePair<string, List<KeyValuePair<string, string>>>> targetText)
+        {
+            _webHelper.WaitForElement(By.CssSelector("div._bz0w a"), 5000);
+            var executor = (IJavaScriptExecutor) _driver;
+            executor.ExecuteScript("arguments[0].click();", FirstPost);
+            return new PostPage(_driver, targetMedia, targetText);
+        }
     }
 }

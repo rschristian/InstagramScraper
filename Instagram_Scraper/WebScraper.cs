@@ -62,19 +62,30 @@ namespace Instagram_Scraper
             }
             
             
-            var buffer = new BufferBlock<KeyValuePair<string, string>>();
-            var backgroundThread =
-                new Thread(() => DownloadManager.ConsumeAsync(savePath, buffer)) {IsBackground = true};
-            backgroundThread.Start();
+            var bufferMedia = new BufferBlock<KeyValuePair<string, string>>();
+            var backgroundThreadMedia =
+                new Thread(() => DownloadManager.ConsumeFilesAsync(savePath, bufferMedia)) {IsBackground = true};
+            backgroundThreadMedia.Start();
             
-            ExecuteScraper(targetAccount, buffer, scrapeStory, username, password, scrapeComments);
+            var bufferText = new BufferBlock<KeyValuePair<string, List<KeyValuePair<string, string>>>>();
 
-            await buffer.Completion;
+            if (scrapeComments)
+            {
+                var backgroundThreadText =
+                    new Thread(() => DownloadManager.ConsumeTextAsync(savePath, bufferText)) {IsBackground = true};
+                backgroundThreadText.Start();
+            }
+            
+            
+            ExecuteScraper(targetAccount, bufferMedia, bufferText, scrapeStory, username, password, scrapeComments);
+
+            await bufferMedia.Completion;
+            if (scrapeComments) await bufferText.Completion;
             
             _driver.Quit();
         }
 
-        private static void ExecuteScraper(string targetAccount, ITargetBlock<KeyValuePair<string, string>> target,
+        private static void ExecuteScraper(string targetAccount, ITargetBlock<KeyValuePair<string, string>> targetMedia, ITargetBlock<KeyValuePair<string, List<KeyValuePair<string, string>>>> targetText,
                                            bool scrapeStory, string username, string password, bool scrapeComments)
         {
             var watch = System.Diagnostics.Stopwatch.StartNew();
@@ -90,31 +101,30 @@ namespace Instagram_Scraper
             watch.Restart();
             var profilePage = new ProfilePage(_driver);
             profilePage.GoToProfile(targetAccount);
-            profilePage.GetProfilePicture(target);
+            profilePage.GetProfilePicture(targetMedia);
 
             if (scrapeStory)
             {
-                var storyPage = profilePage.EnterStory(target);
+                var storyPage = profilePage.EnterStory(targetMedia);
                 storyPage?.SaveStoryContent();
             }
+
+            var postPage = scrapeComments ? profilePage.EnterPosts(targetMedia, targetText) : profilePage.EnterPosts(targetMedia);
             
-            var postPage = profilePage.EnterPosts(target);
             watch.Stop();
             var enterPostTime = watch.ElapsedMilliseconds;
             Console.WriteLine("Time to enter post: " + enterPostTime/1000.00 + " seconds");
             
+            
             watch.Restart();
-            if (scrapeComments)
-            {
-                postPage.GetPostDataWithComments();
-            }
-            else
-            {
-                postPage.GetPostData(); 
-            }
+            
+            if (scrapeComments) postPage.GetPostDataWithComments();
+            else postPage.GetPostData();
+            
             watch.Stop();
             var getPostPicturesTime = watch.ElapsedMilliseconds;
             Console.WriteLine("Time to get all post pictures: " + getPostPicturesTime/1000.00 + " seconds");
+            
             
             Console.WriteLine("Total Program Time: " + (loginTime + enterPostTime + getPostPicturesTime)/1000.00
                                                      + " seconds");

@@ -175,6 +175,7 @@ namespace Instagram_Scraper.UserInterface
                 }
                 else
                 {
+                    //TODO make into object
                     WebScraper.SetUp(_targetAccount.Text, _getStoryBox.Active, _username.Text, _password.Text,
                         _savePath.Text, _headlessBrowserBox.Active, _firefoxRadioButton.Active, _getCommentsBox.Active);
                 }
