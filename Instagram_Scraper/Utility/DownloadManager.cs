@@ -8,7 +8,7 @@ namespace Instagram_Scraper.Utility
 {
     public static class DownloadManager
     {
-        public static async void ConsumeAsync(string path, ISourceBlock<KeyValuePair<string, string>> source)
+        public static async void ConsumeFilesAsync(string path, ISourceBlock<KeyValuePair<string, string>> source)
         {
             if(!File.Exists(path)) Directory.CreateDirectory(path);
             var filesProcessed = 0;
@@ -36,10 +36,44 @@ namespace Instagram_Scraper.Utility
                     client.DownloadFileAsync(new Uri(value), path + key + ".jpg");
                 }
                 
-                filesProcessed++;
+                filesDownloaded++;
             }
             
             Console.WriteLine("Processed {0} files.", filesProcessed);
+            Console.WriteLine("Downloaded {0} files.", filesDownloaded);
+        }
+        
+        public static async void ConsumeTextAsync(string path, ISourceBlock<KeyValuePair<string, List<KeyValuePair<string, string>>>> source)
+        {
+            var dirPath = path + "Text/";
+            if(!File.Exists(dirPath)) Directory.CreateDirectory(dirPath);
+            var textFilesProcessed = 0;
+            var textFilesDownloaded = 0;
+            
+            while (await source.OutputAvailableAsync())
+            {
+                var (postDate, commentData) = source.Receive();
+                var filePath = dirPath + postDate + ".txt";
+                textFilesProcessed++;
+        
+                //TODO Comments may change, so there needs to be a way to update, potentially without removing old ones
+                if (File.Exists(filePath)) continue;
+                
+                Console.WriteLine((textFilesProcessed + 1) + " Downloading Text: " + postDate);
+                
+                using (var sw = File.CreateText(filePath)) 
+                {
+                    foreach(var (user, commentText) in commentData)
+                    {
+                        sw.WriteLine(user + ": " + commentText);
+                    }
+                }	
+                
+                textFilesDownloaded++;
+            }
+            
+            Console.WriteLine("Processed {0} text files.", textFilesProcessed);
+            Console.WriteLine("Downloaded {0} text files.", textFilesDownloaded);
         }
     }
 }
