@@ -3,7 +3,7 @@ using Instagram_Scraper.UserInterface;
 
 namespace Instagram_Scraper
 {
-    internal static class SeleniumScraper
+    internal static class InstagramScraper
     {
         private static void Main()
         {

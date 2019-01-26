@@ -28,7 +28,7 @@
       "dependencies": {
         "GtkSharp": {
           "target": "Package",
-          "version": "[3.22.24.36, )"
+          "version": "[3.22.24.37, )"
         },
         "Microsoft.NETCore.App": {
           "suppressParent": "All",
@@ -38,7 +38,7 @@
         },
         "Selenium.Firefox.WebDriver": {
           "target": "Package",
-          "version": "[0.22.0, )"
+          "version": "[0.23.0, )"
         },
         "Selenium.WebDriver": {
           "target": "Package",
