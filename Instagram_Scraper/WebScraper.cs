@@ -14,15 +14,14 @@ namespace Instagram_Scraper
     {
         private static IWebDriver _driver;
 
-        public static async void SetUp(string targetAccount, bool scrapeStory, string username, string password,
-                                       string folderSavePath, bool headless, bool firefoxProfile, bool scrapeComments)
+        public static async void SetUp(ScraperOptions scraperOptions)
         {
-            if (firefoxProfile)
+            if (scraperOptions.FireFoxProfile)
             {
                 var optionsFireFox = new FirefoxOptions();
                 optionsFireFox.SetPreference("permissions.default.image", 2);
                 optionsFireFox.SetPreference("dom.ipc.plugins.enabled.libflashplayer.so", false);
-                if (headless) { optionsFireFox.AddArgument("--headless"); }
+                if (scraperOptions.Headless) optionsFireFox.AddArgument("--headless");
                 _driver = new FirefoxDriver(optionsFireFox);
             }
             else
@@ -32,7 +31,7 @@ namespace Instagram_Scraper
                 optionsChrome.AddArgument("--disable-popup-blocking");
                 optionsChrome.AddArgument("--window-size=1920,1080");
             
-                if (headless) { optionsChrome.AddArgument("headless"); }
+                if (scraperOptions.Headless) optionsChrome.AddArgument("headless");
                 _driver = new ChromeDriver(optionsChrome);
             }
 
@@ -42,23 +41,18 @@ namespace Instagram_Scraper
                                Environment.OSVersion.Platform == PlatformID.MacOSX)
                 ? Environment.GetEnvironmentVariable("HOME")
                 : Environment.ExpandEnvironmentVariables("%HOMEDRIVE%%HOMEPATH%");
-            if (folderSavePath.Equals(""))
-            {
-                savePath = homePath + "/Pictures/" + targetAccount + "/";
-            }
+            if (scraperOptions.FolderSavePath.Equals(""))
+                savePath = homePath + "/Pictures/" + scraperOptions.TargetAccount + "/";
             else
             {
-                var folderSavePathSections = folderSavePath.Split("/");
+                var folderSavePathSections = scraperOptions.FolderSavePath.Split("/");
                 var maxIndex = folderSavePathSections.Length - 1;
-                if (folderSavePathSections[maxIndex].Contains(targetAccount) ||
-                    folderSavePathSections[maxIndex].Equals(targetAccount, StringComparison.InvariantCultureIgnoreCase))
-                {
-                    savePath = folderSavePath + "/";
-                }
+                if (folderSavePathSections[maxIndex].Contains(scraperOptions.TargetAccount) ||
+                    folderSavePathSections[maxIndex].Equals(scraperOptions.TargetAccount,
+                        StringComparison.InvariantCultureIgnoreCase))
+                    savePath = scraperOptions.FolderSavePath + "/";
                 else
-                {
-                    savePath = folderSavePath + "/" + targetAccount + "/";
-                } 
+                    savePath = scraperOptions.FolderSavePath + "/" + scraperOptions.TargetAccount + "/";
             }
             
             
@@ -69,7 +63,7 @@ namespace Instagram_Scraper
             
             var bufferText = new BufferBlock<KeyValuePair<string, List<KeyValuePair<string, string>>>>();
 
-            if (scrapeComments)
+            if (scraperOptions.ScrapeComments)
             {
                 var backgroundThreadText =
                     new Thread(() => DownloadManager.ConsumeTextAsync(savePath, bufferText)) {IsBackground = true};
@@ -77,16 +71,18 @@ namespace Instagram_Scraper
             }
             
             
-            ExecuteScraper(targetAccount, bufferMedia, bufferText, scrapeStory, username, password, scrapeComments);
+            ExecuteScraper(scraperOptions.TargetAccount, bufferMedia, bufferText, scraperOptions.ScrapeStory,
+                scraperOptions.Username, scraperOptions.Password, scraperOptions.ScrapeComments);
 
             await bufferMedia.Completion;
-            if (scrapeComments) await bufferText.Completion;
+            if (scraperOptions.ScrapeComments) await bufferText.Completion;
             
             _driver.Quit();
         }
 
-        private static void ExecuteScraper(string targetAccount, ITargetBlock<KeyValuePair<string, string>> targetMedia, ITargetBlock<KeyValuePair<string, List<KeyValuePair<string, string>>>> targetText,
-                                           bool scrapeStory, string username, string password, bool scrapeComments)
+        private static void ExecuteScraper(string targetAccount, ITargetBlock<KeyValuePair<string, string>> targetMedia,
+            ITargetBlock<KeyValuePair<string, List<KeyValuePair<string, string>>>> targetText, bool scrapeStory,
+            string username, string password, bool scrapeComments)
         {
             var watch = System.Diagnostics.Stopwatch.StartNew();
             if (!password.Equals(""))
