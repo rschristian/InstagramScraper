@@ -39,14 +39,8 @@ namespace Instagram_Scraper.PageObjects
         public StoryPage EnterStory(ITargetBlock<KeyValuePair<string, string>> target)
         {
             Thread.Sleep(500);
-            if (StoryClass == null)
-            {
-                Console.WriteLine("No Story");
-                return null;
-            }
-
-            Console.WriteLine("There is a story");
-            Thread.Sleep(750);
+            if (StoryClass == null) return null;
+            Console.WriteLine("Account has a story currently");
             StoryClass.Click();
             return new StoryPage(_driver, target);
         }
