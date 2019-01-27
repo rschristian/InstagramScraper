@@ -10,10 +10,10 @@
       "/usr/share/dotnet/sdk/NuGetFallbackFolder"
     ],
     "originalTargetFrameworks": [
-      "netcoreapp2.1"
+      "netcoreapp2.2"
     ],
     "frameworks": {
-      "netcoreapp2.1": {
+      "netcoreapp2.2": {
         "projectReferences": {}
       }
     },
@@ -24,7 +24,7 @@
     }
   },
   "frameworks": {
-    "netcoreapp2.1": {
+    "netcoreapp2.2": {
       "dependencies": {
         "GtkSharp": {
           "target": "Package",
@@ -33,7 +33,7 @@
         "Microsoft.NETCore.App": {
           "suppressParent": "All",
           "target": "Package",
-          "version": "[2.1.0, )",
+          "version": "[2.2.0, )",
           "autoReferenced": true
         },
         "Selenium.Firefox.WebDriver": {
