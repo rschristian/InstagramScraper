@@ -50,13 +50,11 @@ namespace Instagram_Scraper.PageObjects
             }
             else
             {
-                var storiesProcessedCount = 0;
                 var currentDateTime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
-                foreach (var link in _tempLinkList)
+                for (var i = 0; i < _tempLinkList.Count; i++)
                 {
                     _target.Post(new KeyValuePair<string, string>(currentDateTime + " story " +
-                                                                  (_tempLinkList.Count - storiesProcessedCount), link));
-                    storiesProcessedCount++;
+                                                                  (_tempLinkList.Count - i), _tempLinkList[i]));
                 }
 
                 Console.WriteLine("Story Capture Complete");
