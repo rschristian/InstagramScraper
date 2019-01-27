@@ -95,6 +95,7 @@ namespace Instagram_Scraper
             profilePage.GoToProfile(scraperOptions.TargetAccount);
             profilePage.GetProfilePicture(targetMedia);
 
+            //TODO allow the user to just download the story
             if (scraperOptions.ScrapeStory)
             {
                 var storyPage = profilePage.EnterStory(targetMedia);

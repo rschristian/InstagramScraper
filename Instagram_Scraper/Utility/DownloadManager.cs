@@ -54,6 +54,7 @@ namespace Instagram_Scraper.Utility
                 textFilesProcessed++;
 
                 //TODO Comments may change, so there needs to be a way to update, potentially without removing old ones
+                //TODO append profile text to the profile file
                 if (File.Exists(filePath)) continue;
 
                 Console.WriteLine(textFilesProcessed + " Downloading Text: " + postDate);
