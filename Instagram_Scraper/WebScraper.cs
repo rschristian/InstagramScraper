@@ -100,6 +100,9 @@ namespace Instagram_Scraper
                 var storyPage = profilePage.EnterStory(targetMedia);
                 storyPage?.SaveStoryContent();
             }
+            
+            if (scraperOptions.ScrapeComments)
+                profilePage.GetProfileText(targetText);
 
             var postPage = scraperOptions.ScrapeComments
                 ? profilePage.EnterPosts(targetMedia, targetText)
