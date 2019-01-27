@@ -32,7 +32,7 @@ namespace Instagram_Scraper.PageObjects
 
         public void GetProfilePicture(ITargetBlock<KeyValuePair<string, string>> target)
         {
-            target.SendAsync(new KeyValuePair<string, string>(DateTime.Now.ToString("yyyy-MM-d") + " profile",
+            target.Post(new KeyValuePair<string, string>(DateTime.Now.ToString("yyyy-MM-dd") + " profile",
                 ProfilePicture.GetAttribute("src")));
         }
 
