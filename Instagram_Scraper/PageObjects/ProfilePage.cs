@@ -23,7 +23,9 @@ namespace Instagram_Scraper.PageObjects
 
         private IWebElement ProfilePicture => _driver.FindElement(By.CssSelector("._6q-tv"));
 
-        private IWebElement StoryClass => _webHelper.SafeFindElement(".h5uC0");
+        private IWebElement Story => _webHelper.SafeFindElement(".h5uC0");
+        
+        private IWebElement ProfileText => _webHelper.SafeFindElement(".-vDIg");
 
         public void GoToProfile(string targetAccount)
         {
@@ -39,9 +41,9 @@ namespace Instagram_Scraper.PageObjects
         public StoryPage EnterStory(ITargetBlock<KeyValuePair<string, string>> target)
         {
             Thread.Sleep(500);
-            if (StoryClass == null) return null;
+            if (Story == null) return null;
             Console.WriteLine("Account has a story currently");
-            StoryClass.Click();
+            Story.Click();
             return new StoryPage(_driver, target);
         }
 
