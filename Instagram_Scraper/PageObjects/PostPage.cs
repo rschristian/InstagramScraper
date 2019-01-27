@@ -160,10 +160,10 @@ namespace Instagram_Scraper.PageObjects
                         commentUserClass.Select(username => username.GetAttribute("title")).ToList();
                     var commentTextList = commentTextClass.Select(text => text.Text).ToList();
 
-                    var x = commentUsernameList
+                    var zippedList = commentUsernameList
                         .Select((t, i) => new KeyValuePair<string, string>(t, commentTextList[i])).ToList();
 
-                    _targetText.Post(new KeyValuePair<string, List<KeyValuePair<string, string>>>(timeStamp, x));
+                    _targetText.Post(new KeyValuePair<string, List<KeyValuePair<string, string>>>(timeStamp, zippedList));
 
 
                     if (NextPostPaginationArrow != null)
@@ -176,7 +176,7 @@ namespace Instagram_Scraper.PageObjects
                     {
                         _targetMedia.Complete();
                         _targetText.Complete();
-                        Console.WriteLine("Finished");
+                        Console.WriteLine("Finished capture of post data");
                     }
                 }
             }
