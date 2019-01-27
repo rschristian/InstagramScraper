@@ -167,10 +167,19 @@ namespace Instagram_Scraper.UserInterface
 
                 if (_targetAccount.Text.Equals(string.Empty))
                     errorMessages.Append("You must provide a target account\n");
+                
+                if (!_username.Text.Equals(string.Empty) &&
+                    _password.Text.Equals(string.Empty) ||
+                    _username.Text.Equals(string.Empty) &&
+                    !_password.Text.Equals(string.Empty))
+                    errorMessages.Append("Please fill out both the username and password fields, or leave them blank");
 
                 if (_getStoryBox.Active && (_username.Text.Equals(string.Empty) ||
                                             _password.Text.Equals(string.Empty)))
                     errorMessages.Append("In order to view stories, Instagram requires login details");
+                
+                if (_onlyGetStoryBox.Active && !_getStoryBox.Active)
+                    errorMessages.Append("Please select the \"Download the Target Account's Story\" to continue");
 
                 if (!errorMessages.ToString().Equals(string.Empty))
                 {
