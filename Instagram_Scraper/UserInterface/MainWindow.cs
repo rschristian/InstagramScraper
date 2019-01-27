@@ -9,7 +9,7 @@ namespace Instagram_Scraper.UserInterface
     public class MainWindow : Window
     {
         private readonly RadioButton _firefoxRadioButton;
-        private readonly CheckButton _headlessBrowserBox, _getStoryBox, _getCommentsBox;
+        private readonly CheckButton _headlessBrowserBox, _getStoryBox, _getCommentsBox, _onlyGetStoryBox;
         private readonly Entry _targetAccount, _password, _username, _savePath;
 
         public MainWindow() : base(WindowType.Toplevel)
@@ -54,11 +54,7 @@ namespace Instagram_Scraper.UserInterface
 
             _headlessBrowserBox = new CheckButton
             {
-                Active = true,
-                CanFocus = true,
-                Name = "HeadlessCheckBox",
-                DrawIndicator = true,
-                UseUnderline = true,
+                Active = true, CanFocus = true, Name = "HeadlessCheckBox", DrawIndicator = true, UseUnderline = true,
                 Label = "Run in Headless Mode"
             };
             fixedContainer.Add(_headlessBrowserBox);
@@ -78,13 +74,23 @@ namespace Instagram_Scraper.UserInterface
 
             _getCommentsBox = new CheckButton
             {
-            	CanFocus = true, Name = "TextCheckBox", DrawIndicator = true, UseUnderline = true,
+            	CanFocus = true, Name = "CommentCheckBox", DrawIndicator = true, UseUnderline = true,
             	Label = "Download the Comments on the Target Account's Posts"
             };
             fixedContainer.Add(_getCommentsBox);
             var w6 = (Fixed.FixedChild)fixedContainer[_getCommentsBox];
             w6.X = 10;
             w6.Y = 260;
+            
+            _onlyGetStoryBox = new CheckButton
+            {
+                CanFocus = true, Name = "OnlyStoryCheckBox", DrawIndicator = true, UseUnderline = true,
+                Label = "Only get the User's story"
+            };
+            fixedContainer.Add(_onlyGetStoryBox);
+            var w12 = (Fixed.FixedChild)fixedContainer[_onlyGetStoryBox];
+            w12.X = 400;
+            w12.Y = 190;
 
 
             _firefoxRadioButton = new RadioButton(null, "FireFoxRadioButton")
