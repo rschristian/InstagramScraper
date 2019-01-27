@@ -1,11 +1,11 @@
 {
   "runtimeTarget": {
-    "name": ".NETCoreApp,Version=v2.1",
+    "name": ".NETCoreApp,Version=v2.2",
     "signature": "25daa8130167eac13bc51817283052bd87659e0e"
   },
   "compilationOptions": {},
   "targets": {
-    ".NETCoreApp,Version=v2.1": {
+    ".NETCoreApp,Version=v2.2": {
       "Instagram_Scraper/1.0.0": {
         "dependencies": {
           "GtkSharp": "3.22.24.37",
