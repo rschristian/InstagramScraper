@@ -25,26 +25,35 @@ namespace Instagram_Scraper.PageObjects
 
         private IWebElement Story => _webHelper.SafeFindElement(".h5uC0");
         
-        private IWebElement ProfileText => _webHelper.SafeFindElement(".-vDIg");
+        private IWebElement ProfileText => _webHelper.SafeFindElement(".-vDIg span");
 
         public void GoToProfile(string targetAccount)
         {
             _driver.Navigate().GoToUrl("http://www.instagram.com/" + targetAccount + "/");
         }
 
-        public void GetProfilePicture(ITargetBlock<KeyValuePair<string, string>> target)
+        public void GetProfilePicture(ITargetBlock<KeyValuePair<string, string>> targetMedia)
         {
-            target.Post(new KeyValuePair<string, string>(DateTime.Now.ToString("yyyy-MM-dd") + " profile",
+            targetMedia.Post(new KeyValuePair<string, string>(DateTime.Now.ToString("yyyy-MM-dd") + " profile",
                 ProfilePicture.GetAttribute("src")));
         }
 
-        public StoryPage EnterStory(ITargetBlock<KeyValuePair<string, string>> target)
+        public StoryPage EnterStory(ITargetBlock<KeyValuePair<string, string>> targetMedia)
         {
             Thread.Sleep(500);
             if (Story == null) return null;
             Console.WriteLine("Account has a story currently");
             Story.Click();
-            return new StoryPage(_driver, target);
+            return new StoryPage(_driver, targetMedia);
+        }
+
+        public void GetProfileText(ITargetBlock<KeyValuePair<string, List<KeyValuePair<string, string>>>> targetText)
+        {
+            var profileText = new List<KeyValuePair<string, string>>()
+            {
+                new KeyValuePair<string, string>(DateTime.Now.ToString("yyyy-MM-dd"), ProfileText.Text)
+            };
+            targetText.Post(new KeyValuePair<string, List<KeyValuePair<string, string>>>("Profile", profileText)); 
         }
 
         public PostPage EnterPosts(ITargetBlock<KeyValuePair<string, string>> target)
