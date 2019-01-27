@@ -45,7 +45,6 @@ namespace Instagram_Scraper.PageObjects
         
         private IWebElement ViewAllCommentsClass => _webHelper.SafeFindElement(".lnrre");
 
-        //TODO Issues with posts. Occasionally, multi-src posts are skipped over entirely
         public void GetPostData()
         {
             try
