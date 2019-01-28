@@ -6,7 +6,7 @@ namespace ScraperTest
 {
     internal static class Program
     {
-        private static void Main(string[] args)
+        private static void Main()
         {
             var correctRunPercentage = 0;
 
@@ -19,16 +19,19 @@ namespace ScraperTest
                 {
                     var watch = System.Diagnostics.Stopwatch.StartNew();
                     
-                    WebScraper.SetUp(new ScraperOptions("***REMOVED***", string.Empty, string.Empty,
-                        true, false, false, false, string.Empty));
-                
-                    var stuff = outputCapture.Captured.ToString();
-                    if (stuff.Contains("24 Downloading:")) correctRunPercentage++;
+                    WebScraper.SetUp(new ScraperOptions("", string.Empty, string.Empty,
+                        true, false, false, false, false,
+                        string.Empty));
                     
                     watch.Stop();
                     totalScraperRunTime = totalScraperRunTime + watch.ElapsedMilliseconds;
+                
+                    System.Threading.Thread.Sleep(2000);
+                    var stuff = outputCapture.Captured.ToString();
+                    if (stuff.Contains("Processed 24 files.")) correctRunPercentage++;
                 }
             }
+            
             Console.WriteLine("{0}% of runs returned all links", correctRunPercentage*(100/testPasses));
             
             Console.WriteLine("It took the scraper {0} seconds on average, per test", totalScraperRunTime/(testPasses*1000.00));
