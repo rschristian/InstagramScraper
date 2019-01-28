@@ -13,13 +13,15 @@ namespace Instagram_Scraper.Utility
         public readonly bool ScrapeStory;
         
         public readonly bool ScrapeComments;
+
+        public readonly bool OnlyScrapeStory;
         
         public readonly bool FireFoxProfile;
         
         public readonly string FolderSavePath;
         
         public ScraperOptions(string targetAccount, string username, string password, bool headless, bool scrapeStory, 
-            bool scrapeComments, bool firefoxProfile, string folderSavePath)
+            bool scrapeComments, bool onlyScrapeStory, bool firefoxProfile, string folderSavePath)
         {
             TargetAccount = targetAccount;
             Username = username;
@@ -27,6 +29,7 @@ namespace Instagram_Scraper.Utility
             Headless = headless;
             ScrapeStory = scrapeStory;
             ScrapeComments = scrapeComments;
+            OnlyScrapeStory = onlyScrapeStory;
             FireFoxProfile = firefoxProfile;
             FolderSavePath = folderSavePath;
         }
