@@ -27,11 +27,6 @@ namespace Instagram_Scraper.PageObjects
         
         private IWebElement ProfileText => _webHelper.SafeFindElement(".-vDIg span");
 
-        public void GoToProfile(string targetAccount)
-        {
-            _driver.Navigate().GoToUrl("http://www.instagram.com/" + targetAccount + "/");
-        }
-
         public void GetProfilePicture(ITargetBlock<KeyValuePair<string, string>> targetMedia)
         {
             targetMedia.Post(new KeyValuePair<string, string>(DateTime.Now.ToString("yyyy-MM-dd") + " profile",

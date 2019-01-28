@@ -43,7 +43,7 @@ namespace Instagram_Scraper
                            Environment.OSVersion.Platform == PlatformID.MacOSX
                 ? Environment.GetEnvironmentVariable("HOME")
                 : Environment.ExpandEnvironmentVariables("%HOMEDRIVE%%HOMEPATH%");
-            if (scraperOptions.FolderSavePath.Equals(""))
+            if (scraperOptions.FolderSavePath.Equals(string.Empty))
             {
                 savePath = homePath + "/Pictures/" + scraperOptions.TargetAccount + "/";
             }
@@ -65,16 +65,17 @@ namespace Instagram_Scraper
             backgroundThreadMedia.Start();
 
             var bufferText = new BufferBlock<KeyValuePair<string, List<KeyValuePair<string, string>>>>();
-            var backgroundThreadText =
-                new Thread(() => DownloadManager.ConsumeTextAsync(savePath, bufferText)) {IsBackground = true};
-            backgroundThreadText.Start();
-
+            if (scraperOptions.ScrapeComments)
+            {
+                var backgroundThreadText =
+                    new Thread(() => DownloadManager.ConsumeTextAsync(savePath, bufferText)) {IsBackground = true};
+                backgroundThreadText.Start();  
+            }
 
             ExecuteScraper(scraperOptions, bufferMedia, bufferText);
 
             await bufferMedia.Completion;
-            if (scraperOptions.ScrapeComments)
-                await bufferText.Completion;
+            if (scraperOptions.ScrapeComments) await bufferText.Completion;
 
             _driver.Quit();
         }
@@ -83,28 +84,35 @@ namespace Instagram_Scraper
             ITargetBlock<KeyValuePair<string, string>> targetMedia,
             ITargetBlock<KeyValuePair<string, List<KeyValuePair<string, string>>>> targetText)
         {
+            
+            //Login
             var watch = Stopwatch.StartNew();
-            if (!scraperOptions.Password.Equals(string.Empty))
+            if (!scraperOptions.Username.Equals(string.Empty))
                 new LoginPage(_driver).Login(scraperOptions.Username, scraperOptions.Password);
             watch.Stop();
             var loginTime = watch.ElapsedMilliseconds;
             Console.WriteLine("Time to login: " + loginTime / 1000.00 + " seconds");
 
+            //Profile Page
             watch.Restart();
+            _driver.Navigate().GoToUrl("http://www.instagram.com/" + scraperOptions.TargetAccount + "/");
             var profilePage = new ProfilePage(_driver);
-            profilePage.GoToProfile(scraperOptions.TargetAccount);
             profilePage.GetProfilePicture(targetMedia);
+            if (scraperOptions.ScrapeComments) profilePage.GetProfileText(targetText);
 
-            //TODO allow the user to just download the story
+            //Story Page
             if (scraperOptions.ScrapeStory)
             {
                 var storyPage = profilePage.EnterStory(targetMedia);
                 storyPage?.SaveStoryContent();
             }
-            
-            if (scraperOptions.ScrapeComments)
-                profilePage.GetProfileText(targetText);
 
+            if (scraperOptions.OnlyScrapeStory)
+            {
+                targetMedia.Complete();
+                return;
+            }
+            
             var postPage = scraperOptions.ScrapeComments
                 ? profilePage.EnterPosts(targetMedia, targetText)
                 : profilePage.EnterPosts(targetMedia);
@@ -113,6 +121,7 @@ namespace Instagram_Scraper
             Console.WriteLine("Time to enter post: " + enterPostTime / 1000.00 + " seconds");
 
 
+            //PostPage
             watch.Restart();
             if (scraperOptions.ScrapeComments)
                 postPage.GetPostDataWithComments();
