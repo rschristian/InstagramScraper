@@ -44,6 +44,10 @@ namespace Instagram_Scraper.PageObjects
         private IEnumerable<IWebElement> VideoSourceClass => _webHelper.SafeFindElements(".tWeCl");
         
         private IWebElement ViewAllCommentsClass => _webHelper.SafeFindElement(".lnrre");
+        
+        private IEnumerable<IWebElement> CommentUserList => _webHelper.SafeFindElements(".FPmhX").ToList();
+        
+        private IEnumerable<IWebElement> CommentTextList => _webHelper.SafeFindElements("div.C4VMK span").ToList();
 
         public void GetPostData()
         {
@@ -150,17 +154,15 @@ namespace Instagram_Scraper.PageObjects
                             _tempLinkList[i]));
 
                     ViewAllCommentsClass?.Click();
-                    var commentUserClass = _webHelper.SafeFindElements(".FPmhX").ToList();
-                    var commentTextClass = _webHelper.SafeFindElements("div.C4VMK span").ToList();
 
-                    //First element is a header for the post, which is unrelated to the comments section
-                    commentUserClass.RemoveAt(0);
+                    var commentUserList =
+                        CommentUserList.Select(username => username.GetAttribute("title")).ToList();
+                    var commentTextList = CommentTextList.Select(text => text.Text).ToList();
+                    
+                    //First element is a header for the post with the name of the account that posted it
+                    commentUserList.RemoveAt(0);
 
-                    var commentUsernameList =
-                        commentUserClass.Select(username => username.GetAttribute("title")).ToList();
-                    var commentTextList = commentTextClass.Select(text => text.Text).ToList();
-
-                    var zippedList = commentUsernameList
+                    var zippedList = commentUserList
                         .Select((t, i) => new KeyValuePair<string, string>(t, commentTextList[i])).ToList();
 
                     _targetText.Post(new KeyValuePair<string, List<KeyValuePair<string, string>>>(timeStamp, zippedList));
