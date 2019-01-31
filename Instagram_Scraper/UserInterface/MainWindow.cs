@@ -172,14 +172,17 @@ namespace Instagram_Scraper.UserInterface
                     _password.Text.Equals(string.Empty) ||
                     _username.Text.Equals(string.Empty) &&
                     !_password.Text.Equals(string.Empty))
-                    errorMessages.Append("Please fill out both the username and password fields, or leave them blank");
+                    errorMessages.Append("Please fill out both the username and password fields, or leave them blank\n");
 
                 if (_getStoryBox.Active && (_username.Text.Equals(string.Empty) ||
                                             _password.Text.Equals(string.Empty)))
-                    errorMessages.Append("In order to view stories, Instagram requires login details");
+                    errorMessages.Append("In order to view stories, Instagram requires login details\n");
                 
                 if (_onlyGetStoryBox.Active && !_getStoryBox.Active)
-                    errorMessages.Append("Please select the \"Download the Target Account's Story\" to continue");
+                    errorMessages.Append("Please select the \"Download the Target Account's Story\" to continue with the capture of only the user's story\n");
+                
+                if (_onlyGetStoryBox.Active && _getCommentsBox.Active)
+                    errorMessages.Append("The \"Only Get Story\" option is not allowed to be used in conjunction with retrieving comments\n");
 
                 if (!errorMessages.ToString().Equals(string.Empty))
                 {

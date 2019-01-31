@@ -89,20 +89,16 @@ namespace Instagram_Scraper
             var watch = Stopwatch.StartNew();
             if (!scraperOptions.Username.Equals(string.Empty))
                 new LoginPage(_driver).Login(scraperOptions.Username, scraperOptions.Password);
-            watch.Stop();
-            var loginTime = watch.ElapsedMilliseconds;
-            Console.WriteLine("Time to login: " + loginTime / 1000.00 + " seconds");
 
             //Profile Page
-            watch.Restart();
-            _driver.Navigate().GoToUrl("http://www.instagram.com/" + scraperOptions.TargetAccount + "/");
-            var profilePage = new ProfilePage(_driver);
+            var profilePage = new ProfilePage(_driver, scraperOptions.TargetAccount);
+            profilePage.NavigateToProfile();
             profilePage.GetProfilePicture(targetMedia);
             if (scraperOptions.ScrapeComments) profilePage.GetProfileText(targetText);
 
             //Story Page
             if (scraperOptions.ScrapeStory)
-            {
+            { 
                 var storyPage = profilePage.EnterStory(targetMedia);
                 storyPage?.SaveStoryContent();
             }
@@ -116,24 +112,15 @@ namespace Instagram_Scraper
             var postPage = scraperOptions.ScrapeComments
                 ? profilePage.EnterPosts(targetMedia, targetText)
                 : profilePage.EnterPosts(targetMedia);
-            watch.Stop();
-            var enterPostTime = watch.ElapsedMilliseconds;
-            Console.WriteLine("Time to enter post: " + enterPostTime / 1000.00 + " seconds");
 
 
             //PostPage
-            watch.Restart();
             if (scraperOptions.ScrapeComments)
                 postPage.GetPostDataWithComments();
             else
                 postPage.GetPostData();
-            watch.Stop();
-            var getPostPicturesTime = watch.ElapsedMilliseconds;
-            Console.WriteLine("Time to get all post pictures: " + getPostPicturesTime / 1000.00 + " seconds");
 
-
-            Console.WriteLine("Total Program Time: " +
-                              (loginTime + enterPostTime + getPostPicturesTime) / 1000.00 + " seconds");
+            Console.WriteLine("Total Program Time: " + (watch.ElapsedMilliseconds) / 1000.00 + " seconds");
         }
     }
 }
