@@ -67,6 +67,7 @@ namespace Instagram_Scraper.UserInterface
                 CanFocus = true, Name = "StoryCheckBox", DrawIndicator = true, UseUnderline = true,
                 Label = "Download the Target Account's Story"
             };
+            _getStoryBox.Clicked += OnClickedEvent;
             fixedContainer.Add(_getStoryBox);
             var w5 = (Fixed.FixedChild) fixedContainer[_getStoryBox];
             w5.X = 10;
@@ -85,12 +86,12 @@ namespace Instagram_Scraper.UserInterface
             _onlyGetStoryBox = new CheckButton
             {
                 CanFocus = true, Name = "OnlyStoryCheckBox", DrawIndicator = true, UseUnderline = true,
-                Label = "Only get the User's story"
+                Label = "Only get the User's story", ChildVisible = false
             };
             fixedContainer.Add(_onlyGetStoryBox);
             var w12 = (Fixed.FixedChild)fixedContainer[_onlyGetStoryBox];
             w12.X = 400;
-            w12.Y = 190;
+            w12.Y = 225;
 
 
             _firefoxRadioButton = new RadioButton(null, "FireFoxRadioButton")
@@ -208,6 +209,10 @@ namespace Instagram_Scraper.UserInterface
                 if (fileChooserDialog.Run() == (int) ResponseType.Accept) _savePath.Text = fileChooserDialog.Filename;
 
                 fileChooserDialog.Destroy();
+            }
+            else if (clickedButton.Name.Equals("StoryCheckBox"))
+            {
+                _onlyGetStoryBox.ChildVisible = true;
             }
         }
 
