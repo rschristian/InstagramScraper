@@ -166,6 +166,8 @@ namespace Instagram_Scraper.UserInterface
                 //Error Validation
                 var errorMessages = new StringBuilder();
 
+                if (!_onlyGetStoryBox.ChildVisible) _onlyGetStoryBox.Active = false;
+
                 if (_targetAccount.Text.Equals(string.Empty))
                     errorMessages.Append("You must provide a target account\n");
                 
