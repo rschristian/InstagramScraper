@@ -59,32 +59,27 @@ namespace Instagram_Scraper
             }
 
 
-            var bufferMedia = new BufferBlock<KeyValuePair<string, string>>();
-            var backgroundThreadMedia =
-                new Thread(() => DownloadManager.ConsumeFilesAsync(savePath, bufferMedia)) {IsBackground = true};
-            backgroundThreadMedia.Start();
-
-            var bufferText = new BufferBlock<KeyValuePair<string, List<KeyValuePair<string, string>>>>();
-            if (scraperOptions.ScrapeComments)
+            var bufferMedia = WebDriverExtensions.StartMediaService(savePath);
+            if (!scraperOptions.ScrapeComments)
             {
-                var backgroundThreadText =
-                    new Thread(() => DownloadManager.ConsumeTextAsync(savePath, bufferText)) {IsBackground = true};
-                backgroundThreadText.Start();  
+                ExecuteScraper(scraperOptions, bufferMedia);
+                await bufferMedia.Completion;
             }
-
-            ExecuteScraper(scraperOptions, bufferMedia, bufferText);
-
-            await bufferMedia.Completion;
-            if (scraperOptions.ScrapeComments) await bufferText.Completion;
+            else
+            {
+                var bufferText = WebDriverExtensions.StartTextService(savePath);
+                ExecuteScraper(scraperOptions, bufferMedia, bufferText);
+                await bufferMedia.Completion;
+                await bufferText.Completion;
+            }
 
             _driver.Quit();
         }
-
+        
         private static void ExecuteScraper(ScraperOptions scraperOptions,
-            ITargetBlock<KeyValuePair<string, string>> targetMedia,
-            ITargetBlock<KeyValuePair<string, List<KeyValuePair<string, string>>>> targetText)
+            ITargetBlock<KeyValuePair<string, string>> targetMedia)
         {
-
+            var watch = Stopwatch.StartNew();
             if (scraperOptions.OnlyScrapeStory)
             {
                 OnlyScrapeStory(scraperOptions, targetMedia);
@@ -92,14 +87,12 @@ namespace Instagram_Scraper
             }
             
             //Login
-            var watch = Stopwatch.StartNew();
             if (!scraperOptions.Username.Equals(string.Empty))
                 LoginToAccount(scraperOptions);
 
             //Profile Page
             var profilePage = new ProfilePage(_driver, scraperOptions.TargetAccount);
             profilePage.GetProfilePicture(targetMedia);
-            if (scraperOptions.ScrapeComments) profilePage.GetProfileText(targetText);
 
             //Story Page
             if (scraperOptions.ScrapeStory)
@@ -108,16 +101,40 @@ namespace Instagram_Scraper
                 storyPage?.SaveStoryContent();
             }
             
-            var postPage = scraperOptions.ScrapeComments
-                ? profilePage.EnterPosts(targetMedia, targetText)
-                : profilePage.EnterPosts(targetMedia);
+            var postPage = profilePage.EnterPosts(targetMedia);
 
 
             //PostPage
-            if (!scraperOptions.ScrapeComments)
-                postPage.GetPostData();
-            else
-                postPage.GetPostDataWithComments();
+            postPage.GetPostData();
+
+            Console.WriteLine("Total Program Time: " + (watch.ElapsedMilliseconds) / 1000.00 + " seconds");
+        }
+
+        private static void ExecuteScraper(ScraperOptions scraperOptions,
+            ITargetBlock<KeyValuePair<string, string>> targetMedia,
+            ITargetBlock<KeyValuePair<string, List<KeyValuePair<string, string>>>> targetText)
+        {
+            //Login
+            var watch = Stopwatch.StartNew();
+            if (!scraperOptions.Username.Equals(string.Empty)) LoginToAccount(scraperOptions);
+
+            //Profile Page
+            var profilePage = new ProfilePage(_driver, scraperOptions.TargetAccount);
+            profilePage.GetProfilePicture(targetMedia);
+            profilePage.GetProfileText(targetText);
+
+            //Story Page
+            if (scraperOptions.ScrapeStory)
+            { 
+                var storyPage = profilePage.EnterStory(targetMedia);
+                storyPage?.SaveStoryContent();
+            }
+
+            var postPage = profilePage.EnterPosts(targetMedia, targetText);
+
+
+            //PostPage
+            postPage.GetPostDataWithComments();
 
             Console.WriteLine("Total Program Time: " + (watch.ElapsedMilliseconds) / 1000.00 + " seconds");
         }
