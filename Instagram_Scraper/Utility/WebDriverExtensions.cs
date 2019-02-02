@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks.Dataflow;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
 
@@ -50,6 +52,24 @@ namespace Instagram_Scraper.Utility
             var timeStamp = SafeFindElement("time[datetime]").GetAttribute("datetime");
             timeStamp = timeStamp.Substring(0, 10) + " " + timeStamp.Substring(11, 8);
             return timeStamp;
+        }
+
+        public static BufferBlock<KeyValuePair<string, string>> StartMediaService(string savePath)
+        {
+            var bufferMedia = new BufferBlock<KeyValuePair<string, string>>();
+            var backgroundThreadMedia =
+                new Thread(() => DownloadManager.ConsumeFilesAsync(savePath, bufferMedia)) {IsBackground = true};
+            backgroundThreadMedia.Start();
+            return bufferMedia;
+        }
+        
+        public static BufferBlock<KeyValuePair<string, List<KeyValuePair<string, string>>>> StartTextService(string savePath)
+        {
+            var bufferText = new BufferBlock<KeyValuePair<string, List<KeyValuePair<string, string>>>>();
+            var backgroundThreadText =
+                new Thread(() => DownloadManager.ConsumeTextAsync(savePath, bufferText)) {IsBackground = true};
+            backgroundThreadText.Start(); 
+            return bufferText;
         }
     }
 }
