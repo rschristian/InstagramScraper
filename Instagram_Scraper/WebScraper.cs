@@ -84,6 +84,12 @@ namespace Instagram_Scraper
             ITargetBlock<KeyValuePair<string, string>> targetMedia,
             ITargetBlock<KeyValuePair<string, List<KeyValuePair<string, string>>>> targetText)
         {
+
+            if (scraperOptions.OnlyScrapeStory)
+            {
+                OnlyScrapeStory(scraperOptions, targetMedia);
+                return;
+            }
             
             //Login
             var watch = Stopwatch.StartNew();
@@ -101,12 +107,6 @@ namespace Instagram_Scraper
                 var storyPage = profilePage.EnterStory(targetMedia);
                 storyPage?.SaveStoryContent();
             }
-
-            if (scraperOptions.OnlyScrapeStory)
-            {
-                targetMedia.Complete();
-                return;
-            }
             
             var postPage = scraperOptions.ScrapeComments
                 ? profilePage.EnterPosts(targetMedia, targetText)
@@ -114,12 +114,26 @@ namespace Instagram_Scraper
 
 
             //PostPage
-            if (scraperOptions.ScrapeComments)
-                postPage.GetPostDataWithComments();
-            else
+            if (!scraperOptions.ScrapeComments)
                 postPage.GetPostData();
+            else
+                postPage.GetPostDataWithComments();
 
             Console.WriteLine("Total Program Time: " + (watch.ElapsedMilliseconds) / 1000.00 + " seconds");
+        }
+
+        private static void LoginToAccount(ScraperOptions scraperOptions)
+        {
+            new LoginPage(_driver).Login(scraperOptions.Username, scraperOptions.Password);
+        }
+
+        private static void OnlyScrapeStory(ScraperOptions scraperOptions,
+            ITargetBlock<KeyValuePair<string, string>> targetMedia)
+        {
+            LoginToAccount(scraperOptions);
+            var storyPage = new ProfilePage(_driver, scraperOptions.TargetAccount).EnterStory(targetMedia);
+            storyPage?.SaveStoryContent();
+            targetMedia.Complete();
         }
     }
 }
