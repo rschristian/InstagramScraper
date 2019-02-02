@@ -13,13 +13,11 @@ namespace Instagram_Scraper.PageObjects
 
         private readonly WebDriverExtensions _webHelper;
 
-        private readonly string _targetUrl;
-
         public ProfilePage(IWebDriver driver, string targetAccount)
         {
             _driver = driver;
             _webHelper = new WebDriverExtensions(driver);
-            _targetUrl = "http://www.instagram.com/" + targetAccount + "/";
+            _driver.Navigate().GoToUrl("http://www.instagram.com/" + targetAccount + "/");
         }
 
         private IWebElement FirstPost => _driver.FindElement(By.CssSelector("div._bz0w a"));
@@ -29,11 +27,6 @@ namespace Instagram_Scraper.PageObjects
         private IWebElement Story => _webHelper.SafeFindElement(".h5uC0");
         
         private IWebElement ProfileText => _webHelper.SafeFindElement(".-vDIg span");
-
-        public void NavigateToProfile()
-        {
-            _driver.Navigate().GoToUrl(_targetUrl);
-        }
 
         public void GetProfilePicture(ITargetBlock<KeyValuePair<string, string>> targetMedia)
         {

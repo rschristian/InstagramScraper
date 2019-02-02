@@ -88,11 +88,10 @@ namespace Instagram_Scraper
             //Login
             var watch = Stopwatch.StartNew();
             if (!scraperOptions.Username.Equals(string.Empty))
-                new LoginPage(_driver).Login(scraperOptions.Username, scraperOptions.Password);
+                LoginToAccount(scraperOptions);
 
             //Profile Page
             var profilePage = new ProfilePage(_driver, scraperOptions.TargetAccount);
-            profilePage.NavigateToProfile();
             profilePage.GetProfilePicture(targetMedia);
             if (scraperOptions.ScrapeComments) profilePage.GetProfileText(targetText);
 
