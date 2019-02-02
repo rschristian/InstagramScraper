@@ -212,7 +212,7 @@ namespace Instagram_Scraper.UserInterface
             }
             else if (clickedButton.Name.Equals("StoryCheckBox"))
             {
-                _onlyGetStoryBox.ChildVisible = true;
+                _onlyGetStoryBox.ChildVisible = !_onlyGetStoryBox.ChildVisible;
             }
         }
 
