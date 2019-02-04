@@ -1,5 +1,6 @@
 ﻿using System;
 using Instagram_Scraper;
+using Instagram_Scraper.Domain;
 using Instagram_Scraper.Utility;
 
 namespace ScraperTest
@@ -19,7 +20,7 @@ namespace ScraperTest
                 {
                     var watch = System.Diagnostics.Stopwatch.StartNew();
                     
-                    WebScraper.SetUp(new ScraperOptions("", string.Empty, string.Empty,
+                    InitializeScraper.SetUp(new ScraperOptions("", string.Empty, string.Empty,
                         true, false, false, false, false,
                         string.Empty));
                     

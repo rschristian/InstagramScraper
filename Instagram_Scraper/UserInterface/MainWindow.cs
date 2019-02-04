@@ -2,6 +2,7 @@ using System;
 using System.IO;
 using System.Text;
 using Gtk;
+using Instagram_Scraper.Domain;
 using Instagram_Scraper.Utility;
 
 namespace Instagram_Scraper.UserInterface
@@ -197,7 +198,7 @@ namespace Instagram_Scraper.UserInterface
                 }
                 else
                 {
-                    WebScraper.SetUp(new ScraperOptions(_targetAccount.Text, _username.Text, _password.Text,
+                    InitializeScraper.SetUp(new ScraperOptions(_targetAccount.Text, _username.Text, _password.Text,
                         _headlessBrowserBox.Active, _getStoryBox.Active,  _getCommentsBox.Active,
                         _onlyGetStoryBox.Active,_firefoxRadioButton.Active, _savePath.Text));
                 }
