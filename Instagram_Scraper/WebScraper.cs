@@ -95,10 +95,7 @@ namespace Instagram_Scraper
 
             //Story Page
             if (scraperOptions.ScrapeStory)
-            { 
-                var storyPage = profilePage.EnterStory(targetMedia);
-                storyPage?.SaveStoryContent();
-            }
+                ScrapeStory(profilePage, targetMedia);
             
             var postPage = profilePage.EnterPosts(targetMedia);
 
@@ -115,7 +112,8 @@ namespace Instagram_Scraper
         {
             //Login
             var watch = Stopwatch.StartNew();
-            if (!scraperOptions.Username.Equals(string.Empty)) LoginToAccount(scraperOptions);
+            if (!scraperOptions.Username.Equals(string.Empty))
+                LoginToAccount(scraperOptions);
 
             //Profile Page
             var profilePage = new ProfilePage(_driver, scraperOptions.TargetAccount);
@@ -124,10 +122,7 @@ namespace Instagram_Scraper
 
             //Story Page
             if (scraperOptions.ScrapeStory)
-            { 
-                var storyPage = profilePage.EnterStory(targetMedia);
-                storyPage?.SaveStoryContent();
-            }
+                ScrapeStory(profilePage, targetMedia);
 
             var postPage = profilePage.EnterPosts(targetMedia, targetText);
 
@@ -141,6 +136,12 @@ namespace Instagram_Scraper
         private static void LoginToAccount(ScraperOptions scraperOptions)
         {
             new LoginPage(_driver).Login(scraperOptions.Username, scraperOptions.Password);
+        }
+
+        private static void ScrapeStory(ProfilePage profilePage, ITargetBlock<KeyValuePair<string, string>> targetMedia)
+        {
+            var storyPage = profilePage.EnterStory(targetMedia);
+            storyPage?.SaveStoryContent();
         }
 
         private static void OnlyScrapeStory(ScraperOptions scraperOptions,
