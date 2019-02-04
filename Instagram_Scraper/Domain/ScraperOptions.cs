@@ -1,4 +1,4 @@
-namespace Instagram_Scraper.Utility
+namespace Instagram_Scraper.Domain
 {
     public class ScraperOptions
     {
