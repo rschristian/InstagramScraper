@@ -22,6 +22,7 @@ namespace Instagram_Scraper.Utility
 
                 //Conflicted about whether or not this should exist. Doesn't save time, but can fix (or break)
                 //previous downloads.
+                Console.WriteLine(filesProcessed + " Processing: " + key);
                 var fileExists = Directory.GetFiles(path, key + ".*");
                 if (fileExists.Length > 0) continue;
 
@@ -55,6 +56,7 @@ namespace Instagram_Scraper.Utility
 
                 //TODO Comments may change, so there needs to be a way to update, potentially without removing old ones
                 //TODO append profile text to the profile file
+                Console.WriteLine(textFilesProcessed + " Processing Text: " + postDate);
                 if (File.Exists(filePath)) continue;
 
                 Console.WriteLine(textFilesProcessed + " Downloading Text: " + postDate);
