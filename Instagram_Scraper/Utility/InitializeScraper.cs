@@ -54,20 +54,50 @@ namespace Instagram_Scraper.Utility
             }
 
 
-            var bufferMedia = WebDriverExtensions.StartMediaService(savePath);
-            if (!scraperOptions.ScrapeComments)
+            if (!scraperOptions.OnlyScrapeStory)
             {
-                new ScraperController(_driver).ExecuteScraper(scraperOptions, bufferMedia);
-                await bufferMedia.Completion;
+                var bufferMedia = WebDriverExtensions.StartMediaService(savePath);
+                
+                //Just media
+                if (!scraperOptions.ScrapeComments && !scraperOptions.ScrapeStory)
+                {
+                    new ScraperController(_driver, scraperOptions, bufferMedia).ExecuteScraper();
+                    await bufferMedia.Completion;
+                }
+                //Media + Story
+                else if (!scraperOptions.ScrapeComments && scraperOptions.ScrapeStory)
+                {
+                    var bufferStory = WebDriverExtensions.StartStoryService(savePath);
+                    new ScraperController(_driver, scraperOptions, bufferMedia, null, bufferStory).ExecuteScraper();
+                    await bufferMedia.Completion;
+                    await bufferStory.Completion;
+                }
+                //Media + Comments
+                else if (scraperOptions.ScrapeComments && !scraperOptions.ScrapeStory)
+                {
+                    var bufferText = WebDriverExtensions.StartTextService(savePath);
+                    new ScraperController(_driver, scraperOptions, bufferMedia, bufferText).ExecuteScraper();
+                    await bufferMedia.Completion;
+                    await bufferText.Completion; 
+                }
+                //Media + Comments + Story
+                else 
+                {
+                    var bufferText = WebDriverExtensions.StartTextService(savePath);
+                    var bufferStory = WebDriverExtensions.StartStoryService(savePath);
+                    new ScraperController(_driver, scraperOptions, bufferMedia, bufferText, bufferStory).ExecuteScraper();
+                    await bufferMedia.Completion;
+                    await bufferText.Completion; 
+                    await bufferStory.Completion;
+                }
             }
             else
             {
-                var bufferText = WebDriverExtensions.StartTextService(savePath);
-                new ScraperController(_driver).ExecuteScraper(scraperOptions, bufferMedia, bufferText);
-                await bufferMedia.Completion;
-                await bufferText.Completion;
+                var bufferStory = WebDriverExtensions.StartStoryService(savePath);
+                new ScraperController(_driver, scraperOptions, null, null, bufferStory).OnlyScrapeStory();
+                await bufferStory.Completion;
             }
-
+            Console.WriteLine("Done with program");
             _driver.Quit();
         }
     }

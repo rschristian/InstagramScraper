@@ -71,5 +71,14 @@ namespace Instagram_Scraper.Utility
             backgroundThreadText.Start(); 
             return bufferText;
         }
+        
+        public static BufferBlock<KeyValuePair<string, string>> StartStoryService(string savePath)
+        {
+            var bufferStory = new BufferBlock<KeyValuePair<string, string>>();
+            var backgroundThreadStory =
+                new Thread(() => DownloadManager.ConsumeStoryAsync(savePath, bufferStory)) {IsBackground = true};
+            backgroundThreadStory.Start();
+            return bufferStory;
+        }
     }
 }

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Threading.Tasks.Dataflow;
 
@@ -17,21 +18,22 @@ namespace Instagram_Scraper.Utility
             while (await source.OutputAvailableAsync())
             {
                 var client = new WebClient();
-                var (key, value) = source.Receive();
+                var (fileName, fileUri) = source.Receive();
                 filesProcessed++;
 
                 //Conflicted about whether or not this should exist. Doesn't save time, but can fix (or break)
                 //previous downloads.
-                Console.WriteLine(filesProcessed + " Processing: " + key);
-                var fileExists = Directory.GetFiles(path, key + ".*");
-                if (fileExists.Length > 0) continue;
+                Console.WriteLine(filesProcessed + " Processing: " + fileName);
+                var fileExists = Directory.GetFiles(path, fileName + ".*");
+                if (fileExists.Length > 0)
+                    continue;
 
-                Console.WriteLine(filesProcessed + " Downloading: " + key);
+                Console.WriteLine(filesProcessed + " Downloading: " + fileName);
 
-                if (value.Contains(".mp4"))
-                    client.DownloadFileAsync(new Uri(value), path + key + ".mp4");
+                if (fileUri.Contains(".mp4"))
+                    client.DownloadFileAsync(new Uri(fileUri), path + fileName + ".mp4");
                 else
-                    client.DownloadFileAsync(new Uri(value), path + key + ".jpg");
+                    client.DownloadFileAsync(new Uri(fileUri), path + fileName + ".jpg");
 
                 filesDownloaded++;
             }
@@ -73,9 +75,26 @@ namespace Instagram_Scraper.Utility
             Console.WriteLine("Downloaded {0} text files.", textFilesDownloaded);
         }
 
-        public static async void ConsumeStory(string path, ISourceBlock<KeyValuePair<string, string>> source)
+        public static async void ConsumeStoryAsync(string path, ISourceBlock<KeyValuePair<string, string>> source)
         {
+            var storyList = new List<KeyValuePair<string, string>>();
             
+            while (await source.OutputAvailableAsync())
+            {
+                var (storyName, storyUri) = source.Receive();
+                storyList.Add(new KeyValuePair<string, string>(storyName, storyUri));
+                
+                if (!storyName.Contains("story 1"))
+                    continue;
+                
+                Console.WriteLine("Story List count: " + storyList.Count);
+                storyList = storyList.OrderBy(x => x.Key).ToList();
+                foreach (var (key, value) in storyList)
+                {
+                    Console.WriteLine("Key: " + key + " Value: " + value);
+                }
+            }
         }
+        
     }
 }
