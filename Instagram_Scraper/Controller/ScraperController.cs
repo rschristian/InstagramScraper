@@ -24,6 +24,7 @@ namespace Instagram_Scraper.Controller
             if (scraperOptions.OnlyScrapeStory)
             {
                 OnlyScrapeStory(scraperOptions, targetMedia);
+                Console.WriteLine("Total Program Time: " + watch.ElapsedMilliseconds / 1000.00 + " seconds");
                 return;
             }
 

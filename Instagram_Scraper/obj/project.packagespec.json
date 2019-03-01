@@ -30,6 +30,10 @@
           "target": "Package",
           "version": "[3.22.24.37, )"
         },
+        "InstaSharper": {
+          "target": "Package",
+          "version": "[1.4.82, )"
+        },
         "Microsoft.NETCore.App": {
           "suppressParent": "All",
           "target": "Package",
@@ -46,7 +50,7 @@
         },
         "Selenium.WebDriver.ChromeDriver": {
           "target": "Package",
-          "version": "[2.45.0, )"
+          "version": "[2.46.0, )"
         }
       },
       "imports": [

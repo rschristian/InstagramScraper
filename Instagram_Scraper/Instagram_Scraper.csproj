@@ -6,8 +6,9 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="GtkSharp" Version="3.22.24.37" />
+    <PackageReference Include="InstaSharper" Version="1.4.82" />
     <PackageReference Include="Selenium.Firefox.WebDriver" Version="0.23.0" />
     <PackageReference Include="Selenium.WebDriver" Version="3.141.0" />
-    <PackageReference Include="Selenium.WebDriver.ChromeDriver" Version="2.45.0" />
+    <PackageReference Include="Selenium.WebDriver.ChromeDriver" Version="2.46.0" />
   </ItemGroup>
 </Project>

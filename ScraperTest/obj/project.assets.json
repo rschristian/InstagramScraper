@@ -76,6 +76,18 @@
           "lib/netstandard2.0/GtkSharp.dll": {}
         }
       },
+      "InstaSharper/1.4.82": {
+        "type": "package",
+        "dependencies": {
+          "Newtonsoft.Json": "10.0.3"
+        },
+        "compile": {
+          "lib/netstandard2.0/InstaSharper.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.0/InstaSharper.dll": {}
+        }
+      },
       "Microsoft.CSharp/4.3.0": {
         "type": "package",
         "dependencies": {
@@ -357,7 +369,7 @@
           "lib/netstandard2.0/WebDriver.dll": {}
         }
       },
-      "Selenium.WebDriver.ChromeDriver/2.45.0": {
+      "Selenium.WebDriver.ChromeDriver/2.46.0": {
         "type": "package",
         "build": {
           "build/_._": {}
@@ -940,9 +952,10 @@
         "framework": ".NETCoreApp,Version=v2.2",
         "dependencies": {
           "GtkSharp": "3.22.24.37",
+          "InstaSharper": "1.4.82",
           "Selenium.Firefox.WebDriver": "0.23.0",
           "Selenium.WebDriver": "3.141.0",
-          "Selenium.WebDriver.ChromeDriver": "2.45.0"
+          "Selenium.WebDriver.ChromeDriver": "2.46.0"
         },
         "compile": {
           "bin/placeholder/Instagram_Scraper.dll": {}
@@ -1024,6 +1037,20 @@
         "gtksharp.3.22.24.37.nupkg.sha512",
         "gtksharp.nuspec",
         "lib/netstandard2.0/GtkSharp.dll"
+      ]
+    },
+    "InstaSharper/1.4.82": {
+      "sha512": "w1oZTJfHERgvoZLoP8wOPsITkKAzSV0s4la78XGbWzqe0tpr6PtKkSf+2AA7ChuekOZzRfyLn30SCZ69SDYJWQ==",
+      "type": "package",
+      "path": "instasharper/1.4.82",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "instasharper.1.4.82.nupkg.sha512",
+        "instasharper.nuspec",
+        "lib/net452/InstaSharper.dll",
+        "lib/net472/InstaSharper.dll",
+        "lib/netstandard2.0/InstaSharper.dll"
       ]
     },
     "Microsoft.CSharp/4.3.0": {
@@ -1350,7 +1377,7 @@
       ]
     },
     "Microsoft.NETCore.DotNetAppHost/2.2.0": {
-      "sha512": "qIrVLupwT2NYTrf7KM7Nh+mJr36V5MITVRjyGOByVVCwGmQgQmI/6bjZYQv+QdExi4Cm87eCKJX9FdT6nc00Xg==",
+      "sha512": "OK/H8p9Ig6mLMITjXJ4VOewrJg/TU+dAPHE4BdMWMv+8COzBehf7XF1+DofKkmqdHpO2cJoS5Sc9PEZ6PKCbsg==",
       "type": "package",
       "path": "microsoft.netcore.dotnetapphost/2.2.0",
       "files": [
@@ -1626,10 +1653,10 @@
         "selenium.webdriver.nuspec"
       ]
     },
-    "Selenium.WebDriver.ChromeDriver/2.45.0": {
-      "sha512": "W1yZ3dGte5BMrZrfr1XQ2IXOGpyEwgk2hqi/59rm6jIjOIAyMrwXIwVk06x24FKH6L56jp/LCzVR6rLJTQsJFA==",
+    "Selenium.WebDriver.ChromeDriver/2.46.0": {
+      "sha512": "djgo/Zwo/UNR+kC7kha5uRZlPF3BBxDtS/9xddNuRR4SIFyPppMH3rO62xFYTP3rlGorx1IBeklYCw81SXqwhA==",
       "type": "package",
-      "path": "selenium.webdriver.chromedriver/2.45.0",
+      "path": "selenium.webdriver.chromedriver/2.46.0",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -1637,7 +1664,7 @@
         "driver/linux64/chromedriver",
         "driver/mac64/chromedriver",
         "driver/win32/chromedriver.exe",
-        "selenium.webdriver.chromedriver.2.45.0.nupkg.sha512",
+        "selenium.webdriver.chromedriver.2.46.0.nupkg.sha512",
         "selenium.webdriver.chromedriver.nuspec"
       ]
     },
@@ -1709,7 +1736,7 @@
       ]
     },
     "System.Collections.NonGeneric/4.3.0": {
-      "sha512": "/D3jtX0+u5+6rS3RGvTMyICPpIuzBgqtUYLjK1aXLua0nWH4JpM1H/tRk1Uxs6Fo0fe22jyJaTpoXPSu0il8Ug==",
+      "sha512": "LE/oChpRvkSi3U25u0KnJcI44JeDZ1QJCyN4qFDx2uusEypdqR24w7lKYw21eYe5esuCBuc862wRmpF63Yy1KQ==",
       "type": "package",
       "path": "system.collections.nongeneric/4.3.0",
       "files": [
@@ -1844,7 +1871,7 @@
       ]
     },
     "System.ComponentModel.Primitives/4.3.0": {
-      "sha512": "j8GUkCpM8V4d4vhLIIoBLGey2Z5bCkMVNjEZseyAlm4n5arcsJOeI3zkUP+zvZgzsbLTYh4lYeP/ZD/gdIAPrw==",
+      "sha512": "KMVuoQ+8bMQ/Z59M3s64num5AD74X5YSqVc7ibwGkPTfmmkl2W8VuSxLRJtpw4KzQrSKUgR0BLbF0adPfcTSGQ==",
       "type": "package",
       "path": "system.componentmodel.primitives/4.3.0",
       "files": [
@@ -2671,11 +2698,12 @@
       ]
     },
     "System.Reflection.Emit.ILGeneration/4.3.0": {
-      "sha512": "59tBslAk9733NXLrUJrwNZEzbMAcu8k344OYo+wfSVygcgZ9lgBdGIzH/nrg3LYhXceynyvTc8t5/GD4Ri0/ng==",
+      "sha512": "+rD+UzHYxfXsT+YrMI0njdFaP/o1cnmSnRWy4os/NaWJC7FyCHrCOwiAKUwz+smQ3cPKZ8pAAv5zM5DDBG4K4w==",
       "type": "package",
       "path": "system.reflection.emit.ilgeneration/4.3.0",
       "files": [
         ".nupkg.metadata",
+        ".signature.p7s",
         "ThirdPartyNotices.txt",
         "dotnet_library_license.txt",
         "lib/MonoAndroid10/_._",
@@ -3821,7 +3849,7 @@
       ]
     },
     "System.Xml.XmlDocument/4.3.0": {
-      "sha512": "xsnq6w3/S+NeYkUtxoCEDAn2Z+AkgvGLvJnslrTRte4jEU+fkR3DVG+s0sBmQYQ4c3r8949PaGg8AnRb9bBc2w==",
+      "sha512": "lJ8AxvkX7GQxpC6GFCeBj8ThYVyQczx2+f/cWHJU8tjS7YfI6Cv6bon70jVEgs2CiFbmmM8b9j1oZVx0dSI2Ww==",
       "type": "package",
       "path": "system.xml.xmldocument/4.3.0",
       "files": [
