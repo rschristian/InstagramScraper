@@ -72,5 +72,10 @@ namespace Instagram_Scraper.Utility
             Console.WriteLine("Processed {0} text files.", textFilesProcessed);
             Console.WriteLine("Downloaded {0} text files.", textFilesDownloaded);
         }
+
+        public static async void ConsumeStory(string path, ISourceBlock<KeyValuePair<string, string>> source)
+        {
+            
+        }
     }
 }
