@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Threading.Tasks.Dataflow;
 using Instagram_Scraper.Domain;
 using Instagram_Scraper.PageObjects;
+using Instagram_Scraper.Utility;
 using OpenQA.Selenium;
 
 namespace Instagram_Scraper.Controller
@@ -12,88 +13,80 @@ namespace Instagram_Scraper.Controller
     {
         private readonly IWebDriver _driver;
 
-        public ScraperController(IWebDriver driver)
+        private readonly ScraperOptions _scraperOptions;
+
+        private readonly ITargetBlock<KeyValuePair<string, string>> _targetMedia;
+
+        private readonly ITargetBlock<KeyValuePair<string, List<KeyValuePair<string, string>>>> _targetText;
+
+        private readonly ITargetBlock<KeyValuePair<string, string>> _targetStory;
+        
+        public ScraperController(IWebDriver driver, ScraperOptions scraperOptions,
+            ITargetBlock<KeyValuePair<string, string>> targetMedia = null,
+            ITargetBlock<KeyValuePair<string, List<KeyValuePair<string, string>>>> targetText = null,
+            ITargetBlock<KeyValuePair<string, string>> targetStory = null)
         {
             _driver = driver;
+            _scraperOptions = scraperOptions;
+            _targetMedia = targetMedia;
+            _targetText = targetText;
+            _targetStory = targetStory;
         }
 
-        public void ExecuteScraper(ScraperOptions scraperOptions,
-            ITargetBlock<KeyValuePair<string, string>> targetMedia)
+        public void ExecuteScraper()
         {
             var watch = Stopwatch.StartNew();
-            if (scraperOptions.OnlyScrapeStory)
+            if (_scraperOptions.OnlyScrapeStory)
             {
-                OnlyScrapeStory(scraperOptions, targetMedia);
+                OnlyScrapeStory();
                 Console.WriteLine("Total Program Time: " + watch.ElapsedMilliseconds / 1000.00 + " seconds");
                 return;
             }
 
             //Login
-            if (!scraperOptions.Username.Equals(string.Empty))
-                LoginToAccount(scraperOptions);
+            if (!_scraperOptions.Username.Equals(string.Empty))
+                LoginToAccount();
 
             //Profile Page
-            var profilePage = new ProfilePage(_driver, scraperOptions.TargetAccount);
-            profilePage.GetProfilePicture(targetMedia);
+            var profilePage = new ProfilePage(_driver, _scraperOptions.TargetAccount);
+            profilePage.GetProfilePicture(_targetMedia);
+            if(_targetText != null)
+                profilePage.GetProfileText(_targetText);
 
             //Story Page
-            if (scraperOptions.ScrapeStory)
-                ScrapeStory(profilePage, targetMedia);
+            if (_scraperOptions.ScrapeStory)
+                ScrapeStory(profilePage);
 
-            var postPage = profilePage.EnterPosts(targetMedia);
-
-
+            var postPage = _targetText == null
+                ? profilePage.EnterPosts(_targetMedia)
+                : profilePage.EnterPosts(_targetMedia, _targetText);
+            
             //PostPage
-            postPage.GetPostData();
+            if (_targetText == null)
+                postPage.GetPostData();
+            else
+                postPage.GetPostDataWithComments();
 
             Console.WriteLine("Total Program Time: " + watch.ElapsedMilliseconds / 1000.00 + " seconds");
         }
 
-        public void ExecuteScraper(ScraperOptions scraperOptions,
-            ITargetBlock<KeyValuePair<string, string>> targetMedia,
-            ITargetBlock<KeyValuePair<string, List<KeyValuePair<string, string>>>> targetText)
+        private void LoginToAccount()
         {
-            //Login
-            var watch = Stopwatch.StartNew();
-            if (!scraperOptions.Username.Equals(string.Empty))
-                LoginToAccount(scraperOptions);
-
-            //Profile Page
-            var profilePage = new ProfilePage(_driver, scraperOptions.TargetAccount);
-            profilePage.GetProfilePicture(targetMedia);
-            profilePage.GetProfileText(targetText);
-
-            //Story Page
-            if (scraperOptions.ScrapeStory)
-                ScrapeStory(profilePage, targetMedia);
-
-            var postPage = profilePage.EnterPosts(targetMedia, targetText);
-
-
-            //PostPage
-            postPage.GetPostDataWithComments();
-
-            Console.WriteLine("Total Program Time: " + watch.ElapsedMilliseconds / 1000.00 + " seconds");
+            new LoginPage(_driver).Login(_scraperOptions.Username, _scraperOptions.Password);
         }
 
-        private void LoginToAccount(ScraperOptions scraperOptions)
+        private void ScrapeStory(ProfilePage profilePage)
         {
-            new LoginPage(_driver).Login(scraperOptions.Username, scraperOptions.Password);
-        }
-
-        private static void ScrapeStory(ProfilePage profilePage, ITargetBlock<KeyValuePair<string, string>> targetMedia)
-        {
-            var storyPage = profilePage.EnterStory(targetMedia);
+            var storyPage = profilePage.EnterStory(_targetMedia);
             storyPage?.SaveStoryContent();
         }
 
-        private void OnlyScrapeStory(ScraperOptions scraperOptions,
-            ITargetBlock<KeyValuePair<string, string>> targetMedia)
+        public void OnlyScrapeStory()
         {
-            LoginToAccount(scraperOptions);
-            var storyPage = new ProfilePage(_driver, scraperOptions.TargetAccount).EnterStory(targetMedia);
+            LoginToAccount();
+            var storyPage = new ProfilePage(_driver, _scraperOptions.TargetAccount).EnterStory(_targetStory);
             storyPage?.SaveStoryContent();
-            targetMedia.Complete();
+            _targetStory.Complete();
         }
     }
 }
