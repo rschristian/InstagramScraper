@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -109,89 +110,60 @@ namespace Instagram_Scraper.Utility
             }
             else
             {
+                var watch = Stopwatch.StartNew();
                 var maxIndexNewList = newStoryList.Count - 1;
                 var maxIndexExistingList = existingStoryList.Count -1;
-                var ghettoRunCounter = 0;
+                var tempRunCounter = 0;
                 var currentOffset = 0;
+                var fileInfo = new DirectoryInfo(dirPathTemp).GetFiles("*");
                 
                 for (var i = maxIndexNewList; i > -1; i--)
                 {
-                    // Console.WriteLine("Current offset: " + currentOffset);
-                    // Console.WriteLine("Current index: " + (maxIndexExistingList + currentOffset));
+                    Console.WriteLine("Current offset: " + currentOffset);
+                    Console.WriteLine("Current index: " + (maxIndexExistingList + currentOffset));
                     
-                    // Console.Write(newStoryList[i].Key + " equals " + existingStoryList[maxIndexExistingList + currentOffset + ghettoRunCounter].Key + " : ");
-                    // Console.WriteLine(newStoryList[i].Value.SequenceEqual(existingStoryList[maxIndexExistingList + currentOffset + ghettoRunCounter].Value));
+                    Console.Write(newStoryList[i].Key + " equals " + existingStoryList[maxIndexExistingList + currentOffset + tempRunCounter].Key + " : ");
+                    Console.WriteLine(newStoryList[i].Value.SequenceEqual(existingStoryList[maxIndexExistingList + currentOffset + tempRunCounter].Value));
 
-                    if (newStoryList[i].Value.SequenceEqual(existingStoryList[maxIndexExistingList + currentOffset + ghettoRunCounter].Value))
+                    if (newStoryList[i].Value.SequenceEqual(existingStoryList[maxIndexExistingList + currentOffset + tempRunCounter].Value))
                     {
-                        ghettoRunCounter--;
+                        tempRunCounter--;
                         continue;
                     }
                     
                     
                     for (var j = maxIndexExistingList + currentOffset -1; j > -1; j--)
                     {
-                        // Console.Write("Indent: " + newStoryList[i].Key + " equals " + existingStoryList[j].Key + " : ");
-                        // Console.WriteLine(newStoryList[i].Value.SequenceEqual(existingStoryList[j].Value));
+                        Console.Write("Indent: " + newStoryList[i].Key + " equals " + existingStoryList[j].Key + " : ");
+                        Console.WriteLine(newStoryList[i].Value.SequenceEqual(existingStoryList[j].Value));
                         
-                        if (!newStoryList[i].Value.SequenceEqual(existingStoryList[j].Value)) continue;
-                        currentOffset--;
-                        ghettoRunCounter--;
-                        break;
+                        if (!newStoryList[i].Value.SequenceEqual(existingStoryList[j].Value) && j != 0) continue;
+                        if (j != 0)
+                        {
+                            currentOffset--;
+                            tempRunCounter--;
+                            break;
+                        }
+
+                        existingStoryList.Reverse();
+                        foreach (var (key, _) in existingStoryList)
+                        {
+                            char[] delimiterChars = { ' ', '.' };
+                            var splits = key.Split(delimiterChars);
+                            var newName = splits[0] + " " + splits[1] + " " + (int.Parse(splits[2]) + newStoryList.Count) + "." + splits[3];
+                            File.Move(dirPath + key, dirPath + newName);
+                        }
+                        goto exitLoops;
                     }
                 }
+                exitLoops:
                 Console.WriteLine("Offset at the end is: " + currentOffset);
-
-
-
-
-
-
-
-
-
-                // for (var i = 0; i < newStoryList.Count; i++)
-                // {
-                //     Console.WriteLine("New Key: " + newStoryList[i].Key + " Existing Key: " + existingStoryList[i].Key);
-                //     if (newStoryList[i].Value.SequenceEqual(existingStoryList[i].Value)) continue;
-                //     Console.WriteLine("NewStoryList item " + (i+1) + " does not equal existing item " + (i+1));
-                //     for (var j = 1; j + i < existingStoryList.Count; j++)
-                //     {
-                //         if (newStoryList[i].Value.SequenceEqual(existingStoryList[i+j].Value))
-                //         {
-                //             Console.WriteLine("NewStoryList item " + (i+1) + " equals existing item " + ((i+1)+j));
-                //             break;
-                //         }
-                //         Console.WriteLine("NewStoryList item " + (i+1) + " does not equal existing item " + ((i+1)+j));
-                //         if (j != existingStoryList.Count - 1) continue;
-                //         Console.WriteLine("NewStoryList item " + (i+1) + " does not exist in existing items!");
-                //         //All new stories need to be pasted after the existing ones
-                //         for (var k = i; k < existingStoryList.Count; k++)
-                //         {
-                //             var splits = existingStoryList[k].Key.Split(" ");
-                //             Console.WriteLine(int.Parse(splits[2]) + existingStoryList.Count);
-                //         }
-                //
-                //     }
-
-
-
-
-                    // if (i < existingStoryList.Count)
-                    // {
-                    // Console.Write(newStoryList[i].Key + " equals " + existingStoryList[i].Key + " : ");
-                    // Console.WriteLine(newStoryList[i].Value.SequenceEqual(existingStoryList[i].Value));
-                    // }
-                    // else
-                    // {
-                    //     Console.WriteLine("More new story items than existing ones");
-                    // }
-                }
-            // }
+                Console.WriteLine("Sort Time: " + watch.ElapsedMilliseconds / 1000.00 + " seconds");
+            }
             
             
             //Cleans up temp folder
-            // Directory.Delete(dirPathTemp, true);
+            Directory.Delete(dirPathTemp, true);
             
             Console.WriteLine("Processed {0} story items.", storyItemsProcessed);
             Console.WriteLine("Downloaded {0} story items.", storyItemsDownloaded);
