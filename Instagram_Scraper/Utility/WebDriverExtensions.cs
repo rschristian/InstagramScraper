@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks.Dataflow;
 using OpenQA.Selenium;
@@ -79,6 +81,15 @@ namespace Instagram_Scraper.Utility
                 new Thread(() => DownloadManager.ConsumeStoryAsync(savePath, bufferStory)) {IsBackground = true};
             backgroundThreadStory.Start();
             return bufferStory;
+        }
+
+        public static List<KeyValuePair<string, byte[]>> GetFilesFromDirectory(string path)
+        {
+            var fileInfo = new DirectoryInfo(path)
+                .GetFiles(DateTime.Now.ToString("yyyy-MM-dd") + "*");
+            return fileInfo.Select(file =>
+                    new KeyValuePair<string, byte[]>(file.Name, File.ReadAllBytes(path + file.Name)))
+                .OrderBy(x => x.Key).ToList();
         }
     }
 }
