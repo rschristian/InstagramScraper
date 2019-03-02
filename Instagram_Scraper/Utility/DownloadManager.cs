@@ -109,23 +109,89 @@ namespace Instagram_Scraper.Utility
             }
             else
             {
-                for (var i = 0; i < newStoryList.Count; i++)
+                var maxIndexNewList = newStoryList.Count - 1;
+                var maxIndexExistingList = existingStoryList.Count -1;
+                var ghettoRunCounter = 0;
+                var currentOffset = 0;
+                
+                for (var i = maxIndexNewList; i > -1; i--)
                 {
-                    if (i < existingStoryList.Count)
+                    // Console.WriteLine("Current offset: " + currentOffset);
+                    // Console.WriteLine("Current index: " + (maxIndexExistingList + currentOffset));
+                    
+                    // Console.Write(newStoryList[i].Key + " equals " + existingStoryList[maxIndexExistingList + currentOffset + ghettoRunCounter].Key + " : ");
+                    // Console.WriteLine(newStoryList[i].Value.SequenceEqual(existingStoryList[maxIndexExistingList + currentOffset + ghettoRunCounter].Value));
+
+                    if (newStoryList[i].Value.SequenceEqual(existingStoryList[maxIndexExistingList + currentOffset + ghettoRunCounter].Value))
                     {
-                        Console.Write(newStoryList[i].Key + " equals " + existingStoryList[i].Key + " : ");
-                        Console.WriteLine(newStoryList[i].Value.SequenceEqual(existingStoryList[i].Value));
+                        ghettoRunCounter--;
+                        continue;
                     }
-                    else
+                    
+                    
+                    for (var j = maxIndexExistingList + currentOffset -1; j > -1; j--)
                     {
-                        Console.WriteLine("More new story items than existing ones");
+                        // Console.Write("Indent: " + newStoryList[i].Key + " equals " + existingStoryList[j].Key + " : ");
+                        // Console.WriteLine(newStoryList[i].Value.SequenceEqual(existingStoryList[j].Value));
+                        
+                        if (!newStoryList[i].Value.SequenceEqual(existingStoryList[j].Value)) continue;
+                        currentOffset--;
+                        ghettoRunCounter--;
+                        break;
                     }
                 }
-            }
+                Console.WriteLine("Offset at the end is: " + currentOffset);
+
+
+
+
+
+
+
+
+
+                // for (var i = 0; i < newStoryList.Count; i++)
+                // {
+                //     Console.WriteLine("New Key: " + newStoryList[i].Key + " Existing Key: " + existingStoryList[i].Key);
+                //     if (newStoryList[i].Value.SequenceEqual(existingStoryList[i].Value)) continue;
+                //     Console.WriteLine("NewStoryList item " + (i+1) + " does not equal existing item " + (i+1));
+                //     for (var j = 1; j + i < existingStoryList.Count; j++)
+                //     {
+                //         if (newStoryList[i].Value.SequenceEqual(existingStoryList[i+j].Value))
+                //         {
+                //             Console.WriteLine("NewStoryList item " + (i+1) + " equals existing item " + ((i+1)+j));
+                //             break;
+                //         }
+                //         Console.WriteLine("NewStoryList item " + (i+1) + " does not equal existing item " + ((i+1)+j));
+                //         if (j != existingStoryList.Count - 1) continue;
+                //         Console.WriteLine("NewStoryList item " + (i+1) + " does not exist in existing items!");
+                //         //All new stories need to be pasted after the existing ones
+                //         for (var k = i; k < existingStoryList.Count; k++)
+                //         {
+                //             var splits = existingStoryList[k].Key.Split(" ");
+                //             Console.WriteLine(int.Parse(splits[2]) + existingStoryList.Count);
+                //         }
+                //
+                //     }
+
+
+
+
+                    // if (i < existingStoryList.Count)
+                    // {
+                    // Console.Write(newStoryList[i].Key + " equals " + existingStoryList[i].Key + " : ");
+                    // Console.WriteLine(newStoryList[i].Value.SequenceEqual(existingStoryList[i].Value));
+                    // }
+                    // else
+                    // {
+                    //     Console.WriteLine("More new story items than existing ones");
+                    // }
+                }
+            // }
             
             
             //Cleans up temp folder
-            Directory.Delete(dirPathTemp, true);
+            // Directory.Delete(dirPathTemp, true);
             
             Console.WriteLine("Processed {0} story items.", storyItemsProcessed);
             Console.WriteLine("Downloaded {0} story items.", storyItemsDownloaded);
