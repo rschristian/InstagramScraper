@@ -82,32 +82,25 @@ namespace Instagram_Scraper.Utility
             if (!File.Exists(dirPath)) Directory.CreateDirectory(dirPath);
             Directory.CreateDirectory(dirPath + "Temp/");
             var storyItemsProcessed = 0; var storyItemsDownloaded = 0;
-            
-            
-            var storyList = new List<KeyValuePair<string, string>>();
-            var existingStoryList = WebDriverExtensions.GetFilesFromDirectory(dirPath);
 
             while (await source.OutputAvailableAsync())
             {
+                var client = new WebClient();
                 var (storyName, storyUri) = source.Receive();
                 storyItemsProcessed++;
-                storyList.Add(new KeyValuePair<string, string>(storyName, storyUri));
-            }
-
-            Console.WriteLine("Story List count: " + storyList.Count);
-            foreach (var (fileName, fileUri) in storyList)
-            {
-                var client = new WebClient();
-                if (fileUri.Contains(".mp4"))
-                    client.DownloadFileAsync(new Uri(fileUri), dirPath + "Temp/" + fileName + ".mp4");
+                
+                Console.WriteLine(storyItemsProcessed + " Processing: " + storyName);
+                
+                if (storyUri.Contains(".mp4"))
+                    client.DownloadFileAsync(new Uri(storyUri), dirPath + "Temp/" + storyName + ".mp4");
                 else
-                    client.DownloadFileAsync(new Uri(fileUri), dirPath + "Temp/" + fileName + ".jpg");
+                    client.DownloadFileAsync(new Uri(storyUri), dirPath + "Temp/" + storyName + ".jpg");
             }
             
             System.Threading.Thread.Sleep(500);
 
+            var existingStoryList = WebDriverExtensions.GetFilesFromDirectory(dirPath);
             var newStoryList = WebDriverExtensions.GetFilesFromDirectory(dirPath + "Temp/");
-
 
             for (var i = 0; i < newStoryList.Count; i++)
             {
