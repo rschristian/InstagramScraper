@@ -4,9 +4,6 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks.Dataflow;
-using GLib;
-using OpenQA.Selenium;
-using DateTime = System.DateTime;
 
 namespace Instagram_Scraper.Utility
 {
@@ -79,8 +76,9 @@ namespace Instagram_Scraper.Utility
         public static async void ConsumeStoryAsync(string path, ISourceBlock<KeyValuePair<string, string>> source)
         {
             var dirPath = path + "Stories/";
+            var dirPathTemp = dirPath + "Temp/";
             if (!File.Exists(dirPath)) Directory.CreateDirectory(dirPath);
-            Directory.CreateDirectory(dirPath + "Temp/");
+            Directory.CreateDirectory(dirPathTemp);
             var storyItemsProcessed = 0; var storyItemsDownloaded = 0;
 
             while (await source.OutputAvailableAsync())
@@ -92,31 +90,42 @@ namespace Instagram_Scraper.Utility
                 Console.WriteLine(storyItemsProcessed + " Processing: " + storyName);
                 
                 if (storyUri.Contains(".mp4"))
-                    client.DownloadFileAsync(new Uri(storyUri), dirPath + "Temp/" + storyName + ".mp4");
+                    client.DownloadFileAsync(new Uri(storyUri), dirPathTemp + storyName + ".mp4");
                 else
-                    client.DownloadFileAsync(new Uri(storyUri), dirPath + "Temp/" + storyName + ".jpg");
+                    client.DownloadFileAsync(new Uri(storyUri), dirPathTemp + storyName + ".jpg");
             }
             
             System.Threading.Thread.Sleep(500);
 
             var existingStoryList = WebDriverExtensions.GetFilesFromDirectory(dirPath);
-            var newStoryList = WebDriverExtensions.GetFilesFromDirectory(dirPath + "Temp/");
+            var newStoryList = WebDriverExtensions.GetFilesFromDirectory(dirPathTemp);
 
-            for (var i = 0; i < newStoryList.Count; i++)
+            if (existingStoryList.Count == 0)
             {
-                if (i < existingStoryList.Count)
+                var fileInfo = new DirectoryInfo(dirPathTemp).GetFiles("*");
+                foreach (var file in fileInfo)
+                    File.Move(dirPathTemp + file.Name, dirPath + file.Name);
+                storyItemsDownloaded += fileInfo.Length;
+            }
+            else
+            {
+                for (var i = 0; i < newStoryList.Count; i++)
                 {
-                    Console.Write(newStoryList[i].Key + " equals " + existingStoryList[i].Key + " : ");
-                    Console.WriteLine(newStoryList[i].Value.SequenceEqual(existingStoryList[i].Value));
-                }
-                else
-                {
-                    Console.WriteLine("More new story items than existing ones");
+                    if (i < existingStoryList.Count)
+                    {
+                        Console.Write(newStoryList[i].Key + " equals " + existingStoryList[i].Key + " : ");
+                        Console.WriteLine(newStoryList[i].Value.SequenceEqual(existingStoryList[i].Value));
+                    }
+                    else
+                    {
+                        Console.WriteLine("More new story items than existing ones");
+                    }
                 }
             }
             
+            
             //Cleans up temp folder
-            Directory.Delete(dirPath + "Temp/", true);
+            Directory.Delete(dirPathTemp, true);
             
             Console.WriteLine("Processed {0} story items.", storyItemsProcessed);
             Console.WriteLine("Downloaded {0} story items.", storyItemsDownloaded);
