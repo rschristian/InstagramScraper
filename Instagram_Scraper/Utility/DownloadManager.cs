@@ -113,50 +113,51 @@ namespace Instagram_Scraper.Utility
                 var watch = Stopwatch.StartNew();
                 var maxIndexNewList = newStoryList.Count - 1;
                 var maxIndexExistingList = existingStoryList.Count -1;
-                var tempRunCounter = 0;
-                var currentOffset = 0;
-                var fileInfo = new DirectoryInfo(dirPathTemp).GetFiles("*");
+                // var tempRunCounter = 0;
                 
-                for (var i = maxIndexNewList; i > -1; i--)
-                {
-                    Console.WriteLine("Current offset: " + currentOffset);
-                    Console.WriteLine("Current index: " + (maxIndexExistingList + currentOffset));
-                    
-                    Console.Write(newStoryList[i].Key + " equals " + existingStoryList[maxIndexExistingList + currentOffset + tempRunCounter].Key + " : ");
-                    Console.WriteLine(newStoryList[i].Value.SequenceEqual(existingStoryList[maxIndexExistingList + currentOffset + tempRunCounter].Value));
+                //Difference new -> existing, and is used as newList's index - offset, but in the existing
+                var currentOffset = 0;
 
-                    if (newStoryList[i].Value.SequenceEqual(existingStoryList[maxIndexExistingList + currentOffset + tempRunCounter].Value))
-                    {
-                        tempRunCounter--;
-                        continue;
-                    }
+                for (var i = 0; i < newStoryList.Count; i++)
+                {
+                    if (maxIndexNewList - i + currentOffset < 0)
+                        break;
                     
+                    // Console.WriteLine("Current offset: " + currentOffset);
+                    // Console.WriteLine("Current index: " + (maxIndexExistingList + currentOffset));
                     
-                    for (var j = maxIndexExistingList + currentOffset -1; j > -1; j--)
+                    Console.Write(newStoryList[maxIndexNewList - i].Key + " equals " + existingStoryList[maxIndexExistingList - i + currentOffset].Key + " : ");
+                    Console.WriteLine(newStoryList[maxIndexNewList - i].Value.SequenceEqual(existingStoryList[maxIndexExistingList - i + currentOffset].Value));
+
+                    if (newStoryList[maxIndexNewList - i].Value.SequenceEqual(existingStoryList[maxIndexExistingList - i + currentOffset].Value)) continue;
+                    for (var j = i + 1; j < existingStoryList.Count; j++)
                     {
-                        Console.Write("Indent: " + newStoryList[i].Key + " equals " + existingStoryList[j].Key + " : ");
-                        Console.WriteLine(newStoryList[i].Value.SequenceEqual(existingStoryList[j].Value));
-                        
-                        if (!newStoryList[i].Value.SequenceEqual(existingStoryList[j].Value) && j != 0) continue;
-                        if (j != 0)
+                        if (newStoryList[maxIndexNewList - i].Value
+                            .SequenceEqual(existingStoryList[maxIndexExistingList - j + currentOffset].Value))
                         {
-                            currentOffset--;
-                            tempRunCounter--;
+                            currentOffset = -1;
                             break;
                         }
 
+                        if (j != maxIndexExistingList) continue;
                         existingStoryList.Reverse();
                         foreach (var (key, _) in existingStoryList)
                         {
                             char[] delimiterChars = { ' ', '.' };
                             var splits = key.Split(delimiterChars);
-                            var newName = splits[0] + " " + splits[1] + " " + (int.Parse(splits[2]) + newStoryList.Count) + "." + splits[3];
+                            var newName = splits[0] + " story " + (int.Parse(splits[2]) + (newStoryList.Count - i)) + "." + splits[3];
                             File.Move(dirPath + key, dirPath + newName);
+                            Console.WriteLine("Old Path: " + dirPath + key + " New Path: " + dirPath + newName);
                         }
-                        goto exitLoops;
                     }
+
+                    for (var k = i; k < newStoryList.Count; k++)
+                    {
+                        File.Move(dirPathTemp + newStoryList[k].Key, dirPath + newStoryList[k].Key);
+                    }
+                    break;
                 }
-                exitLoops:
+                
                 Console.WriteLine("Offset at the end is: " + currentOffset);
                 Console.WriteLine("Sort Time: " + watch.ElapsedMilliseconds / 1000.00 + " seconds");
             }
@@ -168,6 +169,5 @@ namespace Instagram_Scraper.Utility
             Console.WriteLine("Processed {0} story items.", storyItemsProcessed);
             Console.WriteLine("Downloaded {0} story items.", storyItemsDownloaded);
         }
-        
     }
 }
