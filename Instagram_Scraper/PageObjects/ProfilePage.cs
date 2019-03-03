@@ -36,7 +36,7 @@ namespace Instagram_Scraper.PageObjects
 
         public StoryPage EnterStory(ITargetBlock<KeyValuePair<string, string>> targetMedia)
         {
-            Thread.Sleep(500);
+            Thread.Sleep(700);
             if (Story == null)
             {
                 Console.WriteLine("Account does not have a story");
