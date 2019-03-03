@@ -50,8 +50,7 @@ namespace Instagram_Scraper.PageObjects
             }
             else
             {
-                var currentDateTime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
-                // var currentDateTime = DateTime.Now.ToString("yyyy-MM-dd");
+                var currentDateTime = DateTime.Now.ToString("yyyy-MM-dd");
                 for (var i = 0; i < _tempLinkList.Count; i++)
                 {
                     _targetStory.Post(new KeyValuePair<string, string>(currentDateTime + " story " +
