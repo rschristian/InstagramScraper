@@ -77,7 +77,7 @@ namespace Instagram_Scraper.Controller
 
         private void ScrapeStory(ProfilePage profilePage)
         {
-            var storyPage = profilePage.EnterStory(_targetMedia);
+            var storyPage = profilePage.EnterStory(_targetStory);
             storyPage?.SaveStoryContent();
         }
 
