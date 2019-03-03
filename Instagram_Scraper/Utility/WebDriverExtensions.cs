@@ -89,7 +89,7 @@ namespace Instagram_Scraper.Utility
                 .GetFiles(DateTime.Now.ToString("yyyy-MM-dd") + "*");
             return fileInfo.Select(file =>
                     new KeyValuePair<string, byte[]>(file.Name, File.ReadAllBytes(path + file.Name)))
-                .OrderBy(x => x.Key).ToList();
+                .OrderByDescending(x => x.Key).ToList();
         }
     }
 }
