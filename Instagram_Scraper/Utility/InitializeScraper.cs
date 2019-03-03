@@ -97,7 +97,6 @@ namespace Instagram_Scraper.Utility
                 new ScraperController(_driver, scraperOptions, null, null, bufferStory).OnlyScrapeStory();
                 await bufferStory.Completion;
             }
-            Console.WriteLine("Done with program");
             _driver.Quit();
         }
     }
