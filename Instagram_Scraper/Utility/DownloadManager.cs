@@ -110,64 +110,72 @@ namespace Instagram_Scraper.Utility
             }
             else
             {
-                var watch = Stopwatch.StartNew();
-                var maxIndexNewList = newStoryList.Count - 1;
                 var maxIndexExistingList = existingStoryList.Count -1;
-                // var tempRunCounter = 0;
+                
+                //TODO If the last item in existing can not be found in new, append all.
+                //TODO If it can, start counting up the back end of existing to find when new no longer can be found
                 
                 //Difference new -> existing, and is used as newList's index - offset, but in the existing
                 var currentOffset = 0;
 
                 for (var i = 0; i < newStoryList.Count; i++)
                 {
-                    if (maxIndexNewList - i + currentOffset < 0)
+                    if (maxIndexExistingList - i + currentOffset < 0)
+                    {
+                        MoveExistingFiles(dirPath, existingStoryList, newStoryList.Count - i);
+                        storyItemsDownloaded += MoveRemainingNewFiles(dirPathTemp, dirPath, newStoryList, i);
                         break;
-                    
-                    // Console.WriteLine("Current offset: " + currentOffset);
-                    // Console.WriteLine("Current index: " + (maxIndexExistingList + currentOffset));
-                    
-                    Console.Write(newStoryList[maxIndexNewList - i].Key + " equals " + existingStoryList[maxIndexExistingList - i + currentOffset].Key + " : ");
-                    Console.WriteLine(newStoryList[maxIndexNewList - i].Value.SequenceEqual(existingStoryList[maxIndexExistingList - i + currentOffset].Value));
+                    }
 
-                    if (newStoryList[maxIndexNewList - i].Value.SequenceEqual(existingStoryList[maxIndexExistingList - i + currentOffset].Value)) continue;
+                    if (newStoryList[i].Value.SequenceEqual(existingStoryList[i + currentOffset].Value)) continue;
                     for (var j = i + 1; j < existingStoryList.Count; j++)
                     {
-                        if (newStoryList[maxIndexNewList - i].Value
-                            .SequenceEqual(existingStoryList[maxIndexExistingList - j + currentOffset].Value))
+                        if (newStoryList[i].Value.SequenceEqual(existingStoryList[j + currentOffset].Value))
                         {
                             currentOffset = -1;
                             break;
                         }
 
                         if (j != maxIndexExistingList) continue;
-                        existingStoryList.Reverse();
-                        foreach (var (key, _) in existingStoryList)
-                        {
-                            char[] delimiterChars = { ' ', '.' };
-                            var splits = key.Split(delimiterChars);
-                            var newName = splits[0] + " story " + (int.Parse(splits[2]) + (newStoryList.Count - i)) + "." + splits[3];
-                            File.Move(dirPath + key, dirPath + newName);
-                            Console.WriteLine("Old Path: " + dirPath + key + " New Path: " + dirPath + newName);
-                        }
+                        MoveExistingFiles(dirPath, existingStoryList, newStoryList.Count - i);
                     }
 
-                    for (var k = i; k < newStoryList.Count; k++)
-                    {
-                        File.Move(dirPathTemp + newStoryList[k].Key, dirPath + newStoryList[k].Key);
-                    }
+                    storyItemsDownloaded += MoveRemainingNewFiles(dirPathTemp, dirPath, newStoryList, i);
                     break;
                 }
-                
-                Console.WriteLine("Offset at the end is: " + currentOffset);
-                Console.WriteLine("Sort Time: " + watch.ElapsedMilliseconds / 1000.00 + " seconds");
             }
-            
             
             //Cleans up temp folder
             Directory.Delete(dirPathTemp, true);
             
             Console.WriteLine("Processed {0} story items.", storyItemsProcessed);
             Console.WriteLine("Downloaded {0} story items.", storyItemsDownloaded);
+        }
+
+        private static void MoveExistingFiles(string dirPath,
+            IEnumerable<KeyValuePair<string, byte[]>> existingStoryList,
+            int delta)
+        {
+            foreach (var (key, _) in existingStoryList)
+            {
+                char[] delimiterChars = { ' ', '.' };
+                var splits = key.Split(delimiterChars);
+                var newName = splits[0] + " story " + (int.Parse(splits[2]) + delta) + "." + splits[3];
+                File.Move(dirPath + key, dirPath + newName);
+            } 
+        }
+        
+        private static int MoveRemainingNewFiles(string tempPath, string newPath,
+            IReadOnlyList<KeyValuePair<string, byte[]>> newStoryList, int startingIndex)
+        {
+            var filesDownloaded = 0;
+            for (var k = startingIndex; k < newStoryList.Count; k++)
+            {
+                File.Move(tempPath + newStoryList[k].Key, newPath + newStoryList[k].Key);
+                filesDownloaded++;
+            }
+
+            return filesDownloaded;
         }
     }
 }
