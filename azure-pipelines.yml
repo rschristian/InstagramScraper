@@ -10,6 +10,7 @@ pool:
   vmImage: 'Ubuntu-16.04'
 
 steps:
-- script: cd Instagram_Scraper 
-        dotnet bin/Debug/netcoreapp2.2/Instagram_Scraper.dll
+- script: cd Instagram_Scraper
+  displayName: 'cd Instagram_Scraper'
+- script: dotnet bin/Debug/netcoreapp2.2/Instagram_Scraper.dll
   displayName: 'dotnet bin/Debug/netcoreapp2.2/Instagram_Scraper.dll'
