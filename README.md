@@ -1,11 +1,5 @@
+This project exists to be a tool that I can use (or give to others, who need it) and as a learning exercise. Playing around in the world of webscraping is quite enjoyable, and I've used a handful of new tools on this project, and I plan to implement a bunch more. The end goal is to create the most robust and quick web scraper for Instagram that is out there. 
 
+The version that I did using CasperJS/SlimerJS was quite quick, though hard to maintain. It had a number of issues with logins and the like, so it wasn't ideal. The current version made with Selenium in C# is much, much more maintainable and likely better overall, though it is a bit slower. I've tried to make it compatible with Chrome and FireFox, but FireFox just has too many issues, and is much slower than Chrome, so I likely won't be trying to make sure it's still usable any more. I am keeping it for now, just in case I do need it for something.
 
-This project exists as both a learning exercise and a method to go about data retrieval from Instagram. Whether it is for the backup of data, or use in another project (client's goal was to create a collage from all of a user's uploads), this will allow quick download of all images on a profile as well as optionally downloads all comments to text files, nicely dated and stored.
-
-Dependencies - Casperjs, Slimerjs
-
-A headless browser was needed to parse Instagram, as it utilizes React, and therfore a simple reading of the DOM was insufficient. Casper is used for it's naviagtion utilites, and slimer is the underlying engine used to collect most of the data. Slimer was chosen over PhantomJS as slimer still is being developed, runs on Gecko (important now that Chrome and Opera have moved on to Blink), and has a handful more tools that make certain operations much easier. 
-
-There is a C# GUI that is made using WinForms, though it will need to be ported over to WPF.
-
-Run (on Linux systems) with: csc instaScraper.cs -r:System.Windows.Forms.dll to compile, and mono instaScraper.exe to run.
+I might still branch into F# and canopy, though anything further is currently not planned.
