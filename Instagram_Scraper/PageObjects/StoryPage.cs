@@ -13,12 +13,12 @@ namespace Instagram_Scraper.PageObjects
         
         private readonly List<string> _tempLinkList = new List<string>();
         
-        private readonly ITargetBlock<KeyValuePair<string, string>> _target;
+        private readonly ITargetBlock<KeyValuePair<string, string>> _targetStory;
 
-        public StoryPage(IWebDriver driver, ITargetBlock<KeyValuePair<string, string>> target)
+        public StoryPage(IWebDriver driver, ITargetBlock<KeyValuePair<string, string>> targetStory)
         {
             _webHelper = new WebDriverExtensions(driver);
-            _target = target;
+            _targetStory = targetStory; 
         }
 
         private IWebElement StoryChevronClass => _webHelper.SafeFindElement(".ow3u_");
@@ -50,14 +50,15 @@ namespace Instagram_Scraper.PageObjects
             }
             else
             {
-                var currentDateTime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+                var currentDateTime = DateTime.Now.ToString("yyyy-MM-dd");
                 for (var i = 0; i < _tempLinkList.Count; i++)
                 {
-                    _target.Post(new KeyValuePair<string, string>(currentDateTime + " story " +
+                    _targetStory.Post(new KeyValuePair<string, string>(currentDateTime + " story " +
                                                                   (_tempLinkList.Count - i), _tempLinkList[i]));
                 }
 
                 Console.WriteLine("Story Capture Complete");
+                _targetStory.Complete();
                 StoryChevronClass.Click();
             }
         }

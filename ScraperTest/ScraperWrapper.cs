@@ -29,7 +29,7 @@ namespace ScraperTest
                 
                     System.Threading.Thread.Sleep(2000);
                     var stuff = outputCapture.Captured.ToString();
-                    if (stuff.Contains("Processed 24 files.")) correctRunPercentage++;
+                    if (stuff.Contains("Processed 42 files.")) correctRunPercentage++;
                 }
             }
             
