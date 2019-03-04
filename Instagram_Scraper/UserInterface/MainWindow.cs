@@ -45,7 +45,8 @@ namespace Instagram_Scraper.UserInterface
 
             _password = new Entry
             {
-                CanFocus = true, Name = "Password", IsEditable = true, PlaceholderText = "Account Password"
+                CanFocus = true, Name = "Password", IsEditable = true, PlaceholderText = "Account Password",
+                Visibility = false
             };
             fixedContainer.Add(_password);
             var w3 = (Fixed.FixedChild) fixedContainer[_password];
