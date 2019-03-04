@@ -60,7 +60,7 @@ namespace Instagram_Scraper.Utility
         {
             var bufferMedia = new BufferBlock<KeyValuePair<string, string>>();
             var backgroundThreadMedia =
-                new Thread(() => DownloadManager.ConsumeFilesAsync(savePath, bufferMedia)) {IsBackground = true};
+                new Thread(() => DownloadManager.ConsumeMediaAsync(savePath, bufferMedia)) {IsBackground = true};
             backgroundThreadMedia.Start();
             return bufferMedia;
         }

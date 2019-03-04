@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -10,8 +9,9 @@ namespace Instagram_Scraper.Utility
 {
     public static class DownloadManager
     {
-        public static async void ConsumeFilesAsync(string path, ISourceBlock<KeyValuePair<string, string>> source)
+        public static async void ConsumeMediaAsync(string path, ISourceBlock<KeyValuePair<string, string>> source)
         {
+            
             if (!File.Exists(path)) Directory.CreateDirectory(path);
             var filesProcessed = 0; var filesDownloaded = 0;
 
