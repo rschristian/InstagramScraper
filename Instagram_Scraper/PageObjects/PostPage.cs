@@ -3,12 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks.Dataflow;
 using Instagram_Scraper.Utility;
+using NLog;
 using OpenQA.Selenium;
 
 namespace Instagram_Scraper.PageObjects
 {
     public class PostPage
     {
+        private static readonly Logger Logger = LogManager.GetLogger("Post Page");
+        
         private readonly IWebDriver _driver;
         
         private readonly WebDriverExtensions _webHelper;
@@ -100,13 +103,13 @@ namespace Instagram_Scraper.PageObjects
                     else
                     {
                         _targetMedia.Complete();
-                        Console.WriteLine("Finished capture of post data");
+                        Logger.Info("Finished capture of post data");
                     }
                 }
             }
             catch (StaleElementReferenceException)
             {
-                Console.WriteLine("Stale Element, Retrying");
+                Logger.Error("Stale Element, Retrying");
                 GetPostData();
             }
         }
@@ -178,13 +181,13 @@ namespace Instagram_Scraper.PageObjects
                     {
                         _targetMedia.Complete();
                         _targetText.Complete();
-                        Console.WriteLine("Finished capture of post data");
+                        Logger.Info("Finished capture of post data");
                     }
                 }
             }
             catch (StaleElementReferenceException)
             {
-                Console.WriteLine("Stale Element, Retrying");
+                Logger.Error("Stale Element, Retrying");
                 GetPostData();
             }
         }

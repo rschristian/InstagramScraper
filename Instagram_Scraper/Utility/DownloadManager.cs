@@ -4,11 +4,14 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks.Dataflow;
+using NLog;
 
 namespace Instagram_Scraper.Utility
 {
     public static class DownloadManager
     {
+        private static readonly Logger Logger = LogManager.GetLogger("Download Manager");
+
         public static async void ConsumeMediaAsync(string path, ISourceBlock<KeyValuePair<string, string>> source)
         {
             
@@ -23,12 +26,12 @@ namespace Instagram_Scraper.Utility
 
                 //Conflicted about whether or not this should exist. Doesn't save time, but can fix (or break)
                 //previous downloads.
-                Console.WriteLine(filesProcessed + " Processing: " + fileName);
+                Logger.Info("ConsumeMediaAsync|" + filesProcessed + " Processing: " + fileName);
                 var fileExists = Directory.GetFiles(path, fileName + ".*");
                 if (fileExists.Length > 0)
                     continue;
 
-                Console.WriteLine(filesProcessed + " Downloading: " + fileName);
+                Logger.Info("ConsumeMediaAsync|" + filesProcessed + " Downloading: " + fileName);
 
                 if (fileUri.Contains(".mp4"))
                     client.DownloadFileAsync(new Uri(fileUri), path + fileName + ".mp4");
@@ -38,8 +41,8 @@ namespace Instagram_Scraper.Utility
                 filesDownloaded++;
             }
 
-            Console.WriteLine("Processed {0} files.", filesProcessed);
-            Console.WriteLine("Downloaded {0} files.", filesDownloaded);
+            Logger.Info("ConsumeMediaAsync|" + "Processed {0} files.", filesProcessed);
+            Logger.Info("ConsumeMediaAsync|" + "Downloaded {0} files.", filesDownloaded);
         }
 
         public static async void ConsumeTextAsync(string path,
@@ -57,10 +60,10 @@ namespace Instagram_Scraper.Utility
 
                 //TODO Comments may change, so there needs to be a way to update, potentially without removing old ones
                 //TODO append profile text to the profile file
-                Console.WriteLine(textFilesProcessed + " Processing Text: " + postDate);
+                Logger.Info("ConsumeTextAsync|" + textFilesProcessed + " Processing Text: " + postDate);
                 if (File.Exists(filePath)) continue;
 
-                Console.WriteLine(textFilesProcessed + " Downloading Text: " + postDate);
+                Logger.Info("ConsumeTextAsync|" + textFilesProcessed + " Downloading Text: " + postDate);
 
                 using (var sw = File.CreateText(filePath))
                 {
@@ -70,8 +73,8 @@ namespace Instagram_Scraper.Utility
                 textFilesDownloaded++;
             }
 
-            Console.WriteLine("Processed {0} text files.", textFilesProcessed);
-            Console.WriteLine("Downloaded {0} text files.", textFilesDownloaded);
+            Logger.Info("ConsumeTextAsync|" + "Processed {0} text files.", textFilesProcessed);
+            Logger.Info("ConsumeTextAsync|" + "Downloaded {0} text files.", textFilesDownloaded);
         }
 
         public static async void ConsumeStoryAsync(string path, ISourceBlock<KeyValuePair<string, string>> source)
@@ -88,7 +91,7 @@ namespace Instagram_Scraper.Utility
                 var (storyName, storyUri) = source.Receive();
                 storyItemsProcessed++;
                 
-                Console.WriteLine(storyItemsProcessed + " Processing: " + storyName);
+                Logger.Info("ConsumeStoryAsync|" + storyItemsProcessed + " Processing: " + storyName);
                 
                 if (storyUri.Contains(".mp4"))
                     client.DownloadFileAsync(new Uri(storyUri), dirPathTemp + storyName + ".mp4");
@@ -122,24 +125,21 @@ namespace Instagram_Scraper.Utility
                 {
                     if (maxIndexExistingList - i + currentOffset < 0)
                     {
-                        MoveExistingFiles(dirPath, existingStoryList, newStoryList.Count - i);
-                        storyItemsDownloaded += MoveRemainingNewFiles(dirPathTemp, dirPath, newStoryList, i);
+                        Logger.Debug("Hit top one");
+                        MoveExistingFiles(dirPath, existingStoryList, newStoryList.Count);
+                        // storyItemsDownloaded += MoveRemainingNewFiles(dirPathTemp, dirPath, newStoryList, i);
                         break;
                     }
 
                     if (newStoryList[i].Value.SequenceEqual(existingStoryList[i + currentOffset].Value)) continue;
                     for (var j = i + 1; j < existingStoryList.Count; j++)
                     {
-                        if (newStoryList[i].Value.SequenceEqual(existingStoryList[j + currentOffset].Value))
-                        {
-                            currentOffset = -1;
-                            break;
-                        }
-
-                        if (j != maxIndexExistingList) continue;
-                        MoveExistingFiles(dirPath, existingStoryList, newStoryList.Count - i);
+                        if (!newStoryList[i].Value.SequenceEqual(existingStoryList[j + currentOffset].Value)) continue;
+                        currentOffset -= 1;
+                        break;
                     }
-
+                    Logger.Debug("Hit bottom one");
+                    MoveExistingFiles(dirPath, existingStoryList, newStoryList.Count - i);
                     storyItemsDownloaded += MoveRemainingNewFiles(dirPathTemp, dirPath, newStoryList, i);
                     break;
                 }
@@ -148,8 +148,8 @@ namespace Instagram_Scraper.Utility
             //Cleans up temp folder
             Directory.Delete(dirPathTemp, true);
             
-            Console.WriteLine("Processed {0} story items.", storyItemsProcessed);
-            Console.WriteLine("Downloaded {0} story items.", storyItemsDownloaded);
+            Logger.Info("ConsumeStoryAsync|" + "Processed {0} story items.", storyItemsProcessed);
+            Logger.Info("ConsumeStoryAsync|" + "Downloaded {0} story items.", storyItemsDownloaded);
         }
 
         private static void MoveExistingFiles(string dirPath,

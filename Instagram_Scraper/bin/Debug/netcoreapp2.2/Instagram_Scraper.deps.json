@@ -1,7 +1,7 @@
 {
   "runtimeTarget": {
     "name": ".NETCoreApp,Version=v2.2",
-    "signature": "ad411ce2e85408ab1b748a3f2a8d5dc8c90a33e6"
+    "signature": "624fb227e2279609fb8413c865c8444cd0b13f93"
   },
   "compilationOptions": {},
   "targets": {
@@ -9,7 +9,9 @@
       "Instagram_Scraper/1.0.0": {
         "dependencies": {
           "GtkSharp": "3.22.24.37",
-          "InstaSharper": "1.4.82",
+          "NLog": "4.6.0-rc1",
+          "NLog.Config": "4.6.0-rc1",
+          "NLog.Schema": "4.6.0-rc1",
           "Selenium.Firefox.WebDriver": "0.23.0",
           "Selenium.WebDriver": "3.141.0",
           "Selenium.WebDriver.ChromeDriver": "2.46.0"
@@ -86,17 +88,6 @@
           }
         }
       },
-      "InstaSharper/1.4.82": {
-        "dependencies": {
-          "Newtonsoft.Json": "10.0.3"
-        },
-        "runtime": {
-          "lib/netstandard2.0/InstaSharper.dll": {
-            "assemblyVersion": "1.4.82.0",
-            "fileVersion": "1.4.82.0"
-          }
-        }
-      },
       "Microsoft.CSharp/4.3.0": {
         "dependencies": {
           "System.Collections": "4.3.0",
@@ -132,6 +123,21 @@
           }
         }
       },
+      "NLog/4.6.0-rc1": {
+        "runtime": {
+          "lib/netstandard2.0/NLog.dll": {
+            "assemblyVersion": "4.0.0.0",
+            "fileVersion": "4.6.0.9068"
+          }
+        }
+      },
+      "NLog.Config/4.6.0-rc1": {
+        "dependencies": {
+          "NLog": "4.6.0-rc1",
+          "NLog.Schema": "4.6.0-rc1"
+        }
+      },
+      "NLog.Schema/4.6.0-rc1": {},
       "PangoSharp/3.22.24.37": {
         "dependencies": {
           "CairoSharp": "3.22.24.37",
@@ -528,13 +534,6 @@
       "path": "gtksharp/3.22.24.37",
       "hashPath": "gtksharp.3.22.24.37.nupkg.sha512"
     },
-    "InstaSharper/1.4.82": {
-      "type": "package",
-      "serviceable": true,
-      "sha512": "sha512-w1oZTJfHERgvoZLoP8wOPsITkKAzSV0s4la78XGbWzqe0tpr6PtKkSf+2AA7ChuekOZzRfyLn30SCZ69SDYJWQ==",
-      "path": "instasharper/1.4.82",
-      "hashPath": "instasharper.1.4.82.nupkg.sha512"
-    },
     "Microsoft.CSharp/4.3.0": {
       "type": "package",
       "serviceable": true,
@@ -548,6 +547,27 @@
       "sha512": "sha512-hSXaFmh7hNCuEoC4XNY5DrRkLDzYHqPx/Ik23R4J86Z7PE/Y6YidhG602dFVdLBRSdG6xp9NabH3dXpcoxWvww==",
       "path": "newtonsoft.json/10.0.3",
       "hashPath": "newtonsoft.json.10.0.3.nupkg.sha512"
+    },
+    "NLog/4.6.0-rc1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-C1hLe3q39gsiiHYXJHJvLaP0XZ7QWD3huD2w+28ddVGLwmsH/IqZUX3lI128kGEunIsqpKt0xNNZyMG8Je6TZg==",
+      "path": "nlog/4.6.0-rc1",
+      "hashPath": "nlog.4.6.0-rc1.nupkg.sha512"
+    },
+    "NLog.Config/4.6.0-rc1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-ekXHmWAvImvPrBabGbG20I2qpi/0TX/LZjJfv3X8UPPrnuFTUkHuvg6sfylWGrdHtatwl3bZiQ7KM39GmlMGPw==",
+      "path": "nlog.config/4.6.0-rc1",
+      "hashPath": "nlog.config.4.6.0-rc1.nupkg.sha512"
+    },
+    "NLog.Schema/4.6.0-rc1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-5kPwp7VGgVXV6MB0XBg/ZouaiTFBWX7HQ2TeSIyBLGOq+uz9hZxXR0tvKj2NLrjjkp5L1iagTBr7DTx7ZINhdQ==",
+      "path": "nlog.schema/4.6.0-rc1",
+      "hashPath": "nlog.schema.4.6.0-rc1.nupkg.sha512"
     },
     "PangoSharp/3.22.24.37": {
       "type": "package",

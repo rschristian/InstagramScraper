@@ -76,18 +76,6 @@
           "lib/netstandard2.0/GtkSharp.dll": {}
         }
       },
-      "InstaSharper/1.4.82": {
-        "type": "package",
-        "dependencies": {
-          "Newtonsoft.Json": "10.0.3"
-        },
-        "compile": {
-          "lib/netstandard2.0/InstaSharper.dll": {}
-        },
-        "runtime": {
-          "lib/netstandard2.0/InstaSharper.dll": {}
-        }
-      },
       "Microsoft.CSharp/4.3.0": {
         "type": "package",
         "dependencies": {
@@ -336,6 +324,40 @@
         },
         "runtime": {
           "lib/netstandard1.3/Newtonsoft.Json.dll": {}
+        }
+      },
+      "NLog/4.6.0-rc1": {
+        "type": "package",
+        "compile": {
+          "lib/netstandard2.0/NLog.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.0/NLog.dll": {}
+        }
+      },
+      "NLog.Config/4.6.0-rc1": {
+        "type": "package",
+        "dependencies": {
+          "NLog": "4.6.0-rc1",
+          "NLog.Schema": "4.6.0-rc1"
+        },
+        "contentFiles": {
+          "contentFiles/any/any/NLog.config": {
+            "buildAction": "None",
+            "codeLanguage": "any",
+            "copyToOutput": true,
+            "outputPath": "NLog.config"
+          }
+        }
+      },
+      "NLog.Schema/4.6.0-rc1": {
+        "type": "package",
+        "contentFiles": {
+          "contentFiles/any/any/NLog.xsd": {
+            "buildAction": "None",
+            "codeLanguage": "any",
+            "copyToOutput": false
+          }
         }
       },
       "PangoSharp/3.22.24.37": {
@@ -1022,20 +1044,6 @@
         "lib/netstandard2.0/GtkSharp.dll"
       ]
     },
-    "InstaSharper/1.4.82": {
-      "sha512": "w1oZTJfHERgvoZLoP8wOPsITkKAzSV0s4la78XGbWzqe0tpr6PtKkSf+2AA7ChuekOZzRfyLn30SCZ69SDYJWQ==",
-      "type": "package",
-      "path": "instasharper/1.4.82",
-      "files": [
-        ".nupkg.metadata",
-        ".signature.p7s",
-        "instasharper.1.4.82.nupkg.sha512",
-        "instasharper.nuspec",
-        "lib/net452/InstaSharper.dll",
-        "lib/net472/InstaSharper.dll",
-        "lib/netstandard2.0/InstaSharper.dll"
-      ]
-    },
     "Microsoft.CSharp/4.3.0": {
       "sha512": "P+MBhIM0YX+JqROuf7i306ZLJEjQYA9uUyRDE+OqwUI5sh41e2ZbPQV3LfAPh+29cmceE1pUffXsGfR4eMY3KA==",
       "type": "package",
@@ -1589,6 +1597,67 @@
         "newtonsoft.json.10.0.3.nupkg.sha512",
         "newtonsoft.json.nuspec",
         "tools/install.ps1"
+      ]
+    },
+    "NLog/4.6.0-rc1": {
+      "sha512": "C1hLe3q39gsiiHYXJHJvLaP0XZ7QWD3huD2w+28ddVGLwmsH/IqZUX3lI128kGEunIsqpKt0xNNZyMG8Je6TZg==",
+      "type": "package",
+      "path": "nlog/4.6.0-rc1",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "lib/monoandroid44/NLog.dll",
+        "lib/monoandroid44/NLog.xml",
+        "lib/net35/NLog.dll",
+        "lib/net35/NLog.xml",
+        "lib/net40-client/NLog.dll",
+        "lib/net40-client/NLog.xml",
+        "lib/net45/NLog.dll",
+        "lib/net45/NLog.xml",
+        "lib/netstandard1.3/NLog.dll",
+        "lib/netstandard1.3/NLog.xml",
+        "lib/netstandard1.5/NLog.dll",
+        "lib/netstandard1.5/NLog.xml",
+        "lib/netstandard2.0/NLog.dll",
+        "lib/netstandard2.0/NLog.xml",
+        "lib/sl4/NLog.dll",
+        "lib/sl4/NLog.xml",
+        "lib/sl5/NLog.dll",
+        "lib/sl5/NLog.xml",
+        "lib/wp8/NLog.dll",
+        "lib/wp8/NLog.xml",
+        "lib/xamarinios10/NLog.dll",
+        "lib/xamarinios10/NLog.xml",
+        "nlog.4.6.0-rc1.nupkg.sha512",
+        "nlog.nuspec"
+      ]
+    },
+    "NLog.Config/4.6.0-rc1": {
+      "sha512": "ekXHmWAvImvPrBabGbG20I2qpi/0TX/LZjJfv3X8UPPrnuFTUkHuvg6sfylWGrdHtatwl3bZiQ7KM39GmlMGPw==",
+      "type": "package",
+      "path": "nlog.config/4.6.0-rc1",
+      "hasTools": true,
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "content/NLog.config",
+        "contentFiles/any/any/NLog.config",
+        "nlog.config.4.6.0-rc1.nupkg.sha512",
+        "nlog.config.nuspec",
+        "tools/Install.ps1"
+      ]
+    },
+    "NLog.Schema/4.6.0-rc1": {
+      "sha512": "5kPwp7VGgVXV6MB0XBg/ZouaiTFBWX7HQ2TeSIyBLGOq+uz9hZxXR0tvKj2NLrjjkp5L1iagTBr7DTx7ZINhdQ==",
+      "type": "package",
+      "path": "nlog.schema/4.6.0-rc1",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "content/NLog.xsd",
+        "contentFiles/any/any/NLog.xsd",
+        "nlog.schema.4.6.0-rc1.nupkg.sha512",
+        "nlog.schema.nuspec"
       ]
     },
     "PangoSharp/3.22.24.37": {
@@ -3839,8 +3908,10 @@
   "projectFileDependencyGroups": {
     ".NETCoreApp,Version=v2.2": [
       "GtkSharp >= 3.22.24.37",
-      "InstaSharper >= 1.4.82",
       "Microsoft.NETCore.App >= 2.2.0",
+      "NLog >= 4.6.0-rc1",
+      "NLog.Config >= 4.6.0-rc1",
+      "NLog.Schema >= 4.6.0-rc1",
       "Selenium.Firefox.WebDriver >= 0.23.0",
       "Selenium.WebDriver >= 3.141.0",
       "Selenium.WebDriver.ChromeDriver >= 2.46.0"
@@ -3863,7 +3934,7 @@
         "/usr/share/dotnet/sdk/NuGetFallbackFolder"
       ],
       "configFilePaths": [
-        "/home/ryun/.nuget/NuGet/NuGet.Config"
+        "/home/ryun/.config/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "netcoreapp2.2"
@@ -3889,15 +3960,23 @@
             "target": "Package",
             "version": "[3.22.24.37, )"
           },
-          "InstaSharper": {
-            "target": "Package",
-            "version": "[1.4.82, )"
-          },
           "Microsoft.NETCore.App": {
             "suppressParent": "All",
             "target": "Package",
             "version": "[2.2.0, )",
             "autoReferenced": true
+          },
+          "NLog": {
+            "target": "Package",
+            "version": "[4.6.0-rc1, )"
+          },
+          "NLog.Config": {
+            "target": "Package",
+            "version": "[4.6.0-rc1, )"
+          },
+          "NLog.Schema": {
+            "target": "Package",
+            "version": "[4.6.0-rc1, )"
           },
           "Selenium.Firefox.WebDriver": {
             "target": "Package",

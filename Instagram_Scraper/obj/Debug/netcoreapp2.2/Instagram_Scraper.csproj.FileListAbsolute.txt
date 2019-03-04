@@ -9,3 +9,4 @@
 /home/ryun/Projects/instagram-scraper/Instagram_Scraper/obj/Debug/netcoreapp2.2/Instagram_Scraper.AssemblyInfo.cs
 /home/ryun/Projects/instagram-scraper/Instagram_Scraper/obj/Debug/netcoreapp2.2/Instagram_Scraper.dll
 /home/ryun/Projects/instagram-scraper/Instagram_Scraper/obj/Debug/netcoreapp2.2/Instagram_Scraper.pdb
+/home/ryun/Projects/instagram-scraper/Instagram_Scraper/bin/Debug/netcoreapp2.2/NLog.config

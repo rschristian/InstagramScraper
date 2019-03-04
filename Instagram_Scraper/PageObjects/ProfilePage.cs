@@ -3,12 +3,15 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks.Dataflow;
 using Instagram_Scraper.Utility;
+using NLog;
 using OpenQA.Selenium;
 
 namespace Instagram_Scraper.PageObjects
 {
     public class ProfilePage
     {
+        private static readonly Logger Logger = LogManager.GetLogger("Profile Page");
+
         private readonly IWebDriver _driver;
 
         private readonly WebDriverExtensions _webHelper;
@@ -39,10 +42,10 @@ namespace Instagram_Scraper.PageObjects
             Thread.Sleep(700);
             if (Story == null)
             {
-                Console.WriteLine("Account does not have a story");
+                Logger.Info("Account does not have a story");
                 return null;
             }
-            Console.WriteLine("Account has a story currently");
+            Logger.Info("Account has a story currently");
             Story.Click();
             return new StoryPage(_driver, targetMedia);
         }
