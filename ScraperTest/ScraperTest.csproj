@@ -6,7 +6,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Instagram_Scraper\Instagram_Scraper.csproj" />
+      <ProjectReference Include="..\Scraper\Scraper.csproj" />
     </ItemGroup>
 
 </Project>

@@ -1,10 +1,10 @@
 ﻿{
   "version": "1.0.0",
   "restore": {
-    "projectUniqueName": "/home/ryun/Projects/instagram-scraper/ScraperTest/ScraperTest.csproj",
+    "projectUniqueName": "/home/ryun/Projects/Instagram-Scraper/ScraperTest/ScraperTest.csproj",
     "projectName": "ScraperTest",
-    "projectPath": "/home/ryun/Projects/instagram-scraper/ScraperTest/ScraperTest.csproj",
-    "outputPath": "/home/ryun/Projects/instagram-scraper/ScraperTest/obj/",
+    "projectPath": "/home/ryun/Projects/Instagram-Scraper/ScraperTest/ScraperTest.csproj",
+    "outputPath": "/home/ryun/Projects/Instagram-Scraper/ScraperTest/obj/",
     "projectStyle": "PackageReference",
     "fallbackFolders": [
       "/usr/share/dotnet/sdk/NuGetFallbackFolder"
@@ -15,8 +15,8 @@
     "frameworks": {
       "netcoreapp2.2": {
         "projectReferences": {
-          "/home/ryun/Projects/instagram-scraper/Instagram_Scraper/Instagram_Scraper.csproj": {
-            "projectPath": "/home/ryun/Projects/instagram-scraper/Instagram_Scraper/Instagram_Scraper.csproj"
+          "/home/ryun/Projects/Instagram-Scraper/Scraper/Scraper.csproj": {
+            "projectPath": "/home/ryun/Projects/Instagram-Scraper/Scraper/Scraper.csproj"
           }
         }
       }

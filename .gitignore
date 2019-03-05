@@ -2,3 +2,4 @@
 .idea/
 .vs/
 .directory
+*.user
