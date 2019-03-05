@@ -99,7 +99,7 @@ namespace Instagram_Scraper.Utility
                     client.DownloadFileAsync(new Uri(storyUri), dirPathTemp + storyName + ".jpg");
             }
             
-            System.Threading.Thread.Sleep(500);
+            System.Threading.Thread.Sleep(2000);
 
             var existingStoryList = WebDriverExtensions.GetFilesFromDirectory(dirPath);
             var newStoryList = WebDriverExtensions.GetFilesFromDirectory(dirPathTemp);
@@ -113,36 +113,56 @@ namespace Instagram_Scraper.Utility
             }
             else
             {
-                var maxIndexExistingList = existingStoryList.Count -1;
-                
-                //TODO If the last item in existing can not be found in new, append all.
-                //TODO If it can, start counting up the back end of existing to find when new no longer can be found
-                
                 //Difference new -> existing, and is used as newList's index - offset, but in the existing
                 var currentOffset = 0;
 
-                for (var i = 0; i < newStoryList.Count; i++)
+                void Test()
                 {
-                    if (maxIndexExistingList - i + currentOffset < 0)
+                   for (var i = 0; i < newStoryList.Count; i++)
                     {
-                        Logger.Debug("Hit top one");
-                        MoveExistingFiles(dirPath, existingStoryList, newStoryList.Count);
-                        // storyItemsDownloaded += MoveRemainingNewFiles(dirPathTemp, dirPath, newStoryList, i);
-                        break;
-                    }
-
-                    if (newStoryList[i].Value.SequenceEqual(existingStoryList[i + currentOffset].Value)) continue;
-                    for (var j = i + 1; j < existingStoryList.Count; j++)
-                    {
-                        if (!newStoryList[i].Value.SequenceEqual(existingStoryList[j + currentOffset].Value)) continue;
-                        currentOffset -= 1;
-                        break;
-                    }
-                    Logger.Debug("Hit bottom one");
-                    MoveExistingFiles(dirPath, existingStoryList, newStoryList.Count - i);
-                    storyItemsDownloaded += MoveRemainingNewFiles(dirPathTemp, dirPath, newStoryList, i);
-                    break;
+                        if (i + currentOffset < existingStoryList.Count)
+                        {
+                            // Logger.Debug("New " + newStoryList[i].Key + " equals Existing " + existingStoryList[i + currentOffset].Key + ": {0}", 
+                            //     newStoryList[i].Value.SequenceEqual(existingStoryList[i + currentOffset].Value));
+                            if (!newStoryList[i].Value.SequenceEqual(existingStoryList[i + currentOffset].Value) &&
+                                i + 1 + currentOffset < existingStoryList.Count)
+                            {
+                                for (var j = i + 1; j < existingStoryList.Count; j++)
+                                {
+                                    // Logger.Debug("New " + newStoryList[i].Key + " equals Existing " + existingStoryList[j + currentOffset].Key + ": {0}", 
+                                    //     newStoryList[i].Value.SequenceEqual(existingStoryList[j + currentOffset].Value));
+    
+                                    if (newStoryList[i].Value.SequenceEqual(existingStoryList[j + currentOffset].Value))
+                                    {
+                                        currentOffset += 1;
+                                        break;
+                                    }
+                                    if (j + 1 < existingStoryList.Count) continue;
+                                    
+                                    Logger.Debug("Maxed out inner comparisons");
+                                    MoveExistingFiles(dirPath, existingStoryList, newStoryList.Count - i);
+                                    storyItemsDownloaded += MoveRemainingNewFiles(dirPathTemp, dirPath, newStoryList, i);
+                                    return;
+                                }
+                            }
+                            else if (!newStoryList[i].Value.SequenceEqual(existingStoryList[i + currentOffset].Value))
+                            {
+                                Logger.Debug("Hit second else branch");
+                                MoveExistingFiles(dirPath, existingStoryList, newStoryList.Count - i);
+                                storyItemsDownloaded += MoveRemainingNewFiles(dirPathTemp, dirPath, newStoryList, i);
+                                return;
+                            }
+                        }
+                        else
+                        {
+                            Logger.Debug("Hit first else branch");
+                            MoveExistingFiles(dirPath, existingStoryList, newStoryList.Count - i);
+                            storyItemsDownloaded += MoveRemainingNewFiles(dirPathTemp, dirPath, newStoryList, i);
+                            return;
+                        }
+                    } 
                 }
+                Test();
             }
             
             //Cleans up temp folder
