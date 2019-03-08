@@ -1,4 +1,4 @@
-# Instagram-Scraper
+# InstagramScraper
 
 This project exists to be a tool that I can use (or give to others, who need it) and as a learning exercise. Originally, I needed a better tool to quickly gather post images, for another tool I was building. The alternatives that already existed seemed to be quite poor, or simply no longer maintained. Since then, I've expanded this from a project written in JS and ran via the terminal into a fully fledged C# application with a GUI. My continued goal is to create the fastest, most lightweight tool for scraping Instagram that exists. 
 
