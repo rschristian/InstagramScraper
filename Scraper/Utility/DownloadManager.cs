@@ -140,24 +140,21 @@ namespace Instagram_Scraper.Utility
                                     if (j + 1 < existingStoryList.Count) continue;
                                     
                                     Logger.Debug("Maxed out inner comparisons");
-                                    MoveExistingFiles(dirPath, existingStoryList, newStoryList.Count - i);
-                                    storyItemsDownloaded += MoveRemainingNewFiles(dirPathTemp, dirPath, newStoryList, i);
+                                    MoveExistingAndRemainingNewFiles(dirPathTemp, dirPath, existingStoryList, newStoryList, i);
                                     return;
                                 }
                             }
                             else if (!newStoryList[i].Value.SequenceEqual(existingStoryList[i + currentOffset].Value))
                             {
                                 Logger.Debug("Hit second else branch");
-                                MoveExistingFiles(dirPath, existingStoryList, newStoryList.Count - i);
-                                storyItemsDownloaded += MoveRemainingNewFiles(dirPathTemp, dirPath, newStoryList, i);
+                                MoveExistingAndRemainingNewFiles(dirPathTemp, dirPath, existingStoryList, newStoryList, i);
                                 return;
                             }
                         }
                         else
                         {
                             Logger.Debug("Hit first else branch");
-                            MoveExistingFiles(dirPath, existingStoryList, newStoryList.Count - i);
-                            storyItemsDownloaded += MoveRemainingNewFiles(dirPathTemp, dirPath, newStoryList, i);
+                            MoveExistingAndRemainingNewFiles(dirPathTemp, dirPath, existingStoryList, newStoryList, i);
                             return;
                         }
                     } 
@@ -172,26 +169,22 @@ namespace Instagram_Scraper.Utility
             Logger.Info("ConsumeStoryAsync|" + "Downloaded {0} story items.", storyItemsDownloaded);
         }
 
-        private static void MoveExistingFiles(string dirPath,
-            IEnumerable<KeyValuePair<string, byte[]>> existingStoryList,
-            int delta)
+        private static int MoveExistingAndRemainingNewFiles(string tempPath, string dirPath,
+            IEnumerable<KeyValuePair<string, byte[]>> existingStoryList, 
+            IReadOnlyList<KeyValuePair<string, byte[]>> newStoryList, int startingIndex)
         {
             foreach (var (key, _) in existingStoryList)
             {
                 char[] delimiterChars = { ' ', '.' };
                 var splits = key.Split(delimiterChars);
-                var newName = splits[0] + " story " + (int.Parse(splits[2]) + delta) + "." + splits[3];
+                var newName = splits[0] + " story " + (int.Parse(splits[2]) + newStoryList.Count - startingIndex) + "." + splits[3];
                 File.Move(dirPath + key, dirPath + newName);
-            } 
-        }
-        
-        private static int MoveRemainingNewFiles(string tempPath, string newPath,
-            IReadOnlyList<KeyValuePair<string, byte[]>> newStoryList, int startingIndex)
-        {
+            }
+            
             var filesDownloaded = 0;
             for (var k = startingIndex; k < newStoryList.Count; k++)
             {
-                File.Move(tempPath + newStoryList[k].Key, newPath + newStoryList[k].Key);
+                File.Move(tempPath + newStoryList[k].Key, dirPath + newStoryList[k].Key);
                 filesDownloaded++;
             }
 
