@@ -24,7 +24,7 @@ What things you need to install the software and how to install them
 
 ### Running
 
-Navigate to ~/Instagram_Scraper and run the following command in the terminal:
+Navigate to ~/Scraper and run the following command in the terminal:
 
 ```
 dotnet run
