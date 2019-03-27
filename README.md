@@ -1,8 +1,10 @@
 # InstagramScraper
 
-This project exists to be a tool that I can use (or give to others, who need it) and as a learning exercise. Originally, I needed a better tool to quickly gather post images, for another tool I was building. The alternatives that already existed seemed to be quite poor, or simply no longer maintained. Since then, I've expanded this from a project written in JS and ran via the terminal into a fully fledged C# application with a GUI. My continued goal is to create the fastest, most lightweight tool for scraping Instagram that exists. 
+This project exists to be the fastest and most reliable way to gather Instagram posts, stories, and comments. The alternatives that already existed when I started seemed to be quite poor, or simply no longer maintained. Since then, I've expanded this from a project written in JS and ran via the terminal into a fully fledged C# application with a GUI. My continued goal is to create the fastest, most lightweight tool for scraping Instagram that exists. 
 
-As of now, future plans for the project include smart text capture/download, and better error handling. While I've done what I can to ensure the program will not crash, little information is given back to the user, which I'd like to change. 
+As of now, future plans for the project include smart text download (so that it can handle deleted comments and the like), and better error handling. While I've done what I can to ensure the program will not crash, little information is given back to the user, which I'd like to change.
+
+This has only been tested so far on a Linux system, so I have no idea whether or not it will function on Windows. I've added a few bits of functionality here and there to try to ensure it was cross platform, but seeing as how I won't be using this on Windows, there's no guarantee of full functionality.
 
 ## Getting Started
 
@@ -16,7 +18,7 @@ Current options/abilities of the program:
 
 ### Prerequisites
 
-What things you need to install the software and how to install them
+What things you need:
 
 ```
 .Net Core 2.2
@@ -30,4 +32,4 @@ Navigate to ~/Scraper and run the following command in the terminal:
 dotnet run
 ```
 
-A GUI will appear that you can use to run the program.
+A GUI will appear that you can use to run the program. You will need to provide a username to target (case insensative), and you can optionally put in your own username and password. In the case of story capture, Instagram does force a login, even on otherwise public profiles. None of your credentials are stored anywhere; the program simple transfers what you put into the text box to the Instagram login form.
