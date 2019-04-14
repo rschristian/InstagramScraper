@@ -139,21 +139,21 @@ namespace Instagram_Scraper.Utility
                                     }
                                     if (j + 1 < existingStoryList.Count) continue;
                                     
-                                    Logger.Debug("Maxed out inner comparisons");
+                                    // Logger.Debug("Maxed out inner comparisons");
                                     MoveExistingAndRemainingNewFiles(dirPathTemp, dirPath, existingStoryList, newStoryList, i);
                                     return;
                                 }
                             }
                             else if (!newStoryList[i].Value.SequenceEqual(existingStoryList[i + currentOffset].Value))
                             {
-                                Logger.Debug("Hit second else branch");
+                                // Logger.Debug("Hit second else branch");
                                 MoveExistingAndRemainingNewFiles(dirPathTemp, dirPath, existingStoryList, newStoryList, i);
                                 return;
                             }
                         }
                         else
                         {
-                            Logger.Debug("Hit first else branch");
+                            // Logger.Debug("Hit first else branch");
                             MoveExistingAndRemainingNewFiles(dirPathTemp, dirPath, existingStoryList, newStoryList, i);
                             return;
                         }

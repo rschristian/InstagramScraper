@@ -4,11 +4,13 @@ using System.Text;
 using Gtk;
 using Instagram_Scraper.Domain;
 using Instagram_Scraper.Utility;
+using NLog;
 
 namespace Instagram_Scraper.UserInterface
 {
     public class MainWindow : Window
     {
+        private static readonly Logger Logger = LogManager.GetLogger("Main Window");
         private readonly RadioButton _firefoxRadioButton;
         private readonly CheckButton _headlessBrowserBox, _getStoryBox, _getCommentsBox, _onlyGetStoryBox;
         private readonly Entry _targetAccount, _password, _username, _savePath;
@@ -199,9 +201,16 @@ namespace Instagram_Scraper.UserInterface
                 }
                 else
                 {
-                    InitializeScraper.SetUp(new ScraperOptions(_targetAccount.Text, _username.Text, _password.Text,
-                        _headlessBrowserBox.Active, _getStoryBox.Active,  _getCommentsBox.Active,
-                        _onlyGetStoryBox.Active,_firefoxRadioButton.Active, _savePath.Text));
+                    try
+                    {
+                        InitializeScraper.SetUp(new ScraperOptions(_targetAccount.Text, _username.Text, _password.Text,
+                            _headlessBrowserBox.Active, _getStoryBox.Active,  _getCommentsBox.Active,
+                            _onlyGetStoryBox.Active,_firefoxRadioButton.Active, _savePath.Text));
+                    }
+                    catch (Exception e)
+                    {
+                        Logger.Debug("Exception " + e + " was thrown.");
+                    }
                 }
             }
             else if (clickedButton.Name.Equals("ChooseSavePathButton"))

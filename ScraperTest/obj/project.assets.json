@@ -390,7 +390,7 @@
           "lib/netstandard2.0/WebDriver.dll": {}
         }
       },
-      "Selenium.WebDriver.ChromeDriver/2.46.0": {
+      "Selenium.WebDriver.ChromeDriver/73.0.3683.68-beta": {
         "type": "package",
         "build": {
           "build/_._": {}
@@ -978,7 +978,7 @@
           "NLog.Schema": "4.6.0-rc1",
           "Selenium.Firefox.WebDriver": "0.23.0",
           "Selenium.WebDriver": "3.141.0",
-          "Selenium.WebDriver.ChromeDriver": "2.46.0"
+          "Selenium.WebDriver.ChromeDriver": "73.0.3683.68-beta"
         },
         "compile": {
           "bin/placeholder/Scraper.dll": {}
@@ -1723,10 +1723,10 @@
         "selenium.webdriver.nuspec"
       ]
     },
-    "Selenium.WebDriver.ChromeDriver/2.46.0": {
-      "sha512": "djgo/Zwo/UNR+kC7kha5uRZlPF3BBxDtS/9xddNuRR4SIFyPppMH3rO62xFYTP3rlGorx1IBeklYCw81SXqwhA==",
+    "Selenium.WebDriver.ChromeDriver/73.0.3683.68-beta": {
+      "sha512": "J1n1039bMdOXqKXCfH/BdxFVEUDfUQZfyx0ujflzLsObCs2jPPw8GSYJIbqL0Bzrxds6gcF8dD4KgqiW1/6cZw==",
       "type": "package",
-      "path": "selenium.webdriver.chromedriver/2.46.0",
+      "path": "selenium.webdriver.chromedriver/73.0.3683.68-beta",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -1734,7 +1734,7 @@
         "driver/linux64/chromedriver",
         "driver/mac64/chromedriver",
         "driver/win32/chromedriver.exe",
-        "selenium.webdriver.chromedriver.2.46.0.nupkg.sha512",
+        "selenium.webdriver.chromedriver.73.0.3683.68-beta.nupkg.sha512",
         "selenium.webdriver.chromedriver.nuspec"
       ]
     },

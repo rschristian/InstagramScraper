@@ -42,7 +42,7 @@ namespace Instagram_Scraper.PageObjects
 
         private IWebElement NextPostPaginationArrow => _webHelper.SafeFindElement(".coreSpriteRightPaginationArrow");
 
-        private IEnumerable<IWebElement> ImageSourceClass => _webHelper.SafeFindElements(".kPFhm img");
+        private IEnumerable<IWebElement> ImageSourceClass => _webHelper.SafeFindElements(".FFVAD");
 
         private IEnumerable<IWebElement> VideoSourceClass => _webHelper.SafeFindElements(".tWeCl");
         
@@ -66,10 +66,13 @@ namespace Instagram_Scraper.PageObjects
                     else if (ImageSourceClass.Any())
                         foreach (var webElement in ImageSourceClass)
                         {
+                            if(!webElement.GetAttribute("srcset").Contains("1080w")) continue;
                             var stringList = webElement.GetAttribute("srcset").Split(',');
                             var index = Array.FindIndex(stringList, row => row.Contains("1080w"));
                             _tempLinkList.Add(stringList[index].Remove(stringList[index].Length - 6));
                         }
+                    else
+                        Logger.Debug("Neither video nor image content detected in post");
 
                     MultiSrcPostChevron.Click();
                     GetPostData();
@@ -82,10 +85,13 @@ namespace Instagram_Scraper.PageObjects
                     else if (ImageSourceClass.Any())
                         foreach (var webElement in ImageSourceClass)
                         {
+                            if(!webElement.GetAttribute("srcset").Contains("1080w")) continue;
                             var stringList = webElement.GetAttribute("srcset").Split(',');
                             var index = Array.FindIndex(stringList, row => row.Contains("1080w"));
                             _tempLinkList.Add(stringList[index].Remove(stringList[index].Length - 6));
                         }
+                    else
+                        Logger.Debug("Neither video nor image content detected in post");
 
                     _tempLinkList = _tempLinkList.Distinct().ToList();
                     var timeStamp = _webHelper.RefineTimeStamp();
