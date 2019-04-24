@@ -34,4 +34,4 @@ Navigate to ~/Scraper and run the following command in the terminal:
 dotnet run
 ```
 
-A GUI will appear that you can use to run the program. You will need to provide a username to target (case insensative), and you can optionally put in your own username and password. In the case of story capture, Instagram does force a login, even on otherwise public profiles. None of your credentials are stored anywhere; the program simple transfers what you put into the text box to the Instagram login form.
+A GUI will appear that you can use to run the program. You will need to provide a username to target (case insensative), and you can optionally put in your own username and password. In the case of story capture, Instagram does force a login, even on otherwise public profiles. None of your credentials are stored anywhere; the program simply transfers what you put into the text box to the Instagram login form.
