@@ -6,7 +6,7 @@ This project exists to be the fastest and most reliable way to gather Instagram 
 
 As of now, future plans for the project include smart text download (so that it can handle deleted comments and the like), and better error handling. While I've done what I can to ensure the program will not crash, little information is given back to the user, which I'd like to change.
 
-This has only been tested so far on a Linux system, so I have no idea whether or not it will function on Windows. I've added a few bits of functionality here and there to try to ensure it was cross platform, but seeing as how I won't be using this on Windows, there's no guarantee of full functionality.
+This has only been tested so far on a Linux system, any usage on another OS is untested. I've added a few bits of functionality here and there to try to ensure it was cross platform, but seeing as how I won't be using this on Windows, there's no guarantee of full functionality. Use at your own discretion, as it does have the power to rename and move files.
 
 ## Getting Started
 
