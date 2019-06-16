@@ -1,0 +1,12 @@
+/home/ryun/Projects/InstagramScraper/Scraper/bin/Debug/netcoreapp2.2/NLog.config
+/home/ryun/Projects/InstagramScraper/Scraper/bin/Debug/netcoreapp2.2/Scraper.deps.json
+/home/ryun/Projects/InstagramScraper/Scraper/bin/Debug/netcoreapp2.2/Scraper.runtimeconfig.json
+/home/ryun/Projects/InstagramScraper/Scraper/bin/Debug/netcoreapp2.2/Scraper.runtimeconfig.dev.json
+/home/ryun/Projects/InstagramScraper/Scraper/bin/Debug/netcoreapp2.2/Scraper.dll
+/home/ryun/Projects/InstagramScraper/Scraper/bin/Debug/netcoreapp2.2/Scraper.pdb
+/home/ryun/Projects/InstagramScraper/Scraper/obj/Debug/netcoreapp2.2/Scraper.csprojAssemblyReference.cache
+/home/ryun/Projects/InstagramScraper/Scraper/obj/Debug/netcoreapp2.2/Scraper.csproj.CoreCompileInputs.cache
+/home/ryun/Projects/InstagramScraper/Scraper/obj/Debug/netcoreapp2.2/Scraper.AssemblyInfoInputs.cache
+/home/ryun/Projects/InstagramScraper/Scraper/obj/Debug/netcoreapp2.2/Scraper.AssemblyInfo.cs
+/home/ryun/Projects/InstagramScraper/Scraper/obj/Debug/netcoreapp2.2/Scraper.dll
+/home/ryun/Projects/InstagramScraper/Scraper/obj/Debug/netcoreapp2.2/Scraper.pdb

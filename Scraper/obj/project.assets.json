@@ -326,7 +326,7 @@
           "lib/netstandard1.3/Newtonsoft.Json.dll": {}
         }
       },
-      "NLog/4.6.0-rc1": {
+      "NLog/4.6.5": {
         "type": "package",
         "compile": {
           "lib/netstandard2.0/NLog.dll": {}
@@ -335,11 +335,11 @@
           "lib/netstandard2.0/NLog.dll": {}
         }
       },
-      "NLog.Config/4.6.0-rc1": {
+      "NLog.Config/4.6.5": {
         "type": "package",
         "dependencies": {
-          "NLog": "4.6.0-rc1",
-          "NLog.Schema": "4.6.0-rc1"
+          "NLog": "4.6.5",
+          "NLog.Schema": "4.6.5"
         },
         "contentFiles": {
           "contentFiles/any/any/NLog.config": {
@@ -350,7 +350,7 @@
           }
         }
       },
-      "NLog.Schema/4.6.0-rc1": {
+      "NLog.Schema/4.6.5": {
         "type": "package",
         "contentFiles": {
           "contentFiles/any/any/NLog.xsd": {
@@ -391,7 +391,7 @@
           "lib/netstandard2.0/WebDriver.dll": {}
         }
       },
-      "Selenium.WebDriver.ChromeDriver/73.0.3683.68-beta": {
+      "Selenium.WebDriver.ChromeDriver/75.0.3770.90": {
         "type": "package",
         "build": {
           "build/Selenium.WebDriver.ChromeDriver.targets": {}
@@ -1102,7 +1102,7 @@
       ]
     },
     "Microsoft.NETCore.App/2.2.0": {
-      "sha512": "QU8taCyeyePwatrj+h+750lMnsPCq3YPaGmsdtSHXPCjDyjto2KT7QDNVet0oRliX4PjaINpyg0Yzd9DnQ/Wkw==",
+      "sha512": "7z5l8Jp324S8bU8+yyWeYHXUFYvKyiI5lqS1dXgTzOx1H69Qbf6df12kCKlNX45LpMfCMd4U3M6p7Rl5Zk7SLA==",
       "type": "package",
       "path": "microsoft.netcore.app/2.2.0",
       "files": [
@@ -1367,7 +1367,7 @@
       ]
     },
     "Microsoft.NETCore.DotNetAppHost/2.2.0": {
-      "sha512": "OK/H8p9Ig6mLMITjXJ4VOewrJg/TU+dAPHE4BdMWMv+8COzBehf7XF1+DofKkmqdHpO2cJoS5Sc9PEZ6PKCbsg==",
+      "sha512": "DrhaKInRKKvN6Ns2VNIlC7ZffLOp9THf8cO6X4fytPRJovJUbF49/zzx4WfgX9E44FMsw9hT8hrKiIqDSHvGvA==",
       "type": "package",
       "path": "microsoft.netcore.dotnetapphost/2.2.0",
       "files": [
@@ -1381,7 +1381,7 @@
       ]
     },
     "Microsoft.NETCore.DotNetHostPolicy/2.2.0": {
-      "sha512": "5Xvh/3bDr6YAl6TKfeONvRDZ9QOmvVmzFzA0M6g8uubWdf5/o6qdVOqByFBT/fhjVb6okP0E5+v1oxh1Pk+c+w==",
+      "sha512": "FJie7IoPZFaPgNDxhZGmDBQP/Bs5vPdfca/G2Wf9gd6LIvMYkZcibtmJwB4tcf4KXkaOYfIOo4Cl9sEPMsSzkw==",
       "type": "package",
       "path": "microsoft.netcore.dotnethostpolicy/2.2.0",
       "files": [
@@ -1395,7 +1395,7 @@
       ]
     },
     "Microsoft.NETCore.DotNetHostResolver/2.2.0": {
-      "sha512": "Q3j3KC2ugqIVasf7pO4NRDEn7GysZX3ZH6fAHfbjrP8cYXY9cmHeFcbaniw36q8kFhsPt2EnRHzSsLBpbG6l2Q==",
+      "sha512": "spDm3AJYmebthDNhzY17YLPtvbc+Y1lCLVeiIH1uLJ/hZaM+40pBiPefFR8J1u66Ndkqi8ipR2tEbqPnYnjRhw==",
       "type": "package",
       "path": "microsoft.netcore.dotnethostresolver/2.2.0",
       "files": [
@@ -1409,7 +1409,7 @@
       ]
     },
     "Microsoft.NETCore.Platforms/2.2.0": {
-      "sha512": "39+GVHdbm+cmoOjdvm+fhiMbddnuVyUlBdYS8Yhn5xsNaBoTXpgBsxQQlI2Sv9EjIP0F+itG6yrDaOM2OEGupQ==",
+      "sha512": "T/J+XZo+YheFTJh8/4uoeJDdz5qOmOMkjg6/VL8mHJ9AnP8+fmV/kcbxeXsob0irRNiChf+V0ig1MCRLp/+Kog==",
       "type": "package",
       "path": "microsoft.netcore.platforms/2.2.0",
       "files": [
@@ -1570,7 +1570,7 @@
       ]
     },
     "Newtonsoft.Json/10.0.3": {
-      "sha512": "hSXaFmh7hNCuEoC4XNY5DrRkLDzYHqPx/Ik23R4J86Z7PE/Y6YidhG602dFVdLBRSdG6xp9NabH3dXpcoxWvww==",
+      "sha512": "MoATFm6YJyk5OdqDdxDWfKe5dkY3Cygu0wrpKPH/LbWtMmSuD/3G/JIInt9sIJN7hKQOFYCIb2UjLc2vO5byQQ==",
       "type": "package",
       "path": "newtonsoft.json/10.0.3",
       "hasTools": true,
@@ -1599,10 +1599,10 @@
         "tools/install.ps1"
       ]
     },
-    "NLog/4.6.0-rc1": {
-      "sha512": "C1hLe3q39gsiiHYXJHJvLaP0XZ7QWD3huD2w+28ddVGLwmsH/IqZUX3lI128kGEunIsqpKt0xNNZyMG8Je6TZg==",
+    "NLog/4.6.5": {
+      "sha512": "iM0VsNBxnyzyoJWUBrXkFJvHRWTeaVAPjRETzknnGNVicD7C4FYpWszzdF43ugTh6a+StbZffaII9KKEFM5xsA==",
       "type": "package",
-      "path": "nlog/4.6.0-rc1",
+      "path": "nlog/4.6.5",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -1628,35 +1628,35 @@
         "lib/wp8/NLog.xml",
         "lib/xamarinios10/NLog.dll",
         "lib/xamarinios10/NLog.xml",
-        "nlog.4.6.0-rc1.nupkg.sha512",
+        "nlog.4.6.5.nupkg.sha512",
         "nlog.nuspec"
       ]
     },
-    "NLog.Config/4.6.0-rc1": {
-      "sha512": "ekXHmWAvImvPrBabGbG20I2qpi/0TX/LZjJfv3X8UPPrnuFTUkHuvg6sfylWGrdHtatwl3bZiQ7KM39GmlMGPw==",
+    "NLog.Config/4.6.5": {
+      "sha512": "dIOTjN5jgJOAbf78xussmbOODnOGBS/YPOrYdQ52T0Dh7h5YS53wLrahUOiTqal3FU9uMkHhgPk077USoBIM+g==",
       "type": "package",
-      "path": "nlog.config/4.6.0-rc1",
+      "path": "nlog.config/4.6.5",
       "hasTools": true,
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
         "content/NLog.config",
         "contentFiles/any/any/NLog.config",
-        "nlog.config.4.6.0-rc1.nupkg.sha512",
+        "nlog.config.4.6.5.nupkg.sha512",
         "nlog.config.nuspec",
         "tools/Install.ps1"
       ]
     },
-    "NLog.Schema/4.6.0-rc1": {
-      "sha512": "5kPwp7VGgVXV6MB0XBg/ZouaiTFBWX7HQ2TeSIyBLGOq+uz9hZxXR0tvKj2NLrjjkp5L1iagTBr7DTx7ZINhdQ==",
+    "NLog.Schema/4.6.5": {
+      "sha512": "CCM3lrk1WrZWu92FlMsU4eZ7UK9uy6tjhDH6ZB46ny3pL7qyUqhU5Y8ILMLEEQ/IYD3RbCwF5n0SKRgVsMCqTQ==",
       "type": "package",
-      "path": "nlog.schema/4.6.0-rc1",
+      "path": "nlog.schema/4.6.5",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
         "content/NLog.xsd",
         "contentFiles/any/any/NLog.xsd",
-        "nlog.schema.4.6.0-rc1.nupkg.sha512",
+        "nlog.schema.4.6.5.nupkg.sha512",
         "nlog.schema.nuspec"
       ]
     },
@@ -1686,7 +1686,7 @@
       ]
     },
     "Selenium.WebDriver/3.141.0": {
-      "sha512": "wPqzXO3f79DzqauTZSzLMKiaBCN0Z2Mv7KvWP+hnV6EL88zh/pJJnFtdIR1X5wa3hsTOpF/bBJs45rz7kArsiA==",
+      "sha512": "ymXPJ9zp7KPIV0H6DdI3boIwc46LrEW1T653Ow6OsRbMFgyDcqRCX8JOeYLm68jIq+7rgECLLUXxmAit5TP/Iw==",
       "type": "package",
       "path": "selenium.webdriver/3.141.0",
       "files": [
@@ -1704,10 +1704,10 @@
         "selenium.webdriver.nuspec"
       ]
     },
-    "Selenium.WebDriver.ChromeDriver/73.0.3683.68-beta": {
-      "sha512": "J1n1039bMdOXqKXCfH/BdxFVEUDfUQZfyx0ujflzLsObCs2jPPw8GSYJIbqL0Bzrxds6gcF8dD4KgqiW1/6cZw==",
+    "Selenium.WebDriver.ChromeDriver/75.0.3770.90": {
+      "sha512": "HoDhWSFV+6qhpcdssHG1hiVGWMq8SqqlYSROjmhESekANQddWXP+NdOByZuFzWIyY558zpDM8f6bwWFnbiq4DQ==",
       "type": "package",
-      "path": "selenium.webdriver.chromedriver/73.0.3683.68-beta",
+      "path": "selenium.webdriver.chromedriver/75.0.3770.90",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -1715,7 +1715,7 @@
         "driver/linux64/chromedriver",
         "driver/mac64/chromedriver",
         "driver/win32/chromedriver.exe",
-        "selenium.webdriver.chromedriver.73.0.3683.68-beta.nupkg.sha512",
+        "selenium.webdriver.chromedriver.75.0.3770.90.nupkg.sha512",
         "selenium.webdriver.chromedriver.nuspec"
       ]
     },
@@ -1786,12 +1786,11 @@
       ]
     },
     "System.Collections.NonGeneric/4.3.0": {
-      "sha512": "LE/oChpRvkSi3U25u0KnJcI44JeDZ1QJCyN4qFDx2uusEypdqR24w7lKYw21eYe5esuCBuc862wRmpF63Yy1KQ==",
+      "sha512": "prtjIEMhGUnQq6RnPEYLpFt8AtLbp9yq2zxOSrY7KJJZrw25Fi97IzBqY7iqssbM61Ek5b8f3MG/sG1N2sN5KA==",
       "type": "package",
       "path": "system.collections.nongeneric/4.3.0",
       "files": [
         ".nupkg.metadata",
-        ".signature.p7s",
         "ThirdPartyNotices.txt",
         "dotnet_library_license.txt",
         "lib/MonoAndroid10/_._",
@@ -1825,10 +1824,11 @@
       ]
     },
     "System.Collections.Specialized/4.3.0": {
-      "sha512": "Epx8PoVZR0iuOnJJDzp7pWvdfMMOAvpUo95pC4ScH2mJuXkKA2Y4aR3cG9qt2klHgSons1WFh4kcGW7cSXvrxg==",
+      "sha512": "NoPBj0ykejqAWW4p4gGtrrL+3c84ZLSvGnHgq422ew1Rj4WKj1FA8/BCybqC111EtgcqUl6ZJNFYYS22HLgbjA==",
       "type": "package",
       "path": "system.collections.specialized/4.3.0",
       "files": [
+        ".nupkg.metadata",
         "ThirdPartyNotices.txt",
         "dotnet_library_license.txt",
         "lib/MonoAndroid10/_._",
@@ -1919,7 +1919,7 @@
       ]
     },
     "System.ComponentModel.Primitives/4.3.0": {
-      "sha512": "KMVuoQ+8bMQ/Z59M3s64num5AD74X5YSqVc7ibwGkPTfmmkl2W8VuSxLRJtpw4KzQrSKUgR0BLbF0adPfcTSGQ==",
+      "sha512": "j8GUkCpM8V4d4vhLIIoBLGey2Z5bCkMVNjEZseyAlm4n5arcsJOeI3zkUP+zvZgzsbLTYh4lYeP/ZD/gdIAPrw==",
       "type": "package",
       "path": "system.componentmodel.primitives/4.3.0",
       "files": [
@@ -2733,12 +2733,11 @@
       ]
     },
     "System.Reflection.Emit.ILGeneration/4.3.0": {
-      "sha512": "+rD+UzHYxfXsT+YrMI0njdFaP/o1cnmSnRWy4os/NaWJC7FyCHrCOwiAKUwz+smQ3cPKZ8pAAv5zM5DDBG4K4w==",
+      "sha512": "59tBslAk9733NXLrUJrwNZEzbMAcu8k344OYo+wfSVygcgZ9lgBdGIzH/nrg3LYhXceynyvTc8t5/GD4Ri0/ng==",
       "type": "package",
       "path": "system.reflection.emit.ilgeneration/4.3.0",
       "files": [
         ".nupkg.metadata",
-        ".signature.p7s",
         "ThirdPartyNotices.txt",
         "dotnet_library_license.txt",
         "lib/MonoAndroid10/_._",
@@ -3361,10 +3360,11 @@
       ]
     },
     "System.Runtime.Serialization.Primitives/4.3.0": {
-      "sha512": "Wz+0KOukJGAlXjtKr+5Xpuxf8+c8739RI1C+A2BoQZT+wMCCoMDDdO8/4IRHfaVINqL78GO8dW8G2lW/e45Mcw==",
+      "sha512": "2Z5t70a2SwMsfQDp9KOclaZNyQhfIga2gppq9lIUDM1A4ohTshn4JqT7ir8bvIhXgorWKYDAr6rPzEbi/nTGKg==",
       "type": "package",
       "path": "system.runtime.serialization.primitives/4.3.0",
       "files": [
+        ".nupkg.metadata",
         "ThirdPartyNotices.txt",
         "dotnet_library_license.txt",
         "lib/MonoAndroid10/_._",
@@ -3909,12 +3909,12 @@
     ".NETCoreApp,Version=v2.2": [
       "GtkSharp >= 3.22.24.37",
       "Microsoft.NETCore.App >= 2.2.0",
-      "NLog >= 4.6.0-rc1",
-      "NLog.Config >= 4.6.0-rc1",
-      "NLog.Schema >= 4.6.0-rc1",
+      "NLog >= 4.6.5",
+      "NLog.Config >= 4.6.5",
+      "NLog.Schema >= 4.6.5",
       "Selenium.Firefox.WebDriver >= 0.23.0",
       "Selenium.WebDriver >= 3.141.0",
-      "Selenium.WebDriver.ChromeDriver >= 73.0.3683.68-beta"
+      "Selenium.WebDriver.ChromeDriver >= 75.0.3770.90"
     ]
   },
   "packageFolders": {
@@ -3924,17 +3924,17 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/home/ryun/Projects/Instagram-Scraper/Scraper/Scraper.csproj",
+      "projectUniqueName": "/home/ryun/Projects/InstagramScraper/Scraper/Scraper.csproj",
       "projectName": "Scraper",
-      "projectPath": "/home/ryun/Projects/Instagram-Scraper/Scraper/Scraper.csproj",
+      "projectPath": "/home/ryun/Projects/InstagramScraper/Scraper/Scraper.csproj",
       "packagesPath": "/home/ryun/.nuget/packages/",
-      "outputPath": "/home/ryun/Projects/Instagram-Scraper/Scraper/obj/",
+      "outputPath": "/home/ryun/Projects/InstagramScraper/Scraper/obj/",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "/usr/share/dotnet/sdk/NuGetFallbackFolder"
       ],
       "configFilePaths": [
-        "/home/ryun/.config/NuGet/NuGet.Config"
+        "/home/ryun/.nuget/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "netcoreapp2.2"
@@ -3968,15 +3968,15 @@
           },
           "NLog": {
             "target": "Package",
-            "version": "[4.6.0-rc1, )"
+            "version": "[4.6.5, )"
           },
           "NLog.Config": {
             "target": "Package",
-            "version": "[4.6.0-rc1, )"
+            "version": "[4.6.5, )"
           },
           "NLog.Schema": {
             "target": "Package",
-            "version": "[4.6.0-rc1, )"
+            "version": "[4.6.5, )"
           },
           "Selenium.Firefox.WebDriver": {
             "target": "Package",
@@ -3988,7 +3988,7 @@
           },
           "Selenium.WebDriver.ChromeDriver": {
             "target": "Package",
-            "version": "[73.0.3683.68-beta, )"
+            "version": "[75.0.3770.90, )"
           }
         },
         "imports": [

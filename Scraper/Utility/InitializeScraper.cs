@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using Instagram_Scraper.Controller;
 using Instagram_Scraper.Domain;
 using OpenQA.Selenium;
@@ -29,7 +30,8 @@ namespace Instagram_Scraper.Utility
                 optionsChrome.AddArguments("--disable-popup-blocking", "--window-size=1920,1080", "--mute-audio");
 
                 if (scraperOptions.Headless) optionsChrome.AddArgument("headless");
-                _driver = new ChromeDriver(optionsChrome);
+                _driver = new ChromeDriver("./bin/Debug/netcoreapp2.2", optionsChrome);
+                
             }
 
 

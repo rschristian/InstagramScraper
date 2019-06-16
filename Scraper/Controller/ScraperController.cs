@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading.Tasks.Dataflow;
 using Instagram_Scraper.Domain;
-using Instagram_Scraper.PageObjects;
-using Instagram_Scraper.Utility;
+using Instagram_Scraper.Domain.PageObjects;
 using OpenQA.Selenium;
 
 namespace Instagram_Scraper.Controller

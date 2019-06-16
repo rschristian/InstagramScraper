@@ -1,10 +1,10 @@
 ﻿{
   "version": "1.0.0",
   "restore": {
-    "projectUniqueName": "/home/ryun/Projects/Instagram-Scraper/Scraper/Scraper.csproj",
+    "projectUniqueName": "/home/ryun/Projects/InstagramScraper/Scraper/Scraper.csproj",
     "projectName": "Scraper",
-    "projectPath": "/home/ryun/Projects/Instagram-Scraper/Scraper/Scraper.csproj",
-    "outputPath": "/home/ryun/Projects/Instagram-Scraper/Scraper/obj/",
+    "projectPath": "/home/ryun/Projects/InstagramScraper/Scraper/Scraper.csproj",
+    "outputPath": "/home/ryun/Projects/InstagramScraper/Scraper/obj/",
     "projectStyle": "PackageReference",
     "fallbackFolders": [
       "/usr/share/dotnet/sdk/NuGetFallbackFolder"
@@ -12,6 +12,9 @@
     "originalTargetFrameworks": [
       "netcoreapp2.2"
     ],
+    "sources": {
+      "https://api.nuget.org/v3/index.json": {}
+    },
     "frameworks": {
       "netcoreapp2.2": {
         "projectReferences": {}
@@ -38,15 +41,15 @@
         },
         "NLog": {
           "target": "Package",
-          "version": "[4.6.0-rc1, )"
+          "version": "[4.6.5, )"
         },
         "NLog.Config": {
           "target": "Package",
-          "version": "[4.6.0-rc1, )"
+          "version": "[4.6.5, )"
         },
         "NLog.Schema": {
           "target": "Package",
-          "version": "[4.6.0-rc1, )"
+          "version": "[4.6.5, )"
         },
         "Selenium.Firefox.WebDriver": {
           "target": "Package",
@@ -58,7 +61,7 @@
         },
         "Selenium.WebDriver.ChromeDriver": {
           "target": "Package",
-          "version": "[73.0.3683.68-beta, )"
+          "version": "[75.0.3770.90, )"
         }
       },
       "imports": [
