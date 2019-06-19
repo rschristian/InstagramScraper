@@ -14,6 +14,24 @@
     <PackageReference Include="Selenium.WebDriver.ChromeDriver" Version="75.0.3770.90" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="bin\Debug\netcoreapp2.2\chromedriver" />
+    <Compile Remove="bin\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Remove="bin\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="bin\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <_OutputPathItem Remove="bin\Debug\netcoreapp2.2\" />
+  </ItemGroup>
+  <ItemGroup>
+    <AppConfigFileDestination Remove="bin\Debug\netcoreapp2.2\Scraper.dll.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <_DebugSymbolsOutputPath Remove="bin\Debug\netcoreapp2.2\Scraper.pdb" />
+  </ItemGroup>
+  <ItemGroup>
+    <_ApplicationManifestFinal Remove="bin\Debug\netcoreapp2.2\Scraper.dll.manifest" />
   </ItemGroup>
 </Project>

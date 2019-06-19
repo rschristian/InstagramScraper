@@ -3,3 +3,6 @@
 .vs/
 .directory
 *.user
+[Bb]in/
+[Oo]bj/
+

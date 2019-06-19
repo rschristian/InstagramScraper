@@ -7,6 +7,8 @@ namespace ScraperTest
 {
     internal static class Program
     {
+        //Wrapper that can be used to run the program continuously, as a test. Not fully fleshed out, but it exists to
+        //test consistency
         private static void Main()
         {
             var correctRunPercentage = 0;
@@ -21,8 +23,7 @@ namespace ScraperTest
                     var watch = System.Diagnostics.Stopwatch.StartNew();
                     
                     InitializeScraper.SetUp(new ScraperOptions("", string.Empty, string.Empty,
-                        true, false, false, false, false,
-                        string.Empty));
+                        true, false, false, false,string.Empty));
                     
                     watch.Stop();
                     totalScraperRunTime = totalScraperRunTime + watch.ElapsedMilliseconds;
