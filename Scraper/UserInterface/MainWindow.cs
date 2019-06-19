@@ -11,7 +11,6 @@ namespace Instagram_Scraper.UserInterface
     public class MainWindow : Window
     {
         private static readonly Logger Logger = LogManager.GetLogger("Main Window");
-        private readonly RadioButton _firefoxRadioButton;
         private readonly CheckButton _headlessBrowserBox, _getStoryBox, _getCommentsBox, _onlyGetStoryBox;
         private readonly Entry _targetAccount, _password, _username, _savePath;
 
@@ -19,7 +18,7 @@ namespace Instagram_Scraper.UserInterface
         {
             // Widget MainWindow
             Name = "MainWindow";
-            Title = "Instagram Scraper";
+            Title = "InstaScraper";
             SetIconFromFile(Directory.GetCurrentDirectory() + "/Resources/InstaScraper.ico");
             WindowPosition = WindowPosition.Center;
             BorderWidth = 3;
@@ -32,18 +31,18 @@ namespace Instagram_Scraper.UserInterface
                 CanFocus = true, Name = "TargetAccount", IsEditable = true, PlaceholderText = "Target Account"
             };
             fixedContainer.Add(_targetAccount);
-            var w1 = (Fixed.FixedChild) fixedContainer[_targetAccount];
-            w1.X = 10;
-            w1.Y = 25;
+            var targetAccountView = (Fixed.FixedChild) fixedContainer[_targetAccount];
+            targetAccountView.X = 10;
+            targetAccountView.Y = 25;
 
             _username = new Entry
             {
                 CanFocus = true, Name = "Username", IsEditable = true, PlaceholderText = "Account Username"
             };
             fixedContainer.Add(_username);
-            var w2 = (Fixed.FixedChild) fixedContainer[_username];
-            w2.X = 10;
-            w2.Y = 80;
+            var usernameView = (Fixed.FixedChild) fixedContainer[_username];
+            usernameView.X = 10;
+            usernameView.Y = 80;
 
             _password = new Entry
             {
@@ -62,9 +61,9 @@ namespace Instagram_Scraper.UserInterface
                 Label = "Run in Headless Mode"
             };
             fixedContainer.Add(_headlessBrowserBox);
-            var w4 = (Fixed.FixedChild) fixedContainer[_headlessBrowserBox];
-            w4.X = 10;
-            w4.Y = 190;
+            var headlessView = (Fixed.FixedChild) fixedContainer[_headlessBrowserBox];
+            headlessView.X = 10;
+            headlessView.Y = 190;
 
             _getStoryBox = new CheckButton
             {
@@ -73,9 +72,9 @@ namespace Instagram_Scraper.UserInterface
             };
             _getStoryBox.Clicked += OnClickedEvent;
             fixedContainer.Add(_getStoryBox);
-            var w5 = (Fixed.FixedChild) fixedContainer[_getStoryBox];
-            w5.X = 10;
-            w5.Y = 225;
+            var storyView = (Fixed.FixedChild) fixedContainer[_getStoryBox];
+            storyView.X = 10;
+            storyView.Y = 225;
 
             _getCommentsBox = new CheckButton
             {
@@ -83,9 +82,9 @@ namespace Instagram_Scraper.UserInterface
             	Label = "Download the Comments on the Target Account's Posts"
             };
             fixedContainer.Add(_getCommentsBox);
-            var w6 = (Fixed.FixedChild)fixedContainer[_getCommentsBox];
-            w6.X = 10;
-            w6.Y = 260;
+            var getCommentsView = (Fixed.FixedChild)fixedContainer[_getCommentsBox];
+            getCommentsView.X = 10;
+            getCommentsView.Y = 260;
             
             _onlyGetStoryBox = new CheckButton
             {
@@ -93,31 +92,10 @@ namespace Instagram_Scraper.UserInterface
                 Label = "Only get the User's story", ChildVisible = false
             };
             fixedContainer.Add(_onlyGetStoryBox);
-            var w12 = (Fixed.FixedChild)fixedContainer[_onlyGetStoryBox];
-            w12.X = 400;
-            w12.Y = 225;
+            var onlyStoryView = (Fixed.FixedChild)fixedContainer[_onlyGetStoryBox];
+            onlyStoryView.X = 400;
+            onlyStoryView.Y = 225;
 
-
-            _firefoxRadioButton = new RadioButton(null, "FireFoxRadioButton")
-            {
-                CanFocus = true, Name = "FireFoxRadioButton", DrawIndicator = true, UseUnderline = true,
-                Label = "FireFox"
-            };
-            fixedContainer.Add(_firefoxRadioButton);
-            var w7 = (Fixed.FixedChild) fixedContainer[_firefoxRadioButton];
-            w7.X = 10;
-            w7.Y = 295;
-
-            var chromeRadioButton = new RadioButton(_firefoxRadioButton, "ChromeRadioButton")
-            {
-                CanFocus = true, Name = "ChromeRadioButton", DrawIndicator = true, UseUnderline = true,
-                Label = "Chrome", Active = true
-            };
-            fixedContainer.Add(chromeRadioButton);
-            var w8 = (Fixed.FixedChild) fixedContainer[chromeRadioButton];
-            w8.X = 10;
-            w8.Y = 330;
-            
 
             var runProgramButton = new Button
             {
@@ -126,9 +104,9 @@ namespace Instagram_Scraper.UserInterface
             };
             runProgramButton.Clicked += OnClickedEvent;
             fixedContainer.Add(runProgramButton);
-            var w9 = (Fixed.FixedChild) fixedContainer[runProgramButton];
-            w9.X = 10;
-            w9.Y = 370;
+            var runView = (Fixed.FixedChild) fixedContainer[runProgramButton];
+            runView.X = 10;
+            runView.Y = 300;
 
             _savePath = new Entry
             {
@@ -136,9 +114,9 @@ namespace Instagram_Scraper.UserInterface
                 PlaceholderText = "Save Path (Default is Home/Pictures/[Account-Name])"
             };
             fixedContainer.Add(_savePath);
-            var w10 = (Fixed.FixedChild) fixedContainer[_savePath];
-            w10.X = 300;
-            w10.Y = 300;
+            var savePathEntryView = (Fixed.FixedChild) fixedContainer[_savePath];
+            savePathEntryView.X = 300;
+            savePathEntryView.Y = 300;
 
             var chooseSavePathButton = new Button
             {
@@ -147,9 +125,9 @@ namespace Instagram_Scraper.UserInterface
             };
             chooseSavePathButton.Clicked += OnClickedEvent;
             fixedContainer.Add(chooseSavePathButton);
-            var w11 = (Fixed.FixedChild) fixedContainer[chooseSavePathButton];
-            w11.X = 467;
-            w11.Y = 301;
+            var savePathButtonView = (Fixed.FixedChild) fixedContainer[chooseSavePathButton];
+            savePathButtonView.X = 467;
+            savePathButtonView.Y = 301;
 
 
             alignment.Add(fixedContainer);
@@ -205,7 +183,7 @@ namespace Instagram_Scraper.UserInterface
                     {
                         InitializeScraper.SetUp(new ScraperOptions(_targetAccount.Text, _username.Text, _password.Text,
                             _headlessBrowserBox.Active, _getStoryBox.Active,  _getCommentsBox.Active,
-                            _onlyGetStoryBox.Active,_firefoxRadioButton.Active, _savePath.Text));
+                            _onlyGetStoryBox.Active, _savePath.Text));
                     }
                     catch (Exception e)
                     {

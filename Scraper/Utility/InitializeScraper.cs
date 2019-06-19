@@ -14,25 +14,12 @@ namespace Instagram_Scraper.Utility
 
         public static async void SetUp(ScraperOptions scraperOptions)
         {
-            if (scraperOptions.FireFoxProfile)
-            {
-                var optionsFireFox = new FirefoxOptions();
-                optionsFireFox.SetPreference("permissions.default.image", 2);
-                optionsFireFox.SetPreference("dom.ipc.plugins.enabled.libflashplayer.so", false);
+            var optionsChrome = new ChromeOptions();
+            optionsChrome.AddUserProfilePreference("profile.default_content_setting_values.images", 2);
+            optionsChrome.AddArguments("--disable-popup-blocking", "--window-size=1920,1080", "--mute-audio");
 
-                if (scraperOptions.Headless) optionsFireFox.AddArgument("--headless");
-                _driver = new FirefoxDriver(optionsFireFox);
-            }
-            else
-            {
-                var optionsChrome = new ChromeOptions();
-                optionsChrome.AddUserProfilePreference("profile.default_content_setting_values.images", 2);
-                optionsChrome.AddArguments("--disable-popup-blocking", "--window-size=1920,1080", "--mute-audio");
-
-                if (scraperOptions.Headless) optionsChrome.AddArgument("headless");
-                _driver = new ChromeDriver("./bin/Debug/netcoreapp2.2", optionsChrome);
-                
-            }
+            if (scraperOptions.Headless) optionsChrome.AddArgument("headless");
+            _driver = new ChromeDriver("./bin/Debug/netcoreapp2.2", optionsChrome);
 
 
             string savePath;
@@ -41,9 +28,7 @@ namespace Instagram_Scraper.Utility
                 ? Environment.GetEnvironmentVariable("HOME")
                 : Environment.ExpandEnvironmentVariables("%HOMEDRIVE%%HOMEPATH%");
             if (scraperOptions.FolderSavePath.Equals(string.Empty))
-            {
                 savePath = homePath + "/Pictures/" + scraperOptions.TargetAccount + "/";
-            }
             else
             {
                 var folderSavePathSections = scraperOptions.FolderSavePath.Split("/");
