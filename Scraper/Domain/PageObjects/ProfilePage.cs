@@ -25,6 +25,7 @@ namespace Instagram_Scraper.Domain.PageObjects
 
         private IWebElement FirstPost => _driver.FindElement(By.CssSelector("div._bz0w a"));
 
+        //TODO profile selector changes if account is private, could make use of this
         private IWebElement ProfilePicture => _driver.FindElement(By.CssSelector("._6q-tv"));
 
         private IWebElement Story => _webHelper.SafeFindElement(".h5uC0");

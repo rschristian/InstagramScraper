@@ -44,39 +44,13 @@ namespace Instagram_Scraper.Utility
             if (!scraperOptions.OnlyScrapeStory)
             {
                 var bufferMedia = WebDriverExtensions.StartMediaService(savePath);
+                var bufferStory = scraperOptions.ScrapeStory ? WebDriverExtensions.StartStoryService(savePath) : null;
+                var bufferText = scraperOptions.ScrapeComments ? WebDriverExtensions.StartTextService(savePath) : null;
+                new ScraperController(_driver, scraperOptions, bufferMedia, bufferText, bufferStory).ExecuteScraper();
                 
-                //Just media
-                if (!scraperOptions.ScrapeComments && !scraperOptions.ScrapeStory)
-                {
-                    new ScraperController(_driver, scraperOptions, bufferMedia).ExecuteScraper();
-                    await bufferMedia.Completion;
-                }
-                //Media + Story
-                else if (!scraperOptions.ScrapeComments && scraperOptions.ScrapeStory)
-                {
-                    var bufferStory = WebDriverExtensions.StartStoryService(savePath);
-                    new ScraperController(_driver, scraperOptions, bufferMedia, null, bufferStory).ExecuteScraper();
-                    await bufferMedia.Completion;
-                    await bufferStory.Completion;
-                }
-                //Media + Comments
-                else if (scraperOptions.ScrapeComments && !scraperOptions.ScrapeStory)
-                {
-                    var bufferText = WebDriverExtensions.StartTextService(savePath);
-                    new ScraperController(_driver, scraperOptions, bufferMedia, bufferText).ExecuteScraper();
-                    await bufferMedia.Completion;
-                    await bufferText.Completion; 
-                }
-                //Media + Comments + Story
-                else 
-                {
-                    var bufferText = WebDriverExtensions.StartTextService(savePath);
-                    var bufferStory = WebDriverExtensions.StartStoryService(savePath);
-                    new ScraperController(_driver, scraperOptions, bufferMedia, bufferText, bufferStory).ExecuteScraper();
-                    await bufferMedia.Completion;
-                    await bufferText.Completion; 
-                    await bufferStory.Completion;
-                }
+                await bufferMedia.Completion;
+                if (bufferText != null) await bufferText.Completion;
+                if (bufferStory != null) await bufferStory.Completion;
             }
             else
             {
