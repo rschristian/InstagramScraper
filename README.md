@@ -2,11 +2,11 @@
 
 ## There are currently problems with image capture on stories, as well as intermittent issues with images on posts
 
-This project exists to be the fastest and most reliable way to gather Instagram posts, stories, and comments. The alternatives that already existed when I started seemed to be quite poor, or simply no longer maintained. Since then, I've expanded this from a project written in JS and ran via the terminal into a fully fledged C# application with a GUI. My continued goal is to create the fastest, most lightweight tool for scraping Instagram that exists. 
+This project exists to be the fastest and most reliable way to gather Instagram posts, stories, and comments. The alternatives that already existed when I started seemed to be quite poor, or simply no longer maintained. From that point, the project started as a small JS program ran via the command line, but has since been converted to a C# Selenium project with a GTKSharp GUI. My continued main goal is to create the fastest, most lightweight tool for scraping Instagram that exists. 
 
-As of now, future plans for the project include smart text download (so that it can handle deleted comments and the like), and better error handling. While I've done what I can to ensure the program will not crash, little information is given back to the user, which I'd like to change.
+As of now, future plans for the project include smart text download (so that it can handle deleted comments, as well as adding new ones), and better error handling. While I've tried to ensure the program won't out-right crash, there are a few troublesome CSS identifiers that can cause crashes if my assumptions are wrong.
 
-This has only been tested so far on a Linux system, any usage on another OS is untested. I've added a few bits of functionality here and there to try to ensure it was cross platform, but seeing as how I won't be using this on Windows, there's no guarantee of full functionality. Use at your own discretion, as it does have the power to rename and move files.
+This has only been tested so far on a Linux system, so usage anywhere else is completely new territory. I've added a few bits of functionality here and there to try to ensure it was cross platform, but there's no guarantee of functionality. Use at your own discretion, as it does have the power to rename and move files in some cases.
 
 ## Getting Started
 
@@ -14,9 +14,9 @@ These instructions will get you a copy of the project up and running on your loc
 
 Current options/abilities of the program:
 
-- Gather all post images made by a user
-- Gather all current stories made by a user
-- Gather all comments made on a user's posts (including their bio)
+- Download all post images made by a user
+- Download all current stories made by a user
+- Download all comments made on a user's posts (including their bio)
 
 ### Prerequisites
 
