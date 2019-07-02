@@ -1,7 +1,5 @@
 # InstagramScraper
 
-## There are currently problems with image capture on stories, as well as intermittent issues with images on posts
-
 This project exists to be the fastest and most reliable way to gather Instagram posts, stories, and comments. The alternatives that already existed when I started seemed to be quite poor, or simply no longer maintained. From that point, the project started as a small JS program ran via the command line, but has since been converted to a C# Selenium project with a GTKSharp GUI. My continued main goal is to create the fastest, most lightweight tool for scraping Instagram that exists. 
 
 As of now, future plans for the project include smart text download (so that it can handle deleted comments, as well as adding new ones), and better error handling. While I've tried to ensure the program won't out-right crash, there are a few troublesome CSS identifiers that can cause crashes if my assumptions are wrong.
