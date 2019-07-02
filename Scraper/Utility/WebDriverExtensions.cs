@@ -59,8 +59,10 @@ namespace Instagram_Scraper.Utility
         public static BufferBlock<KeyValuePair<string, string>> StartMediaService(string savePath)
         {
             var bufferMedia = new BufferBlock<KeyValuePair<string, string>>();
-            var backgroundThreadMedia =
-                new Thread(() => DownloadManager.ConsumeMediaAsync(savePath, bufferMedia)) {IsBackground = true};
+            var backgroundThreadMedia = new Thread(() => DownloadManager.ConsumeMediaAsync(savePath, bufferMedia))
+                {
+                    IsBackground = true
+                };
             backgroundThreadMedia.Start();
             return bufferMedia;
         }
@@ -68,8 +70,10 @@ namespace Instagram_Scraper.Utility
         public static BufferBlock<KeyValuePair<string, List<KeyValuePair<string, string>>>> StartTextService(string savePath)
         {
             var bufferText = new BufferBlock<KeyValuePair<string, List<KeyValuePair<string, string>>>>();
-            var backgroundThreadText =
-                new Thread(() => DownloadManager.ConsumeTextAsync(savePath, bufferText)) {IsBackground = true};
+            var backgroundThreadText = new Thread(() => DownloadManager.ConsumeTextAsync(savePath, bufferText))
+                {
+                    IsBackground = true
+                };
             backgroundThreadText.Start(); 
             return bufferText;
         }
@@ -77,8 +81,10 @@ namespace Instagram_Scraper.Utility
         public static BufferBlock<KeyValuePair<string, string>> StartStoryService(string savePath)
         {
             var bufferStory = new BufferBlock<KeyValuePair<string, string>>();
-            var backgroundThreadStory =
-                new Thread(() => DownloadManager.ConsumeStoryAsync(savePath, bufferStory)) {IsBackground = true};
+            var backgroundThreadStory = new Thread(() => DownloadManager.ConsumeStoryAsync(savePath, bufferStory))
+                {
+                    IsBackground = true
+                };
             backgroundThreadStory.Start();
             return bufferStory;
         }
@@ -87,9 +93,11 @@ namespace Instagram_Scraper.Utility
         {
             var fileInfo = new DirectoryInfo(path)
                 .GetFiles(DateTime.Now.ToString("yyyy-MM-dd") + "*");
-            return fileInfo.Select(file =>
-                    new KeyValuePair<string, byte[]>(file.Name, File.ReadAllBytes(path + file.Name)))
-                .OrderByDescending(x => x.Key).ToList();
+            return fileInfo
+                .Select(file => new KeyValuePair<string, byte[]>(file.Name,
+                    File.ReadAllBytes(path + file.Name)))
+                .OrderByDescending(x => x.Key)
+                .ToList();
         }
     }
 }

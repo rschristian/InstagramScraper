@@ -28,7 +28,7 @@ namespace Instagram_Scraper.Domain.PageObjects
 
         private IEnumerable<IWebElement> StoryVideoSrcClass => _webHelper.SafeFindElements(".OFkrO source");
 
-        private IEnumerable<IWebElement> StoryImageSrcClass => _webHelper.SafeFindElements("._7NpAS");
+        private IEnumerable<IWebElement> StoryImageSrcClass => _webHelper.SafeFindElements(".y-yJ5");
 
         private IEnumerable<IWebElement> StoryPageNavigationClass => _webHelper.SafeFindElements("._7zQEa");
 
