@@ -16,7 +16,6 @@ namespace Instagram_Scraper.UserInterface
 
         public MainWindow() : base(WindowType.Toplevel)
         {
-            // Widget MainWindow
             Name = "MainWindow";
             Title = "InstaScraper";
             SetIconFromFile(Directory.GetCurrentDirectory() + "/Resources/InstaScraper.ico");
