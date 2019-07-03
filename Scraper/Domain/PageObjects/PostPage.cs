@@ -22,18 +22,18 @@ namespace Instagram_Scraper.Domain.PageObjects
 
         private readonly ITargetBlock<KeyValuePair<string, List<KeyValuePair<string, string>>>> _targetText;
 
-        public PostPage(IWebDriver driver, ITargetBlock<KeyValuePair<string, string>> targetMediaMedia)
+        public PostPage(IWebDriver driver, ITargetBlock<KeyValuePair<string, string>> targetMedia)
         {
             _webHelper = new WebDriverExtensions(driver);
-            _targetMedia = targetMediaMedia;
+            _targetMedia = targetMedia;
             _driver = driver;
         }
 
-        public PostPage(IWebDriver driver, ITargetBlock<KeyValuePair<string, string>> targetMediaMedia,
+        public PostPage(IWebDriver driver, ITargetBlock<KeyValuePair<string, string>> targetMedia,
             ITargetBlock<KeyValuePair<string, List<KeyValuePair<string, string>>>> targetText)
         {
             _webHelper = new WebDriverExtensions(driver);
-            _targetMedia = targetMediaMedia;
+            _targetMedia = targetMedia;
             _driver = driver;
             _targetText = targetText;
         }
