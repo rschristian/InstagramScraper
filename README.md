@@ -6,6 +6,8 @@ As of now, future plans for the project include smart text download (so that it 
 
 This has only been tested so far on a Linux system, so usage anywhere else is completely new territory. I've added a few bits of functionality here and there to try to ensure it was cross platform, but there's no guarantee of functionality. Use at your own discretion, as it does have the power to rename and move files in some cases.
 
+There are no future plans for this project, I have no plans to pick it back up if it does not still work.
+
 ## Getting Started
 
 These instructions will get you a copy of the project up and running on your local machine for use.
